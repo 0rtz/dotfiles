@@ -423,7 +423,7 @@ nnoremap <silent> [<leader> :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
 nnoremap <silent> ]<leader> :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 nnoremap <silent> <leader>vs :source $MYVIMRC<CR>
 nnoremap <silent> <leader>vr :source $MYVIMRC <Bar> PlugClean <Bar> PlugInstall<CR>
-nnoremap <silent> <leader>vu :PlugUpdate --sync <Bar> TSUpdate<CR>
+nnoremap <silent> <leader>vu :PlugUpdate --sync
 
 " }}} Mappings "
 
@@ -573,7 +573,7 @@ require("symbols-outline").setup({
 	width = 30,
 	keymaps = {
 		close = {"<Esc>"},
-		focus_location = "<Tab>",
+		focus_location = "p",
 		fold = "zc",
 		unfold = "zo",
 		fold_all = "zM",
@@ -581,7 +581,7 @@ require("symbols-outline").setup({
 	},
 })
 EOF
-nnoremap \c :SymbolsOutline<CR>
+nnoremap <Tab> :SymbolsOutline<CR>
 
 " change cwd to lsp's root dir or pattern
 lua << EOF
@@ -691,7 +691,7 @@ nnoremap <leader>qd :Git difftool<cr>
 nnoremap <leader>gd :tab Git diff<cr>
 nnoremap <leader>gh :tab Git diff HEAD~1 HEAD<cr>
 " show git objects in '+'(clipboard) register
-nnoremap <leader>g+ :Gtabedit <c-r>+<cr>
+nnoremap <leader>go :tab Git show <c-r>+<cr>
 augroup my_fugitive_new_maps
 	autocmd!
 	autocmd FileType fugitive call <SID>SetFugitiveMaps()
@@ -1205,9 +1205,54 @@ require("ibl").setup {
 	indent = { char = "▏" },
 	scope = {
 		include = {
-			node_type = { ["*"] = { "*" } }
+			-- highlight all nodes (cause weird highlighting sometimes)
+			-- node_type = { ["*"] = { "*" } },
+			-- :InspectTree go get node_type
+			node_type = {
+				["*"] = {
+					"argument_list",
+					"arguments",
+					"assignment_statement",
+					"Block",
+					"chunk",
+					"class",
+					"ContainerDecl",
+					"dictionary",
+					"do_block",
+					"do_statement",
+					"element",
+					"except",
+					"FnCallArguments",
+					"for",
+					"for_statement",
+					"function",
+					"function_declaration",
+					"function_definition",
+					"if_statement",
+					"IfExpr",
+					"IfStatement",
+					"import",
+					"InitList",
+					"list_literal",
+					"method",
+					"object",
+					"ParamDeclList",
+					"repeat_statement",
+					"selector",
+					"SwitchExpr",
+					"table",
+					"table_constructor",
+					"try",
+					"tuple",
+					"type",
+					"var",
+					"while",
+					"while_statement",
+					"with",
+				},
+			},
 		},
-	},
+	}
 }
 EOF
 let s:my_width_of_tab = &tabstop

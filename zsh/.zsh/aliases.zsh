@@ -14,7 +14,6 @@ alias ddr='dd if=/dev/urandom bs=4K count=1 | base64 > output.dat'
 alias dud='du -d 1 -ch --apparent-size | sort --human-numeric-sort'
 alias duf='find . -type f -exec du -csh --apparent-size {} + | sort --human-numeric-sort'
 alias psa='ps aux'
-alias psf='my-processes-fzf'
 alias pscpu='ps -eo pid,ppid,cmd:50,%mem,%cpu --sort=-%cpu | head'
 alias clrls='for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+"\n"}; done'
 alias s='TERM=xterm-256color ssh'
@@ -24,6 +23,7 @@ alias sshr='ssh-keygen -R'
 alias kern='uname --kernel-release --machine'
 alias kerncfg='zless /proc/config.gz'
 alias fdpat='find . -name "*pat*"'
+alias genstr="LC_ALL=C tr -dc 'A-Za-z0-9-_' </dev/urandom | head -c 12"
 alias diffproc='diff <() <()'
 alias networking_connections='lsof -Pni'
 alias follow='tail -n 100 -F'
@@ -32,11 +32,12 @@ alias -g T='2>&1 | tee .my.log'
 alias -g NO='>/dev/null'
 alias -g NE='2>/dev/null'
 alias -g NULL='>/dev/null 2>&1'
-alias -g H='-h 2>&1'
+alias -g H='--help 2>&1'
 alias -g S='| tr " " "\n"'
 alias -g C='| wc -l'
 alias -g E='| tail'
 alias -g B='| head'
+alias -g G='| grep -e'
 alias -g J='| jiq'
 ####################################################################################
 
@@ -46,15 +47,14 @@ alias -g J='| jiq'
 alias e='my-eval-var'
 alias m='my-man-fzf'
 alias v='my-editor-open'
-alias vd='nvim -u $HOME/.config/nvim/init.vim-debug/init.vim'
 alias vt='my-create-edit-tmp'
 alias vx='my-create-script'
 alias pw='my-powermenu-fzf'
 alias cpf='my-yank-to-clipboard'
 alias rn='my-tmux-session-run-cmd ""'
+alias psf='my-processes-fzf'
 alias rnd='my-tmux-session-create-run-cmd ""'
 alias rgf='my-ripgrep-fzf'
-alias genstr="LC_ALL=C tr -dc 'A-Za-z0-9-_' </dev/urandom | head -c 12"
 alias nf='my-notfiy-wrapper'
 alias -g Y='| my-yank-to-clipboard'
 alias -g F='| my-yank-fzf'
@@ -68,6 +68,7 @@ alias q='qalc'
 alias cs='cht.sh --shell bash'
 alias ea='direnv allow . && src'
 alias eb='direnv block .'
+alias vd='nvim -u $HOME/.config/nvim/init.vim-debug/init.vim'
 alias qr='qrencode -m 2 -t UTF8 <<<'
 alias ff='plocate --ignore-case'
 alias rg='rg --hidden --no-ignore 2>/dev/null ""'
@@ -238,8 +239,8 @@ alias ggr='my-git-grep <pattern>'
 ## repository config
 alias gcfg="my-git-edit-config \"$(git config user.name)\" \"$(git config user.email)\""
 alias gi='forgit::ignore >> .gitignore'
-alias gignore='git update-index --assume-unchanged <filename>'
-alias gunignore='git update-index --no-assume-unchanged <filename>'
+alias gignore='git update-index --assume-unchanged'
+alias gunignore='git update-index --no-assume-unchanged'
 alias gkeep='echo >> .gitkeep'
 ## git objects
 alias glls='my-git-list-large'
@@ -295,7 +296,7 @@ if command -v pacman > /dev/null; then
 	alias pacrm="sudo pacman -Rns"
 	alias pacse="pacman -F"
 	alias pacown="pacman -Qo"
-	alias pacls="my-pacman-list-packages"
+	alias pacls="my-packages-list"
 	alias paclsa="pacman -Q"
 	alias pacdeps="pactree"
 	alias pacdepsr="pactree -r"

@@ -14,12 +14,11 @@ nnoremap <buffer> \p :MarkdownPreviewToggle<CR>
 
 " 'preservim/vim-markdown'
 let g:vim_markdown_follow_anchor = 1
-let g:vim_markdown_anchorexpr = ''
+" let g:vim_markdown_anchorexpr = ''
 let g:vim_markdown_folding_disabled = 1
 setlocal conceallevel=2
 xnoremap <buffer> - :HeaderDecrease<CR>gv
 xnoremap <buffer> + :HeaderIncrease<CR>gv
-nnoremap <buffer> <leader>Ft :TableFormat<CR>
 nnoremap <buffer> <leader>Fc :InsertToc<CR>
 nmap <buffer> gl ge
 " https://github.com/preservim/vim-markdown/issues/138
@@ -35,6 +34,7 @@ function s:toggleTableFormatAutoGroup()
     if !exists('#TabularInMarkdown#CursorMovedI')
 		augroup TabularInMarkdown
 			autocmd! * <buffer>
+			" TableFormat = dependency of 'preservim/vim-markdown'
 			autocmd CursorMovedI <buffer> TableFormat
 		augroup END
 		lua MyNotificationMin("table formatting enabled")
