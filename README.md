@@ -1,7 +1,7 @@
 
 # My linux dotfiles ⌨
 
-![desktop]()
+![desktop](img)
 
 *Includes configuration files for*:
 | **Window manager**       | **[sway](https://github.com/swaywm/sway)**              |
