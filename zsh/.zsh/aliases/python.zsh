@@ -1,0 +1,8 @@
+alias p='python3'
+alias pv='my-create-pyton-env'
+alias pin='pipx install'
+alias pls='pipx list'
+alias prm='pipx uninstall'
+alias pipin='pip install'
+alias piprm='pip uninstall'
+alias pipls='pip list'

@@ -13,12 +13,12 @@ fi
 (( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
 
 # my dotfiles
-[ -f $HOME/.zsh/configs.zsh ] && source $HOME/.zsh/configs.zsh
-[ -f $HOME/.zsh/variables.zsh ] && source $HOME/.zsh/variables.zsh
-[ -f $HOME/.zsh/plugins.zsh ] && source $HOME/.zsh/plugins.zsh
-[ -f $HOME/.zsh/functions.zsh ] && source $HOME/.zsh/functions.zsh
-[ -f $HOME/.zsh/aliases.zsh ] && source $HOME/.zsh/aliases.zsh
-[ -f $HOME/.zsh/keymaps.zsh ] && source $HOME/.zsh/keymaps.zsh
+[ -f $HOME/.zsh/configs.zsh ]    && source $HOME/.zsh/configs.zsh
+[ -f $HOME/.zsh/variables.zsh ]  && source $HOME/.zsh/variables.zsh
+[ -f $HOME/.zsh/plugins.zsh ]    && source $HOME/.zsh/plugins.zsh
+[ -d $HOME/.zsh/functions ]      && for f in $HOME/.zsh/functions/*.zsh; do source $f; done
+[ -d $HOME/.zsh/aliases ]        && for f in $HOME/.zsh/aliases/*.zsh; do source $f; done
+[ -f $HOME/.zsh/keymaps.zsh ]    && source $HOME/.zsh/keymaps.zsh
 
 # To update prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
