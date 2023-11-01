@@ -24,7 +24,7 @@ Plug 'neovim/nvim-lspconfig'
 " Language Servers package manager
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim',
-" efm linters & formatters configuration plugin
+" linters & formatters configuration plugin for efm LSP
 Plug 'creativenull/efmls-configs-nvim'
 " validate some popular JSON document types
 Plug 'b0o/schemastore.nvim'
@@ -581,7 +581,9 @@ require("symbols-outline").setup({
 	},
 })
 EOF
-nnoremap <Tab> :SymbolsOutline<CR>
+" NOTE: do not map to <Tab> since <Tab> and <C-i> are same
+" in the terminal and extended key <C-i> do not work in tmux
+nnoremap \i :SymbolsOutline<CR>
 
 " change cwd to lsp's root dir or pattern
 lua << EOF

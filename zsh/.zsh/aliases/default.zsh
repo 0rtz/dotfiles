@@ -1,6 +1,6 @@
 alias l='ls -lAFh --color=tty'
 alias src='exec zsh'
-alias lns='ln -s <link_to> <link_name>'
+alias lna='ln -s <link_to> <link_name>'
 alias cp='cp -i'
 alias mv='mv -i'
 alias md='mkdir -p'

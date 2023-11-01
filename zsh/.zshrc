@@ -13,6 +13,7 @@ fi
 (( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
 
 # my dotfiles
+# NOTE: might have problems when reordering
 [ -f $HOME/.zsh/configs.zsh ]    && source $HOME/.zsh/configs.zsh
 [ -f $HOME/.zsh/variables.zsh ]  && source $HOME/.zsh/variables.zsh
 [ -f $HOME/.zsh/plugins.zsh ]    && source $HOME/.zsh/plugins.zsh

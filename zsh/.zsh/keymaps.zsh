@@ -1,4 +1,6 @@
-### widgets
+##################################################
+### widgets ######################################
+##################################################
 
 function my-widget-globalias() {
 	zle _expand_alias
@@ -45,6 +47,7 @@ function my-copybuffer {
 	fi
 }
 zle -N my-copybuffer
+
 function my-pastebuffer {
 	if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
 		LBUFFER="$LBUFFER$(wl-paste)"
@@ -79,7 +82,9 @@ zle -N my-ripgrep-fzf
 autoload -U edit-command-line
 zle -N edit-command-line
 
-### zle keymaps
+##################################################
+### zle keymaps ##################################
+##################################################
 
 function my-init-mappings() {
 	bindkey -M viins "^t" edit-command-line

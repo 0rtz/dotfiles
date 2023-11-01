@@ -1,5 +1,7 @@
 alias e='my-eval-var'
-alias m='my-man-fzf'
+if ! alias m >/dev/null 2>&1; then
+	alias m='my-man-fzf'
+fi
 alias v='my-editor-open'
 alias vt='my-create-edit-tmp'
 alias vx='my-create-script'

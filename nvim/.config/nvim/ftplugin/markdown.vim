@@ -14,7 +14,10 @@ nnoremap <buffer> \p :MarkdownPreviewToggle<CR>
 
 " 'preservim/vim-markdown'
 let g:vim_markdown_follow_anchor = 1
-" let g:vim_markdown_anchorexpr = ''
+" convert "(#anchor-name)" to search string "anchor name"
+let g:vim_markdown_anchorexpr = "substitute(v:anchor, '-', ' ', 'g')"
+" case insensitive search for anchors
+setlocal ignorecase
 let g:vim_markdown_folding_disabled = 1
 setlocal conceallevel=2
 xnoremap <buffer> - :HeaderDecrease<CR>gv

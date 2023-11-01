@@ -35,5 +35,4 @@ if command -v bat > /dev/null; then
 fi
 if command -v batman > /dev/null; then
 	alias m='batman'
-else
 fi
