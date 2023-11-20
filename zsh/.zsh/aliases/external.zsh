@@ -6,9 +6,11 @@ alias eb='direnv block .'
 alias vd='nvim -u $HOME/.config/nvim/init.vim-debug/init.vim'
 alias qr='qrencode -m 2 -t UTF8 <<<'
 alias ff='plocate --ignore-case'
+alias ffu='sudo updatedb'
 alias rg='rg --hidden --no-ignore 2>/dev/null ""'
 alias rga='rga --hidden --no-ignore 2>/dev/null ""'
-alias emj="emoji-fzf preview --prepend | fzf | awk '{ print \$1 }' | my-yank-to-clipboard"
+alias emj="git add --all && git commit -m '✍'"
+alias emj-fzf="emoji-fzf preview --prepend | fzf | awk '{ print \$1 }' | my-yank-to-clipboard"
 alias spl="codespell --write-changes"
 alias nls="cat $HOME/.config/nnn/.selection | tr \"\0\" \"\n\""
 alias scsht='grim -g "$(slurp)" - | wl-copy'
@@ -35,4 +37,7 @@ if command -v bat > /dev/null; then
 fi
 if command -v batman > /dev/null; then
 	alias m='batman'
+fi
+if command -v jiq > /dev/null; then
+	alias -g J='| jiq'
 fi

@@ -334,11 +334,8 @@ augroup END
 let mapleader = "\<Space>"
 
 " select (completion) mode
-snoremap c <BS>i
-snoremap r <BS>i
-snoremap d <BS>i
-snoremap x <BS>i
-snoremap kj <esc>
+smap c <BS>
+smap kj <esc>
 
 " operators (c, d, y, etc...)
 onoremap H 0
@@ -392,7 +389,8 @@ nnoremap H 0
 nnoremap L $
 nnoremap j gj
 nnoremap k gk
-nnoremap ~ @q
+nnoremap ` @q
+nnoremap ~ @w
 nnoremap \w :set wrap!<CR>
 nnoremap \l :set rnu!<CR>:set number!<CR>
 nnoremap \W :set colorcolumn=80

@@ -1,6 +1,6 @@
 if command -v pacman > /dev/null; then
 	alias pacup='sudo pacman -Syu'
-	alias pacin="pacman -Slq | fzf --multi --preview-window=wrap --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk \"{print \$2}\")' | xargs -ro sudo pacman -S"
+	alias pacin="my-packages-install"
 	alias pacinstall="sudo pacman -S"
 	alias pacrm="sudo pacman -Rns"
 	alias pacse="pacman -F"

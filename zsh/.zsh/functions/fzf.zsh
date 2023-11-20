@@ -25,29 +25,30 @@ function my-yank-fzf() {
 	if [ -p /dev/stdin ]  # if data was piped
 	then
 		stdin=$(</dev/stdin)
-		echo "$stdin" | fzf "$@" | my-yank-to-clipboard
+		echo "$stdin" | fzf --ansi "$@" | my-yank-to-clipboard
 	else
 		fzo=$(fzf "$@")
 	fi
 }
 
 function my-ripgrep-fzf() {
+	# https://github.com/junegunn/fzf/blob/master/ADVANCED.md#switching-between-ripgrep-mode-and-fzf-mode
 	if command -v bat > /dev/null; then
-	rm -f /tmp/rg-fzf-{r,f}
-	RG_PREFIX="rg --column --line-number --hidden --no-ignore --no-heading --color=always --smart-case "
-	INITIAL_QUERY="${*:-}"
-	: | fzf --ansi --disabled --query "$INITIAL_QUERY" \
-		--bind "start:reload($RG_PREFIX {q})+unbind(ctrl-r)" \
-		--bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
-		--bind "ctrl-f:unbind(change,ctrl-f)+change-prompt(2. fzf> )+enable-search+rebind(ctrl-r)+transform-query(echo {q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f)" \
-		--bind "ctrl-r:unbind(ctrl-r)+change-prompt(1. ripgrep> )+disable-search+reload($RG_PREFIX {q} || true)+rebind(change,ctrl-f)+transform-query(echo {q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r)" \
-		--color "hl:-1:underline,hl+:-1:underline:reverse" \
-		--prompt '1. ripgrep> ' \
-		--delimiter : \
-		--header '╱ CTRL-R (ripgrep mode) ╱ CTRL-F (fzf mode) ╱' \
-		--preview 'bat --theme="ansi" --color=always {1} --highlight-line {2}' \
-		--preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
-		--bind 'enter:become(nvim -c "normal zv" {1} +{2})'
+		rm -f /tmp/rg-fzf-{r,f}
+		RG_PREFIX="rg --column --line-number --hidden --no-ignore --no-heading --color=always --smart-case "
+		INITIAL_QUERY="${*:-}"
+		: | fzf --ansi --disabled --query "$INITIAL_QUERY" \
+			--bind "start:reload($RG_PREFIX {q})+unbind(ctrl-r)" \
+			--bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+			--bind "ctrl-f:unbind(change,ctrl-f)+change-prompt(2. fzf> )+enable-search+rebind(ctrl-r)+transform-query(echo {q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f)" \
+			--bind "ctrl-r:unbind(ctrl-r)+change-prompt(1. ripgrep> )+disable-search+reload($RG_PREFIX {q} || true)+rebind(change,ctrl-f)+transform-query(echo {q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r)" \
+			--color "hl:-1:underline,hl+:-1:underline:reverse" \
+			--prompt '1. ripgrep> ' \
+			--delimiter : \
+			--header '╱ CTRL-R (ripgrep mode) ╱ CTRL-F (fzf mode) ╱' \
+			--preview 'bat --theme="ansi" --color=always {1} --highlight-line {2}' \
+			--preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+			--bind 'enter:become(nvim -c "normal zv" {1} +{2})'
 	else
 		INITIAL_QUERY=""; \
 		RG_PREFIX="rg --column --line-number --hidden --no-ignore --no-heading --color=always --smart-case "; \
@@ -71,24 +72,6 @@ function rga-fzf() {
 	echo "opening $file" &&
 	xdg-open "$file"
 }
-
-function my-processes-fzf() {
-	if [[ -z $1 ]]; then
-		>&2 echo -e "ERROR: Specify PID or process name. Exiting..."
-		return 1
-	fi
-	local regex_number='^[0-9]+$'
-	if [[ $1 =~ $regex_number ]] ; then
-		OUT=$(ps -wwo "pid,wchan,cmd" -p $1)
-	else
-		OUT=$(ps -wwo "pid,wchan,cmd" -p $(pgrep $1))
-	fi
-	if [[ $? -gt 0 ]]; then
-		return 1
-	fi
-	echo "$OUT"
-}
-compdef my-processes-fzf=pgrep
 
 function my-powermenu-fzf () {
 	op=$( echo -e " Poweroff\n Suspend\n Reboot\n Lock\n Logout" | fzf | awk '{print tolower($2)}' )

@@ -51,7 +51,7 @@
 	"custom/info_acrhlinux": {
 		"exec": "~/.config/waybar/updates-arch.sh",
 		"on-click": "alacritty --command $SHELL --interactive -c 'my-tmux-session-create-run-cmd my_system_update.sh'",
-		"interval": 10
+		"interval": 60
 	},
 	"custom/systemd_failed": {
 		"exec": "~/.config/waybar/systemd_show_failed.sh",

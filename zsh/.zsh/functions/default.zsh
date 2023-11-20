@@ -166,3 +166,21 @@ function my-tmux-session-run-cmd()
 	fi
 }
 compdef _path_commands my-tmux-session-run-cmd
+
+function my-processes-search() {
+	if [[ -z $1 ]]; then
+		>&2 echo -e "ERROR: Specify PID or process name. Exiting..."
+		return 1
+	fi
+	local regex_number='^[0-9]+$'
+	if [[ $1 =~ $regex_number ]] ; then
+		OUT=$(ps -wwo "pid,wchan,cmd" -p $1)
+	else
+		OUT=$(ps -wwo "pid,wchan,cmd" -p $(pgrep $1))
+	fi
+	if [[ $? -gt 0 ]]; then
+		return 1
+	fi
+	echo "$OUT"
+}
+compdef my-processes-search=pgrep

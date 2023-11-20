@@ -40,4 +40,3 @@ require('github-theme').setup({
 EOF
 
 colorscheme github_dark_high_contrast
-hi link @lsp.typemod.property.definition.yaml.ansible Function

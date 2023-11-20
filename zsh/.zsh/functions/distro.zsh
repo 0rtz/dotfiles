@@ -3,25 +3,48 @@ function my-packages-list ()
 	if command -v pacman > /dev/null; then
 		if [[ -n $1 ]]; then
 			local package=$1
+			if ! pacman -Qi $package >/dev/null 2>&1; then
+				>&2 echo -e "ERROR: Package $package not found. Exiting..."
+				return 1
+			fi
 		else
 			local package=$(pacman -Qq | fzf --preview-window=wrap --preview 'pacman -Qil {}' --layout=reverse)
+			if [[ -z $package ]]; then
+				return
+			fi
 		fi
-		if [[ -z $package ]]; then
-			return
-		fi
-		if ! pacman -Qi $package >/dev/null 2>&1; then
-			>&2 echo -e "ERROR: Package $package not found. Exiting..."
-			return 1
-		fi
+
 		local package_files=$(pacman -Qlq $package | grep -v "/$")
 		local package_files_listed
-
 		if command -v exa > /dev/null; then
 			package_files_listed=$(echo "$package_files" | xargs -r -d "\n" exa --sort=size --reverse -aglbh --icons --color always)
 		else
 			package_files_listed=$(echo "$package_files" | xargs -r -d "\n" ls -lAFh --color=tty)
 		fi
+
 		{ pacman -Qi $package; echo $package_files_listed; } | less -r
+	fi
+}
+
+function my-packages-install ()
+{
+	if command -v pacman > /dev/null; then
+		all_pkgs=($(pacman -Slq))
+
+		if [[ -n $1 ]]; then
+			local pkg=$1
+			if ! (($all_pkgs[(Ie)$pkg])); then
+				>&2 echo -e "ERROR: Package $pkg not found. Exiting..."
+				return 1
+			fi
+		else
+			local pkg=$( printf '%s\n' "${all_pkgs[@]}" | fzf --multi --preview-window=wrap --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk "{print \$2}")')
+			if [[ -z $pkg ]]; then
+				return
+			fi
+		fi
+
+		my-notfiy-wrapper sudo pacman -S $pkg
 	fi
 }
 
