@@ -44,13 +44,19 @@ function update() {
 		fi
 	done
 	if [ "$is_init" = true ]; then
-		echo -e "\n\nvim plugins:\n"
-		nvim --headless +PlugUpdate +qall
-		echo -e "\n\ntmux plugins:\n"
-		./tmux/.config/tmux/plugins/tpm/bin/update_plugins all
-		echo -e "\n\nzsh plugins:\n"
-		zsh -i -c "zinit update --parallel | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
-		zsh -i -c "zinit self-update | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
+		if [ -f "$HOME/.config/nvim/init.vim" ]; then
+			echo -e "\n\nvim plugins:\n"
+			nvim --headless +PlugUpdate +qall
+		fi
+		if [ -f "$HOME/.config/tmux/tmux.conf" ]; then
+			echo -e "\n\ntmux plugins:\n"
+			./tmux/.config/tmux/plugins/tpm/bin/update_plugins all
+		fi
+		if [ -f "$HOME/.zshrc" ]; then
+			echo -e "\n\nzsh plugins:\n"
+			zsh -i -c "zinit update --parallel | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
+			zsh -i -c "zinit self-update | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
+		fi
 	else
 		echo "Initializing repo submodules..."
 		git submodule update --checkout --init --jobs "$(nproc)" --depth 1

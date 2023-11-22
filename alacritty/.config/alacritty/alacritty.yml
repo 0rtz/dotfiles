@@ -6,16 +6,16 @@ env:
 
 font:
   normal:
-    family: "JetBrainsMonoNL Nerd Font"
+    family: "JetBrainsMonoNL NF"
     style: "Regular"
   bold:
-    family: "JetBrainsMonoNL Nerd Font"
+    family: "JetBrainsMonoNL NF"
     style: "Bold"
   italic:
-    family: "JetBrainsMonoNL Nerd Font"
+    family: "JetBrainsMonoNL NF"
     style: "Italic"
   bold_italic:
-    family: "JetBrainsMonoNL Nerd Font"
+    family: "JetBrainsMonoNL NF"
     style: "Bold Italic"
   size: 16.5
   # size: 15.0

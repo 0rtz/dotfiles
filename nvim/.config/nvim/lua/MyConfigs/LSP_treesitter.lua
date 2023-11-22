@@ -11,7 +11,6 @@
 	-- json
 	-- vim
 	-- Dockerfile
-	-- awk
 	-- ansible
 	-- xml
 	-- .rst
@@ -180,12 +179,6 @@ lsp_conf.dockerls.setup({
 	capabilities = capabilities
 })
 
--- awk
-lsp_conf.awk_ls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities
-})
-
 -- ansible
 -- includes ansiblelint support
 lsp_conf.ansiblels.setup({
@@ -316,11 +309,6 @@ require'nvim-treesitter.configs'.setup {
 
 	------------------------------
 	-- treesitter external modules
-	-- JoosepAlviste/nvim-ts-context-commentstring
-	-- semantic nested commenting
-	context_commentstring = {
-		enable = true
-	},
 
 	-- andymass/vim-matchup
 	-- better integration for %

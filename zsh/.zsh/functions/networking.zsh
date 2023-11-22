@@ -13,17 +13,3 @@ function my-networking-ssh-server-notify-alive() {
 	notify-send "$1 is alive"
 }
 compdef my-networking-ssh-server-notify-alive=ping
-
-function my-networking-ip ()
-{
-	if command -v curl > /dev/null; then
-		curl -s http://ipecho.net/plain; echo
-		return
-	fi
-	if command -v wget > /dev/null; then
-		wget -q -O - http://ipecho.net/plain 2>&1; echo
-		return
-	fi
-	>&2 echo -e "\nERROR. Install curl or wget. Exiting..."
-	return 1
-}

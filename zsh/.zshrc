@@ -1,4 +1,4 @@
-# direnv: load and unload environment variables from .envrc file depending on the current directory ###
+### direnv: load and unload environment variables from .envrc file depending on the current directory
 # https://github.com/romkatv/powerlevel10k#how-do-i-initialize-direnv-when-using-instant-prompt
 (( ${+commands[direnv]} )) && emulate zsh -c "$(direnv export zsh)"
 
@@ -9,7 +9,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 	source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# load and unload environment variables from .envrc file depending on the current directory ###
+### load and unload environment variables from .envrc file depending on the current directory
+# https://github.com/direnv/direnv
 (( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
 
 # my dotfiles

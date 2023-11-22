@@ -52,6 +52,10 @@ focus_on_window_activation focus
 
 # file manager float by default; ignore hints to not decorate window borders when floating
 for_window [app_id="org.gnome.Nautilus"] floating enable; border pixel 3
+# ignore hints to not decorate window borders when floating
+for_window [app_id="gthumb"] border pixel 3
+# launch terminal in fullscreen by default
+for_window [app_id="Alacritty"] fullscreen enable
 
 # turn off screen after 30 seconds of executing swaylock
 exec swayidle -w \
@@ -180,7 +184,7 @@ bindsym $mod+Shift+Return exec alacritty --class poweroff_menu --command $SHELL 
 bindsym $mod+t exec alacritty
 
 # resources monitor
-bindsym $mod+u exec alacritty --option font.size=15.0 --command "btop"
+bindsym $mod+u exec alacritty --class "resources_monitor" --option font.size=15.0 --command "btop"
 
 # notifications
 bindsym $mod+n exec dunstctl history-pop

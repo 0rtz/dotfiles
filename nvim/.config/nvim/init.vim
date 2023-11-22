@@ -365,7 +365,7 @@ vnoremap <leader>y "+y
 vnoremap <leader>d "_d
 vnoremap <expr> <leader>p (col('.') == col('$')-1) ? '"_dp' : '"_dP'
 " rename word in visual selection only
-vnoremap <leader>Rv :s/\%V//g<left><left><left>
+vnoremap <leader>er :s/\%V//g<left><left><left>
 " substitute selection in a file
 vnoremap <leader>S "zy:%s/<c-r>z//gc<left><left><left>
 " sort by line length
@@ -581,7 +581,7 @@ require("symbols-outline").setup({
 EOF
 " NOTE: do not map to <Tab> since <Tab> and <C-i> are same
 " in the terminal and extended key <C-i> do not work in tmux
-nnoremap \i :SymbolsOutline<CR>
+nnoremap \c :SymbolsOutline<CR>
 
 " change cwd to lsp's root dir or pattern
 lua << EOF
@@ -947,7 +947,7 @@ nnoremap <silent> <leader>Uc <Cmd>lua require'dap'.continue()<CR>
 nnoremap <silent> <leader>Us <Cmd>lua require'osv'.launch({port = 8086})<CR>
 nnoremap <silent> <leader>Ux <Cmd>lua require'dap'.disconnect()<CR>
 
-" c/c++, bash debugger
+" c/c++ debugger
 function! NvimGdbNoTKeymaps()
 	tnoremap <silent> <buffer> kj <c-\><c-n>
 endfunction
@@ -967,13 +967,7 @@ function s:rungdb()
 	let arg = input('GDB: '.db.' arguments: ')
 	execute('GdbStart gdb -q --eval-command=start --args '.db.' '.arg)
 endfunction
-function s:runbashdb()
-	let db = input('BASHDB: Script to debug path: ')
-	let arg = input('BASHDB: '.db.' arguments: ')
-	execute('GdbStartBashDB bashdb '.db.' -- '.arg)
-endfunction
 nnoremap <leader>ug :call <SID>rungdb()<CR>
-nnoremap <leader>ub :call <SID>runbashdb()<CR>
 nnoremap <leader>ux :GdbDebugStop<CR>
 
 " }}} Debugging "
@@ -1324,7 +1318,7 @@ if exists('g:neovide')
 	imap <C-V> <C-r>+
 	" gui window title
 	set title titlestring=%<%F
-	set guifont=JetBrainsMonoNL\ Nerd\ Font:h16.5:#e-subpixelantialias:#h-slight
+	set guifont=JetBrainsMonoNL\ NF:h16.5:#e-subpixelantialias:#h-slight
 	let g:neovide_refresh_rate=144
 endif
 
