@@ -265,7 +265,7 @@ Plug 'rcarriga/nvim-notify'
 
 Plug 'tmux-plugins/vim-tmux'
 Plug 'pearofducks/ansible-vim'
-Plug 'preservim/vim-markdown'
+Plug 'dhruvasagar/vim-table-mode'
 " Markdown previewer in browser
 Plug 'iamcco/markdown-preview.nvim'
 " Markdown/reStructuredText/textile/AsciiDoc previewer in browser
@@ -544,6 +544,10 @@ require('nvim-lightbulb').setup({
 		pattern = {"*"},
 		updatetime = -1,
 		events = {"CursorHold", "CursorHoldI"}
+	},
+	ignore = {
+		-- LSP client names to ignore.
+		clients = {"marksman"},
 	},
 })
 EOF

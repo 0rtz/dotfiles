@@ -227,10 +227,14 @@ lsp_conf.lua_ls.setup({
 })
 
 -- markdown
+table.insert(treesitter_sources, "markdown")
+lsp_conf.marksman.setup({
+	on_attach = on_attach,
+	capabilities = capabilities
+})
 efmls_sources.markdown = {
 	require('efmls-configs.linters.markdownlint'),
 }
-table.insert(treesitter_sources, "markdown")
 
 -- Makefile
 table.insert(treesitter_sources, "make")
