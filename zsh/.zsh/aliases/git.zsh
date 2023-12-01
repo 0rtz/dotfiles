@@ -39,7 +39,7 @@ alias gbls='git branch -a -vv'
 alias gbrm='forgit::branch::delete'
 alias gbrmr='my-git-delete-branch-remote'
 alias gbrn='git branch -m <new_branch_name>'
-alias gbmv='git branch --force <branch_to_move_on_current>'
+alias gbmv='git branch --force <branch_to_move> [<commit>]'
 alias gbmvcp='my-git-move-on-current-cherrypick-last'
 # patches
 alias gap='git apply'

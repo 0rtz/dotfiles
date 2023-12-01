@@ -3,7 +3,7 @@ if ! alias m >/dev/null 2>&1; then
 	alias m='my-man-fzf'
 fi
 alias v='my-editor-open'
-alias vt='my-create-edit-tmp'
+alias vv='my-create-edit-tmp'
 alias vx='my-create-script'
 alias pw='my-powermenu-fzf'
 alias cpf='my-yank-to-clipboard'

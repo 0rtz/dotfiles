@@ -262,9 +262,11 @@ efmls_sources['='] = {
 
 -- apply configured linters/formatters
 lsp_conf.efm.setup {
-	init_options = {documentFormatting = true},
+	init_options = {
+		documentFormatting = true,
+		documentRangeFormatting = true,
+	},
 	settings = {
-		rootMarkers = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", ".root" },
 		languages = efmls_sources,
 	},
 	on_attach = on_attach,

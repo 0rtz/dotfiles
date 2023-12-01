@@ -5,7 +5,7 @@ zle_highlight=('paste:none')
 setopt globdots
 
 # treat symbols as part of a word
-WORDCHARS='*?_-[]\&;.!#%^(){}<>|'
+WORDCHARS='*?$_-[]\&;.!#%^(){}<>|'
 
 # disable ctrl-s in interactive shells
 [[ -o interactive ]] && unsetopt flow_control

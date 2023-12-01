@@ -591,7 +591,7 @@ nnoremap \c :SymbolsOutline<CR>
 lua << EOF
 require("project_nvim").setup({
 	detection_methods = {  "pattern", "lsp" },
-	patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", ".root" },
+	patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", ".root", ".marksman.toml" },
 	telescope_default_action= "cd"
 })
 EOF
