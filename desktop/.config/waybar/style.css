@@ -10,7 +10,7 @@
 	min-width: 0;
 	margin-top: 0;
 	margin-right: 0;
-	margin-bottom: 1;
+	margin-bottom: 0;
 	margin-left: 0;
 	padding-top: 0;
 	padding-right: 0;
@@ -28,70 +28,61 @@ window#waybar {
 	margin-left: 0;
 }
 #bluetooth {
-	margin-left: 10;
+	margin-left: 5;
 	color: #5BBEFF;
 }
 #network {
-	margin-left: 10;
+	margin-left: 5;
 	color: #71FF5B;
 }
 #custom-vpn {
 	color: #71FF5B;
 }
 #custom-info_tmux {
-	margin-left: 10;
+	margin-left: 5;
 }
 #custom-info_ssh {
-	margin-left: 10;
+	margin-left: 5;
 }
 #custom-scratchpad-indicator {
-	margin-left: 10;
+	margin-left: 5;
 }
 #custom-info_acrhlinux {
-	margin-left: 10;
+	margin-left: 5;
 	color: #A8B7FF;
 }
 #custom-systemd_failed {
-	margin-left: 10;
+	margin-left: 5;
 	color: #FF0000;
 }
 #custom-detect_xwayland {
-	margin-left: 10;
+	margin-left: 5;
 	color: #FF0000;
 }
 #custom-info-snapshot {
-	margin-left: 10;
+	margin-left: 5;
 	color: #FFB300;
 }
 
-/* .modules-center group */
-#workspaces button {
-	background-color: #000000;
-	color: #E6E6E6;
+/* .modules-right group */
+#workspaces {
 	margin-right: 10px;
-	margin-left: 10px;
+}
+#workspaces button {
+	color: #E6E6E6;
+	margin-right: 20px;
 }
 #workspaces button.visible {
-	color: #95EBFF;
-	padding-right: 5px;
-	padding-left: 5px;
-	border-bottom: 2px solid #95EBFF;
-	border-left: 2px solid #95EBFF;
-	border-right: 2px solid #95EBFF;
-	border-radius: 100px;
-	margin-top: 0;
-	margin-bottom: 0;
-}
-#workspaces button.urgent {
 	color: #FF9595;
 }
-
-/* .modules-right group */
+#workspaces button.urgent {
+	color: #95EBFF;
+}
 #pulseaudio {
-	margin-right: 20;
+	margin-right: 10;
 }
 #language {
-	margin-right: 10;
+	margin-right: 5;
 }
 #clock {
 	margin-right: 5;

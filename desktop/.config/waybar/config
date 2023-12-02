@@ -1,13 +1,13 @@
 {
 	"layer": "top",
+	"position": "bottom",
 	"modules-left": ["tray", "bluetooth", "network", "custom/vpn", "custom/info_tmux", "custom/info_ssh", "custom/scratchpad-indicator", "custom/info_acrhlinux", "custom/systemd_failed", "custom/detect_xwayland", "custom/info-snapshot"],
-	"modules-center": ["sway/workspaces"],
-	"modules-right": ["pulseaudio", "sway/language", "clock" ],
+	"modules-right": ["sway/workspaces", "pulseaudio", "sway/language", "clock"],
 
 	// ##################################################
 	// ### modules-left #################################
 	"tray": {
-		"icon-size": 21,
+		"icon-size": 17,
 		"spacing": 10
 	},
 	"bluetooth": {
@@ -69,15 +69,11 @@
 	// ##################################################
 
 	// ##################################################
-	// ### modules-center ###############################
+	// ### modules-right ################################
 	"sway/workspaces": {
 		"disable-scroll": true,
 		"format": "{name}"
 	},
-	// ##################################################
-
-	// ##################################################
-	// ### modules-right ################################
 	"pulseaudio": {
 		"format": "{icon} {volume}%",
 		"format-bluetooth": "{icon} {volume}%",
