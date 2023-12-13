@@ -19,6 +19,9 @@ function install_term() {
 	done
 	echo -e "\n\nvim plugins:\n"
 	nvim --headless +PlugInstall +qall
+	mkdir -p ~/.config/nvim
+	# create dictionary for 'uga-rosa/cmp-dictionary' vim plugin
+	aspell -d en dump master | aspell -l en expand > ~/.config/nvim/en.dict
 	echo -e "\n\ntmux plugins:\n"
 	./tmux/.config/tmux/plugins/tpm/bin/install_plugins
 	echo -e "\n\nzsh plugins and theme:\n"

@@ -15,7 +15,7 @@ alias gd='forgit::diff'
 alias gds='forgit::diff --staged'
 alias gdh='forgit::diff HEAD~1 HEAD'
 # stash changes
-alias gstp='git stash push'
+alias gstp='forgit::stash::push'
 alias gsta='git stash pop'
 alias gstls='git stash list'
 alias gstf='forgit::stash::show'

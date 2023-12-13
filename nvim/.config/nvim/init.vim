@@ -364,8 +364,8 @@ vnoremap <leader>sv <Esc>/\%V
 vnoremap <leader>y "+y
 vnoremap <leader>d "_d
 vnoremap <expr> <leader>p (col('.') == col('$')-1) ? '"_dp' : '"_dP'
-" rename word in visual selection only
-vnoremap <leader>er :s/\%V//g<left><left><left>
+" substitute word in visual selection only
+vnoremap <leader>eS :s/\%V//g<left><left><left>
 " substitute selection in a file
 vnoremap <leader>S "zy:%s/<c-r>z//gc<left><left><left>
 " sort by line length
@@ -1087,8 +1087,8 @@ EOF
 let g:better_whitespace_enabled=1
 let g:better_whitespace_filetypes_blacklist=['diff', 'git', 'gitcommit', 'qf', 'help', 'fugitive', 'markdown']
 let g:show_spaces_that_precede_tabs=1
-nnoremap <leader>eS :StripWhitespace<CR>
-vnoremap <leader>eS :StripWhitespace<CR>
+nnoremap <leader>et :StripWhitespace<CR>
+vnoremap <leader>eT :StripWhitespace<CR>
 nnoremap ]t :NextTrailingWhitespace<CR>
 nnoremap [t :PrevTrailingWhitespace<CR>
 

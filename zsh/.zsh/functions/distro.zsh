@@ -71,3 +71,29 @@ function my-packages-not-in-repo()
 		pacman -Qm
 	fi
 }
+
+function my-package-dependencies()
+{
+	if command -v pacman > /dev/null 2>&1 ; then
+		if ! command -v "pactree" > /dev/null 2>&1 ; then
+			 >&2 echo "ERROR: pactree not found. Install pacman-contrib package. Exiting..."
+			return 1
+		fi
+		pactree $1
+	fi
+}
+function my-package-dependencies-reverse()
+{
+	if command -v pacman > /dev/null 2>&1 ; then
+		if ! command -v "pactree" > /dev/null 2>&1 ; then
+			 >&2 echo "ERROR: pactree not found. Install pacman-contrib package. Exiting..."
+			return 1
+		fi
+		pactree -r $1
+	fi
+}
+_JJD-my-packages() {
+	compadd "${(@f)$(pacman -Qq)}"
+}
+compdef _JJD-my-packages my-package-dependencies
+compdef _JJD-my-packages my-package-dependencies-reverse

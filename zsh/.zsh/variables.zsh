@@ -13,7 +13,6 @@ export XDG_CONFIG_HOME=$HOME/.config
 export LANG=en_US.UTF-8
 export EDITOR='nvim'
 export PAGER='less -R'
-export TERM=alacritty
 export COLORTERM=truecolor
 export HISTSIZE=50000
 export SAVEHIST=50000
