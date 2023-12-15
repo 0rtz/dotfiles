@@ -265,10 +265,11 @@ Plug 'rcarriga/nvim-notify'
 
 Plug 'tmux-plugins/vim-tmux'
 Plug 'pearofducks/ansible-vim'
+"" Markdown
 Plug 'dhruvasagar/vim-table-mode'
-" Markdown previewer in browser
+" previewer in browser
 Plug 'iamcco/markdown-preview.nvim'
-" Markdown/reStructuredText/textile/AsciiDoc previewer in browser
+"" Markdown/reStructuredText/textile/AsciiDoc previewer in browser
 Plug 'previm/previm'
 
 " }}} filetype specific "
