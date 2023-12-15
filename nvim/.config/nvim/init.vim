@@ -40,8 +40,6 @@ Plug 'ray-x/lsp_signature.nvim'
 Plug 'kosayoda/nvim-lightbulb'
 " rename LSP symbol
 Plug 'filipdutescu/renamer.nvim'
-" pop-up menu for code actions
-Plug 'weilbith/nvim-code-action-menu'
 " class/symbols tree like viewer
 Plug 'simrat39/symbols-outline.nvim'
 " change cwd to lsp's root dir or pattern
@@ -565,9 +563,6 @@ require('renamer').setup {
 }
 EOF
 nnoremap glr <cmd>lua require("renamer").rename()<CR>
-
-" pop-up menu for code actions
-nnoremap gla <cmd>CodeActionMenu<CR>
 
 " class/symbols tree like viewer
 lua << EOF

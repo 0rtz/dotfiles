@@ -49,6 +49,7 @@ local on_attach = function(client, bufnr)
 
 	-- LSP formatting
 	buf_set_keymap("n", "glf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
+	buf_set_keymap("n", "gla", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 	buf_set_keymap("v", "glf", "<cmd>lua My_range_formatting()<CR>", opts)
 
 	-- LSP diagnostics
