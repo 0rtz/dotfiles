@@ -22,5 +22,5 @@ fi
 [ -d $HOME/.zsh/aliases ]        && for f in $HOME/.zsh/aliases/*.zsh; do source $f; done
 [ -f $HOME/.zsh/keymaps.zsh ]    && source $HOME/.zsh/keymaps.zsh
 
-# To update prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# To update prompt, run 'p10k configure' or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

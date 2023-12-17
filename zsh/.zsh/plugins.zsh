@@ -82,6 +82,8 @@ function my_zvm_after_lazy_keybindings() {
 	bindkey -M vicmd 's' my-widget-toggle-sudo
 	bindkey -M vicmd 'k' up-line
 	bindkey -M vicmd 'j' down-line
+	bindkey -M visual 'k' up-line
+	bindkey -M visual 'j' down-line
 }
 zvm_after_lazy_keybindings_commands+=(my_zvm_after_lazy_keybindings)
 function my_zvm_after_init() {

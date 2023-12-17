@@ -59,7 +59,7 @@ for_window [app_id="Alacritty"] fullscreen enable
 
 # turn off screen after 30 seconds of executing swaylock
 exec swayidle -w \
-timeout 30 'if pgrep -x swaylock; then swaymsg "output * dpms off"; fi' \
+timeout 2 'if pgrep -x swaylock; then swaymsg "output * dpms off"; fi' \
 resume 'swaymsg "output * dpms on"'
 
 # include machine specific config
