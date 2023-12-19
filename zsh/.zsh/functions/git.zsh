@@ -1,10 +1,20 @@
+_JJD-git-branch-names() {
+	compadd "${(@)${(f)$(git branch)}#??}"
+}
+_JJD-git-remote-branch-names() {
+	compadd "${(@)${(f)$(git branch --remotes)}#??}"
+}
+_JJD-git-remote-names() {
+	compadd "${(@)${(f)$(git remote)}}"
+}
+
 function my-add-git-remote() {
 	git remote add $1 $2
 	git fetch $1
 }
 
-# $1 = Branch name to create on remote (Required parameter)
-# $2 = Remote name to create branch on (Optional parameter)
+# $1 = Branch name to create on remote (required parameter)
+# $2 = Remote name to create branch on (optional parameter; default = origin)
 function my-git-create-branch-remote() {
 	if [[ -z $1 ]]; then
 		>&2 echo -e "\nERROR. Specify branch to create. Exiting..."
@@ -33,9 +43,10 @@ function my-git-create-branch-remote() {
 			print "\nAborting..."
 		fi
 }
+compdef _JJD-git-remote-names my-git-create-branch-remote
 
-# $1 = Branch name to delete on remote (Required parameter)
-# $2 = Remote name to delete branch on (Optional parameter)
+# $1 = Branch name to delete on remote (required parameter)
+# $2 = Remote name to delete branch on (optional parameter; default = origin)
 function my-git-delete-branch-remote() {
 	if [[ -z $1 ]]; then
 		>&2 echo -e "\nERROR. Specify branch to delete. Exiting..."
@@ -80,10 +91,25 @@ function my-git-delete-branch-remote() {
 		fi
 	fi
 }
-_JJD-git-branch-names() {
-	compadd "${(@)${(f)$(git branch)}#??}"
+_my-git-delete-branch-remote() {
+	_arguments '1:branch:->branches' '2:remote:->remotes'
+	case $state in
+		branches)
+			_JJD-git-branch-names
+			;;
+		remotes)
+			_JJD-git-remote-names
+			;;
+	esac
 }
-compdef _JJD-git-branch-names my-git-delete-branch-remote
+compdef _my-git-delete-branch-remote my-git-delete-branch-remote
+
+# $1 = Remote branch to track (required parameter)
+function my-git-track-remote-branch() {
+	branch=$(git rev-parse --abbrev-ref HEAD)
+	git branch "$branch" --set-upstream-to "$1"
+}
+compdef _JJD-git-remote-branch-names my-git-track-remote-branch
 
 function my-git-log-grep-commit-messages() {
 	git log --all --grep="$1"
@@ -129,11 +155,130 @@ function my-git-move-on-current-cherrypick-last() {
 }
 compdef _JJD-git-branch-names my-git-move-on-current-cherrypick-last
 
-function my-git-list-large() {
+# $1 - first branch
+# $2 - second branch
+function my-git-oldest-common-ancestor() {
+	local b1=$1
+	if [[ $# -eq 1 ]]; then
+		local b2=HEAD
+	else
+		local b2=$2
+	fi
+	ancestor=$(diff --old-line-format='' --new-line-format='' \
+		<(git rev-list --first-parent "$b1") \
+		<(git rev-list --first-parent "$b2") | \
+		head -1)
+	git rev-parse --short "$ancestor"
+}
+compdef _JJD-git-branch-names my-git-oldest-common-ancestor
+
+# $1 - first branch
+# $2 - second branch
+function my-git-recent-common-ancestor() {
+	local b1=$1
+	if [[ $# -eq 1 ]]; then
+		local b2=HEAD
+	else
+		local b2=$2
+	fi
+	git merge-base $b1 $b2
+}
+compdef _JJD-git-branch-names my-git-recent-common-ancestor
+
+# show diff relative to main branch of repository
+# useful for branch reviews
+function my-git-main-branch-diff() {
+	if [[ -z "$1" ]]; then
+		REVIEW_BASE="$(git remote show origin | grep 'HEAD branch' | cut -d':' -f2 | tr -d '[:blank:]')"
+	else
+		REVIEW_BASE="$1"
+	fi
+	git diff "$(git merge-base HEAD "$REVIEW_BASE")"
+}
+
+function my-git-repo-info() {
+	_my-print-heading-blue "\nRepo authors:"
+	git log --pretty=format:"%an <%ae>" HEAD | sort | uniq -c | sort -nr
+
+	_my-print-heading-blue "\nRepo most changed files:"
+	git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort -rn | awk 'BEGIN {print "\tcount\tfile"} {print "\t" $1 "\t" $2}' | head
+
+	_my-print-heading-blue "\nRepo largest files:"
 	git rev-list --objects --all |
 	git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' |
 	sed -n 's/^blob //p' |
 	sort --numeric-sort --key=2 |
 	cut -c 1-12,41- |
-	$(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
+	numfmt --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest | tail
+}
+
+function my-git-checkout-all-branches() {
+	# User is not in git repository
+	if ! git branch > /dev/null 2>&1
+	then
+		echo "E: '$(basename ${PWD})' - Not a Git repository."
+		exit 1
+	fi
+	echo "P: Checking out all remote branches..."
+	# Remember current branch
+	_CURRENT_BRANCH="$(git branch | awk '/^\* / { print $2 }')"
+	# Checkout all remote branches
+	for _REMOTE_BRANCH in $(git branch -r | awk '{ print $1 }')
+	do
+		_BRANCH_NAME="$(echo ${_REMOTE_BRANCH} | cut -d/ -f 2-)"
+		if [ "${_BRANCH_NAME}" != "HEAD" ]
+		then
+			if ! git branch | grep -q "${_BRANCH_NAME}$"
+			then
+				git checkout -b "${_BRANCH_NAME}" "${_REMOTE_BRANCH}"
+			fi
+		fi
+	done
+	# Switch back to current branch
+	if [ "$(git branch | awk '/^\* / { print $2 }')" != "${_CURRENT_BRANCH}" ]
+	then
+		exec git checkout "${_CURRENT_BRANCH}"
+	fi
+}
+
+function my-git-divergence-remote() {
+	local CURRENT_BRANCH="$(git branch | grep '^*' | sed s/\*\ //)"
+	if [[ "${CURRENT_BRANCH}" != "" ]] {
+		TRACKED_REPOSITORY="$(git config branch.${CURRENT_BRANCH}.remote)"
+		if [[ "${TRACKED_REPOSITORY}" != "" ]] {
+			REMOTE_BRANCH="$(git config branch.${CURRENT_BRANCH}.merge | cut -d"/" -f 3-)"
+
+			if [[ "${REMOTE_BRANCH}" != "" ]] {
+				TARGET="${TRACKED_REPOSITORY}/${REMOTE_BRANCH}"
+				git fetch ${TRACKED_REPOSITORY} ${REMOTE_BRANCH}>/dev/null 2>&1 || \
+					{ >&2 echo -e "\nERROR. Can not fetch ${REMOTE_BRANCH} on ${TRACKED_REPOSITORY}. Exiting..."; return 1 }
+
+				_my-print-heading-blue "\nNot fetched commits on remote tracking branch:"
+				git log ..${TARGET}
+
+				_my-print-heading-blue "\nNot pushed to remote commits on HEAD:"
+				git log ${TARGET}..
+
+			} else {
+				echo "Current branch has no corresponding remote repository."
+				echo 'Try setting branch.$CurrentBranch.merge'
+			}
+		} else {
+			echo "Current branch doesn't track any repository."
+			echo 'Try setting branch.$CurrentBranch.remote'
+		}
+	}
+}
+
+function my-git-show-deleted() {
+	setopt local_options pipefail
+	git log --raw --no-renames --date=short --format="%h %cd" "$@" |
+		awk '/^[0-9a-f]/ { commit=$1; date=$2 }
+			/^:/ && $5 == "D" { print date, commit "^:" $6 }' |
+				git -p column
+}
+
+# specify path from 'my-git-show-deleted' to delete from history completely
+function my-git-purge-from-history() {
+	git filter-repo --invert-paths --path $1
 }

@@ -25,3 +25,8 @@ autoload -Uz compinit && compinit
 autoload -U bashcompinit
 bashcompinit
 eval "$(register-python-argcomplete pipx)"
+
+# colored output
+function _my-print-heading-blue() {
+	print -P "%B%F{blue}$1%f%b"
+}
