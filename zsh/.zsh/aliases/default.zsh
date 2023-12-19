@@ -49,4 +49,4 @@ alias -g B='| head'
 alias -g G='| grep -e ""'
 alias -g X='| xargs -ro -I{}'
 alias -g V="| $EDITOR"
-alias -g U="| awk '{print \$1}'"
+alias -g U="| awk 'BEGIN{FS=\"[ ]+\"}{print \$1}'"
