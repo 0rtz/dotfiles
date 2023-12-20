@@ -184,3 +184,16 @@ function my-processes-search() {
 	echo "$OUT"
 }
 compdef my-processes-search=pgrep
+
+function my-replace-recursive() {
+	if command -v "sd" > /dev/null 2>&1 ; then
+		if [[ $# -ne 2 ]]; then
+			>&2 echo -e "ERROR: Specify OLD and NEW string. Exiting..."
+			return 1
+		fi
+		local str1="$1"
+		local str2="$2"
+		find . -type f -exec sd --preview "$1" "$2" {} +
+		find . -type f -exec sd "$1" "$2" {} +
+	fi
+}

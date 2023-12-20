@@ -92,6 +92,7 @@ local efmls_sources = {}
 -- which languages treesitter support
 local treesitter_sources = {}
 
+----------------------------------------------------------------------------------------------------
 -- Configured languages: ---------------------------------------------------------------------------
 
 -- bash
@@ -259,8 +260,9 @@ efmls_sources['='] = {
 	require('efmls-configs.linters.codespell'),
 }
 
----------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 
+----------------------------------------------------------------------------------------------------
 -- apply configured linters/formatters
 lsp_conf.efm.setup {
 	init_options = {
@@ -273,6 +275,7 @@ lsp_conf.efm.setup {
 	on_attach = on_attach,
 	capabilities = capabilities
 }
+----------------------------------------------------------------------------------------------------
 
 -- treesitter specific sources
 table.insert(treesitter_sources, "comment")

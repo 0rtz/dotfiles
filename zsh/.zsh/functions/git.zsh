@@ -256,7 +256,7 @@ function my-git-divergence-remote() {
 				_my-print-heading-blue "\nNot fetched commits on remote tracking branch:"
 				git log ..${TARGET}
 
-				_my-print-heading-blue "\nNot pushed to remote commits on HEAD:"
+				_my-print-heading-blue "\nCommits on HEAD not pushed to remote:"
 				git log ${TARGET}..
 
 			} else {
