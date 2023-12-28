@@ -8,7 +8,7 @@ autoload -Uz _zinit
 
 ### create archives ###
 zinit ice lucid wait'0'
-zinit light 0xRZ/mkarch
+zinit light 0rtz/mkarch
 
 ### CTRL-R shell history ###
 zinit ice lucid wait'0'
@@ -32,14 +32,6 @@ zstyle ':fzf-tab:*' prefix ''
 zstyle ':fzf-tab:*' switch-group 'ctrl-h' 'ctrl-l'
 # additional mapping to pass to fzf
 zstyle ':fzf-tab:*' fzf-bindings 'ctrl-s:jump' 'ctrl-a:toggle-all'
-# non Aloxaf/fzf-tab specific styles
-# disable sort when completing `git checkout`
-zstyle ':completion:*:git-checkout:*' sort false
-# set descriptions format to enable group support (external command, builtin command, etc...)
-zstyle ':completion:*:descriptions' format '[%d]'
-# set list-colors to enable filename colorizing
-export LS_COLORS='fi=0:di=34:ln=36:pi=33:so=35:bd=93:'
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 ### show autosuggestions as-you-type ###
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(backward-kill-line)

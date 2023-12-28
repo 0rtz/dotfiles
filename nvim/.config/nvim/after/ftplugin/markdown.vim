@@ -1,3 +1,4 @@
+nnoremap <buffer> K <nop>
 setlocal conceallevel=2
 " decrease/increase headers in visual selection
 xnoremap <buffer> - :s/^#//g<CR>gv

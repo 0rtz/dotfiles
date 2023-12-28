@@ -74,20 +74,17 @@ function rga-fzf() {
 }
 
 function my-powermenu-fzf () {
-	op=$( echo -e " Poweroff\n Suspend\n Reboot\n Lock\n Logout" | fzf | awk '{print tolower($2)}' )
+	op=$( echo -e " Hibernate\n Poweroff\n Reboot\n Lock" | fzf | awk '{print tolower($2)}' )
 	case $op in
-		poweroff)
+		hibernate)
 			;&
-		suspend)
+		poweroff)
 			;&
 		reboot)
 			systemctl $op
 			;;
 		lock)
 			swaylock --indicator-idle-visible
-			;;
-		logout)
-			swaymsg exit
 			;;
 	esac
 }

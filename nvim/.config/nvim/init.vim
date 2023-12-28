@@ -1318,7 +1318,7 @@ if exists('g:neovide')
 	imap <C-V> <C-r>+
 	" gui window title
 	set title titlestring=%<%F
-	set guifont=JetBrainsMonoNL\ NF:h16.5:#e-subpixelantialias:#h-slight
+	set guifont=JetBrainsMonoNL\ NF:h17:#e-subpixelantialias:#h-slight
 	let g:neovide_refresh_rate=144
 endif
 

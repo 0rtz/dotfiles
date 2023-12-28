@@ -80,7 +80,7 @@ alias glgr='my-git-log-grep-commit-messages <pattern>'
 alias ggr='my-git-grep <pattern>'
 # repository config
 alias gcfg="my-git-edit-config \"$(git config user.name)\" \"$(git config user.email)\""
-alias gi='forgit::ignore >> .gitignore'
+alias gia='forgit::ignore >> .gitignore'
 alias gignore='git update-index --assume-unchanged'
 alias gunignore='git update-index --no-assume-unchanged'
 alias gkeep='echo >> .gitkeep'

@@ -1,17 +1,17 @@
 # do not highlight pasted text
 zle_highlight=('paste:none')
 
-# show hidden files in completion
-setopt globdots
-
 # treat symbols as part of a word
 WORDCHARS='*?$_-[]\&;.!#%^(){}<>|'
+
+# vi mode
+bindkey -v
 
 # disable ctrl-s in interactive shells
 [[ -o interactive ]] && unsetopt flow_control
 
-# vi mode
-bindkey -v
+# show hidden files in completion
+setopt globdots
 
 # man zshoptions(1)
 setopt HIST_IGNORE_ALL_DUPS
@@ -30,3 +30,11 @@ eval "$(register-python-argcomplete pipx)"
 function _my-print-heading-blue() {
 	print -P "%B%F{blue}$1%f%b"
 }
+
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support (external command, builtin command, etc...)
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing during completion
+export LS_COLORS='fi=0:di=34:ln=36:pi=33:so=35:bd=93:'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
