@@ -978,18 +978,14 @@ set sessionoptions+=winpos,terminal
 
 " continuously update ./Session.vim
 nnoremap <leader>ss <cmd>Obsession .<cr>
-nnoremap <leader>sr <cmd>source ./Session.vim<cr>
 function! s:update_session() range
 	if &ft =~ 'gitcommit\|gitrebase\|svn\|hgcommit\|qf\|help'
 		return
 	endif
 	if filereadable('./Session.vim')
-		if !argc()
-			source ./Session.vim
-			lua vim.notify("Restored " .. vim.v.this_session, "INFO", { title = "Vim session", timeout = 100})
-		endif
+		source ./Session.vim
 		Obsession ./Session.vim
-		lua vim.notify("Tracking session in Session.vim", "INFO", { title = "Vim session", timeout = 100})
+		lua vim.notify("Restored and tracking session in Session.vim", "INFO", { title = "Vim session", timeout = 100})
 	endif
 endfunction
 augroup my_update_session
