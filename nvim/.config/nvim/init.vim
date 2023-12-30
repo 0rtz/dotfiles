@@ -546,7 +546,7 @@ require('nvim-lightbulb').setup({
 	},
 	ignore = {
 		-- LSP client names to ignore.
-		clients = {"marksman"},
+		clients = {"marksman","jsonls"},
 	},
 })
 EOF

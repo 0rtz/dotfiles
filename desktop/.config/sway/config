@@ -189,6 +189,11 @@ bindsym $mod+u exec alacritty --class "resources_monitor" --option font.size=15.
 # notifications
 bindsym $mod+n exec dunstctl history-pop
 
+# pulseaudio volume
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
 # ------------------------------------------
 # SYSTEMD
 # ------------------------------------------

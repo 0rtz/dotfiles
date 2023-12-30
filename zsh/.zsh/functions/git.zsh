@@ -197,8 +197,8 @@ function my-git-main-branch-diff() {
 }
 
 function my-git-repo-info() {
-	_my-print-heading-blue "\nRepo authors:"
-	git log --pretty=format:"%an <%ae>" HEAD | sort | uniq -c | sort -nr
+	_my-print-heading-blue "\nRepo most commits authors:"
+	git log --pretty=format:"%an <%ae>" HEAD | sort | uniq -c | sort -nr | head
 
 	_my-print-heading-blue "\nRepo most changed files:"
 	git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort -rn | awk 'BEGIN {print "\tcount\tfile"} {print "\t" $1 "\t" $2}' | head

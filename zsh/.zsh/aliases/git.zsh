@@ -1,6 +1,7 @@
 alias gst='git status'
 # clone
 alias gcl='git clone --recurse-submodules --jobs $(nproc)'
+alias gcls='git clone -–depth 1'
 # add/stage
 alias ga='forgit::add'
 alias gaa='git add --all'

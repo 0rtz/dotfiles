@@ -12,4 +12,5 @@ function my-create-pyton-env() {
 cat << EOF > .envrc
 source .venv/bin/activate
 EOF
+	direnv allow . && exec zsh
 }
