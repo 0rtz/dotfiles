@@ -609,6 +609,13 @@ set foldlevelstart=99
 " use treesitter's = operator on whole buffer
 nnoremap <silent> <expr> <leader>ei 'ggvG='.( line(".") == 1 ? '' : '<C-o>')
 
+" highlight parentheses with different colors
+lua << EOF
+vim.g.rainbow_delimiters = {
+	blacklist = {'markdown'},
+}
+EOF
+
 " show current function/condition/etc under cursor
 nnoremap \C :TSContextToggle<CR>
 
@@ -897,6 +904,9 @@ nnoremap \f :ZenMode<CR>
 lua << EOF
 require("zen-mode").setup({
 	plugins = {
+        options = {
+			laststatus = 0,
+		},
 		gitsigns = { enabled = true },
 	},
 })
@@ -1077,7 +1087,8 @@ EOF
 
 " strip trailing whitespaces
 let g:better_whitespace_enabled=1
-let g:better_whitespace_filetypes_blacklist=['diff', 'git', 'gitcommit', 'qf', 'help', 'fugitive', 'markdown']
+let g:better_whitespace_filetypes_blacklist=['diff', 'git', 'gitcommit', 'qf', 'help', 'fugitive']
+let g:better_whitespace_guicolor='#6F6565'
 let g:show_spaces_that_precede_tabs=1
 nnoremap <leader>et :StripWhitespace<CR>
 vnoremap <leader>eT :StripWhitespace<CR>
@@ -1193,6 +1204,11 @@ nnoremap <silent> <c-k> <cmd>lua require('illuminate').goto_prev_reference()<CR>
 lua << EOF
 require("ibl").setup {
 	indent = { char = "▏" },
+	exclude = {
+		filetypes = {
+			"markdown",
+		},
+	},
 	scope = {
 		include = {
 			-- highlight all nodes (cause weird highlighting sometimes)
@@ -1314,8 +1330,8 @@ if exists('g:neovide')
 	imap <C-V> <C-r>+
 	" gui window title
 	set title titlestring=%<%F
-	set guifont=JetBrainsMonoNL\ NF:h17:#e-subpixelantialias:#h-slight
-	let g:neovide_refresh_rate=144
+	set guifont=JetBrainsMonoNL\ NF:h16.5:#e-subpixelantialias:#h-slight
+	" let g:neovide_refresh_rate=144
 endif
 
 " }}} Gui-nvim "

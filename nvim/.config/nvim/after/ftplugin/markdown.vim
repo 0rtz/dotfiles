@@ -17,7 +17,9 @@ let b:surround_104 = "## \r #"
 
 " iamcco/markdown-preview.nvim
 nnoremap <buffer> \p :MarkdownPreviewToggle<CR>
+let g:mkdp_auto_close = 0
 
 " dhruvasagar/vim-table-mode
+" enter '|' to create new row/align existing table
 nnoremap <buffer> <silent> <leader>Fa :TableModeRealign<CR>
 nnoremap <buffer> <silent> <leader>Ft :TableModeToggle<CR>

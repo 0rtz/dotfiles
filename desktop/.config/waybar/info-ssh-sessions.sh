@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sessions="$(lsof -Pi | grep ":22")"
+sessions="$(ss | grep ssh)"
 
 if [ -n "$sessions" ]; then
 	count=$(echo "$sessions" | wc -l)

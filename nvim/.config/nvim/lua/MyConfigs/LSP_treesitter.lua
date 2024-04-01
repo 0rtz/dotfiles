@@ -306,7 +306,7 @@ require'nvim-treesitter.configs'.setup {
 	-- syntax highlighting for supppored treesitter_sources
 	highlight = {
 		enable = true,
-		-- Follow anchors in preservim/vim-markdown
+		-- needed to conceal bold text, links
 		additional_vim_regex_highlighting = {
 			"markdown",
 		},

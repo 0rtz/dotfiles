@@ -64,7 +64,7 @@ zinit light romkatv/powerlevel10k
 ### vi-mode ###
 ZVM_VI_ESCAPE_BINDKEY=kj
 zinit light jeffreytse/zsh-vi-mode
-# vi mode specific mappings
+# normal/visual mode mappings
 function my_zvm_after_lazy_keybindings() {
 	zvm_bindkey vicmd 'H' beginning-of-line
 	zvm_bindkey vicmd 'L' end-of-line
@@ -77,10 +77,11 @@ function my_zvm_after_lazy_keybindings() {
 	bindkey -M visual 'k' up-line
 	bindkey -M visual 'j' down-line
 }
+# execute commands when first entering normal mode (shell started with insert mode)
 zvm_after_lazy_keybindings_commands+=(my_zvm_after_lazy_keybindings)
 function my_zvm_after_init() {
 	my-init-mappings
-	# overwrite jeffreytse/zsh-vi-mode keymaps before lazy_keybindings set
+	# insert mode mappings
 	# need ^U as backward-kill-line in order for ZSH_AUTOSUGGEST_CLEAR_WIDGETS to clear prompt
 	bindkey -M viins '^U' backward-kill-line
 }

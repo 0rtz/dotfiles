@@ -9,4 +9,5 @@ if command -v pacman > /dev/null; then
 	alias paclsa="pacman -Q"
 	alias yain="yay --aur -Sl | fzf --multi --preview-window=wrap --preview 'cat <(yay -Si {2})' | cut -d' ' -f2 | xargs -ro yay -S"
 	alias yainstall="yay -S"
+	alias yaup="yay --sudoloop -Su"
 fi
