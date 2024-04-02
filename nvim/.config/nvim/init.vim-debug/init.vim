@@ -5,8 +5,7 @@ if !filereadable(g:my_plug_dir . '/autoload/plug.vim')
 end
 
 call plug#begin(g:my_plug_dir . '/vim-plug')
-" :PPmsg var
-Plug 'tpope/vim-scriptease'
+
 call plug#end()
 
 if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
@@ -14,29 +13,8 @@ if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 	PlugInstall
 endif
 
-let mapleader = "\<Space>"
-
 lua <<EOF
-
-function Log(...)
-	local objects = {}
-		for i = 1, select('#', ...) do
-			local v = select(i, ...)
-		table.insert(objects, vim.inspect(v))
-	end
-
-	local message = table.concat(objects, '\n')
-	print(message)
-
-	local log_file_path = vim.g.my_plug_dir .. '/Log.txt'
-	local log_file = io.open(log_file_path, "w")
-	io.output(log_file)
-	io.write(message)
-	io.close(log_file)
-
-	return ...
-end
 
 EOF
 
-nnoremap <leader>a :<cr>
+" nnoremap <Space>a :<cr>
