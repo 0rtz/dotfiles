@@ -121,10 +121,13 @@ cmp.setup.filetype({ "c", "cpp", "lua" }, {
 })
 
 -- source for dictionary words
-require("cmp_dictionary").switcher({
-	spelllang = {
-		en = os.getenv("HOME").."/.config/nvim/en.dict",
-	},
+local dict = {
+	["*"] = { os.getenv("HOME").."/.config/nvim/en.dict" },
+}
+require("cmp_dictionary").setup({
+	paths = dict["*"],
+	exact_length = 2,
+	first_case_insensitive = true,
 })
 
 -- source for git commit messages

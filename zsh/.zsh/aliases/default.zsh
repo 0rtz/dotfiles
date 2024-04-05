@@ -47,6 +47,6 @@ alias -g C='| wc -l'
 alias -g E='| tail'
 alias -g B='| head'
 alias -g G='| grep -e ""'
-alias -g X='| xargs -ro -I{}'
+alias -g X='| xargs --no-run-if-empty --open-tty -I{}'
 alias -g V="| $EDITOR"
 alias -g U="| awk 'BEGIN{FS=\"[ ]+\"}{print \$1}'"
