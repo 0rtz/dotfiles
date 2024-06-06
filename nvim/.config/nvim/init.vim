@@ -59,8 +59,6 @@ Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'romgrk/nvim-treesitter-context'
 " insert code annotation
 Plug 'danymat/neogen'
-" better integration for %
-Plug 'andymass/vim-matchup'
 " better folds
 Plug 'kevinhwang91/promise-async'
 Plug 'kevinhwang91/nvim-ufo'
@@ -626,10 +624,6 @@ require('neogen').setup {
 }
 EOF
 nnoremap <leader>eA :Neogen<CR>
-
-" better integration for %
-nmap gh [%
-let g:matchup_matchparen_offscreen = {}
 
 " better folds
 lua <<EOF
