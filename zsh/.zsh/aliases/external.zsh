@@ -13,7 +13,6 @@ alias ff='plocate --ignore-case'
 alias ffu='sudo updatedb'
 alias rg='rg --hidden --no-ignore 2>/dev/null ""'
 alias rga='rga --hidden --no-ignore 2>/dev/null ""'
-alias emj="git add --all && git commit -m '✍️'"
 alias emj-fzf="emoji-fzf preview --prepend | fzf | awk '{ print \$1 }' | my-yank-to-clipboard"
 alias spl="codespell --summary --write-changes"
 alias nls="cat $HOME/.config/nnn/.selection | tr \"\0\" \"\n\""

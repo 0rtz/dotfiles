@@ -29,6 +29,7 @@ alias gc='git commit -v && git config user.name && git config user.email'
 alias gcm='git commit -m ""'
 alias gacm='git add --all && git commit -m ""'
 alias gcca='git commit -v --amend --no-edit --author="$(git config user.name) <$(git config user.email)>"'
+alias gcwip="git add --all && git commit -m 'WIP'"
 alias gccmsg='git commit -v --amend'
 alias gsq='my-git-commit-and-squash-into-prev'
 # checkout
