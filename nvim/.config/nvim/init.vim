@@ -287,8 +287,15 @@ set mouse=
 set nofixeol
 " 24-bit RGB color in terminal
 set termguicolors
-" highlight current line 'CursorLine'
+" highlight current line number with 'CursorLineNr'
 set cursorline
+set cursorlineopt=number
+" highlight current line number with 'CursorLineNr' in focused window only
+augroup cursorline_set_group
+	autocmd!
+	autocmd BufEnter,FocusGained,WinEnter * set cursorline
+	autocmd BufLeave,FocusLost,WinLeave   * set nocursorline
+augroup END
 " display signs in the 'number' column
 set signcolumn=number
 " CTRL-D move cursor to the first character on the line
@@ -475,11 +482,10 @@ nnoremap <leader>iH :call <SID>hl_groups_info()<CR>
 
 " {{{ colorschemes "
 
-" projekt0n/github-nvim-theme
-:so $HOME/.config/nvim/themes/github_dark_high_contrast.vim
+" Uncomment plugin load before adding theme
 
-" EdenEast/nightfox.nvim
-" :so $HOME/.config/nvim/themes/nightfox_blue.vim
+" projekt0n/github-nvim-theme
+:so $HOME/.config/nvim/themes/github_dark_high_contrast_transparent.vim
 
 " }}} colorschemes "
 
@@ -1152,7 +1158,12 @@ vmap gi <Plug>(openbrowser-smart-search)
 vmap gh :<c-u>call <SID>search_github()<CR>
 
 " show search matches count as virtual text
-lua require('hlslens').setup()
+lua <<EOF
+	require('hlslens').setup({
+	nearest_only = true,
+	nearest_float_when = 'never'
+})
+EOF
 
 " }}} Search "
 
@@ -1290,6 +1301,7 @@ nnoremap \u :MundoToggle<CR>
 lua <<EOF
 require("notify").setup({
 	timeout = 3000,
+	background_colour = "#000000",
 })
 vim.notify = require("notify")
 EOF

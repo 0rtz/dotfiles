@@ -12,6 +12,9 @@ TERM = "alacritty"
 [terminal]
 shell = "/bin/zsh"
 
+[window]
+opacity = 0.95
+
 [font]
 size = 16.5
 
