@@ -1,6 +1,6 @@
 alias l='ls -lAFh --color=tty'
 alias src='exec zsh'
-alias lna='ln -s <link_to> <link_name>'
+alias sl='ln -s -n -f <link_to> <link_name>'
 alias cp='cp -i'
 alias mv='mv -i'
 alias md='mkdir -p'
@@ -10,16 +10,18 @@ alias K='kill -9'
 alias trt='touch .root'
 alias shr='shred -uz'
 alias ddr='dd if=/dev/urandom bs=4K count=1 | base64 > output.dat'
+# mnemonic: disk usage directories
 alias dud='du -d 1 -ch --apparent-size | sort --human-numeric-sort'
+# mnemonic: disk usage files
 alias duf='find . -type f -exec du -csh --apparent-size {} + | sort --human-numeric-sort'
 alias ip='ip -color=auto'
 alias dd='dd status=progress'
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
-alias dmesg='dmesg --color=auto'
+alias dmesg='sudo dmesg --color=auto --follow'
 alias make="make --jobs=$(nproc --ignore=2)"
 alias psa='ps aux'
-alias pscpu='ps -eo pid,ppid,cmd:50,%mem,%cpu --sort=-%cpu | head'
+alias pscpu='ps -eo pid,ppid,cmd:100,%mem,%cpu --sort=-%cpu | head'
 alias clrls='for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+"\n"}; done'
 alias s='TERM=xterm-256color ssh'
 alias st='TERM=xterm-256color ssh -Y'
@@ -42,6 +44,7 @@ alias -g NE='2>/dev/null'
 alias -g NULL='>/dev/null 2>&1'
 alias -g H='--help 2>&1'
 alias -g N="&!"
+# convert whitespaces to newlines
 alias -g S='| tr " " "\n"'
 alias -g C='| wc -l'
 alias -g E='| tail'
@@ -49,4 +52,5 @@ alias -g B='| head'
 alias -g G='| grep -e ""'
 alias -g X='| xargs --no-run-if-empty --open-tty -I{}'
 alias -g V="| $EDITOR"
+# print only the first field from each line (e.g. select Usernames)
 alias -g U="| awk 'BEGIN{FS=\"[ ]+\"}{print \$1}'"

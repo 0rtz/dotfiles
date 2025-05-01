@@ -8,7 +8,7 @@ alias vd='nvim -u $HOME/.config/nvim/init.vim-debug/init.vim'
 alias vn='nvim -u none'
 alias vs='code $PWD'
 alias qr='qrencode -m 2 -t UTF8 <<<'
-alias hx='hexdump -Cv'
+alias hx='hexdump -C'
 alias ff='plocate --ignore-case'
 alias ffu='sudo updatedb'
 alias rg='rg --hidden --no-ignore 2>/dev/null ""'
@@ -45,5 +45,6 @@ if command -v batman > /dev/null; then
 	alias m='batman'
 fi
 if command -v jiq > /dev/null; then
-	alias -g J='| jiq'
+	# Pretty print json
+	alias -g J='| jiq -q'
 fi

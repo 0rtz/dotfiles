@@ -360,11 +360,10 @@ vnoremap <leader>sN "hy?<c-r>h<CR>
 vnoremap <leader>sv <Esc>/\%V
 vnoremap <leader>y "+y
 vnoremap <leader>d "_d
-vnoremap <expr> <leader>p (col('.') == col('$')-1) ? '"_dp' : '"_dP'
-" substitute word in visual selection only
-vnoremap <leader>eS :s/\%V//g<left><left><left>
-" substitute selection in a file
-vnoremap <leader>S "zy:%s/<c-r>z//gc<left><left><left>
+" replace word in visual selection only
+vnoremap <leader>er :s/\%V//g<left><left><left>
+" replace selection in a file
+vnoremap <leader>eR "zy:%s/<c-r>z//gc<left><left><left>
 " sort by line length
 vnoremap <silent> <leader>es :! awk '{ print length(), $0 <Bar> "sort -n <Bar> cut -d\\  -f2-" }'<CR>
 
@@ -496,7 +495,7 @@ nnoremap <leader>iL <cmd>Mason<CR>
 lua << EOF
 	require('trouble').setup {
 		mode = "document_diagnostics",
-		action_keys = {
+		keys = {
 			open_split = {"<c-s>"},
 			open_vsplit = {"<c-v>"},
 			close_folds = {"zc"},
@@ -504,7 +503,7 @@ lua << EOF
 		},
 	}
 EOF
-nnoremap \e <cmd>TroubleToggle<cr>
+nnoremap \e <cmd>Trouble diagnostics toggle focus=true<cr>
 
 " preview of an LSP symbol
 lua << EOF
@@ -579,7 +578,7 @@ require("symbols-outline").setup({
 EOF
 " NOTE: do not map to <Tab> since <Tab> and <C-i> are same
 " in the terminal and extended key <C-i> do not work in tmux
-nnoremap \c :SymbolsOutline<CR>
+nnoremap \s :SymbolsOutline<CR>
 
 " change cwd to lsp's root dir or pattern
 lua << EOF

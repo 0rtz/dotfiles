@@ -31,7 +31,7 @@ handle_text() {
 
 handle_blocked() {
 	case "${MIMETYPE}" in
-		application/x-sharedlib | application/x-shared-library-la | application/x-executable | application/x-pie-executable | application/octet-stream)
+		application/x-sharedlib | application/x-shared-library-la | application/x-executable | application/x-pie-executable | application/octet-stream | application/pdf | application/epub+zip)
 			if ! which xxxd > /dev/null 2>&1; then
 				xxd -d -u -g 1 -c 8 "${FILE_PATH}" 2>/dev/null | less
 			else

@@ -12,7 +12,7 @@ input "type:keyboard" {
 bar swaybar_command waybar
 
 # set cursor theme
-seat seat0 xcursor_theme phinger-cursors 32
+seat seat0 xcursor_theme phinger-cursors-dark 32
 # hide cursor after 3 seconds
 seat seat0 hide_cursor 3000
 
@@ -20,7 +20,7 @@ seat seat0 hide_cursor 3000
 exec_always {
     gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
     gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
-    gsettings set org.gnome.desktop.interface cursor-theme 'phinger-cursors'
+    gsettings set org.gnome.desktop.interface cursor-theme 'phinger-cursors-dark'
     gsettings set org.gnome.desktop.interface cursor-size '32'
     gsettings set org.gnome.desktop.interface font-name 'Noto Sans 12'
 }
@@ -54,8 +54,6 @@ focus_on_window_activation focus
 for_window [app_id="org.gnome.Nautilus"] floating enable; border pixel 3
 # ignore hints to not decorate window borders when floating
 for_window [app_id="gthumb"] border pixel 3
-# launch terminal in fullscreen by default
-for_window [app_id="Alacritty"] fullscreen enable
 
 # turn off screen after 30 seconds of executing swaylock
 exec swayidle -w \
