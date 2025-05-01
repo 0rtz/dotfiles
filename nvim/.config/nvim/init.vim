@@ -193,8 +193,6 @@ Plug 'Pocco81/auto-save.nvim'
 
 " surround with parentheses/quotes
 Plug 'tpope/vim-surround'
-" comment on 'gc'
-Plug 'tpope/vim-commentary'
 " switch between single-line/multiline code block
 Plug 'AndrewRadev/splitjoin.vim'
 " move visual selection up/down
@@ -202,7 +200,7 @@ Plug 'matze/vim-move'
 " automatically close parentheses
 Plug 'windwp/nvim-autopairs'
 " increment/decrement characters
-Plug 'monaqa/dial.nvim'
+"Plug 'monaqa/dial.nvim'
 " draw diagrams
 Plug 'jbyuki/venn.nvim'
 " strip trailing whitespaces
@@ -263,11 +261,11 @@ Plug 'rcarriga/nvim-notify'
 
 Plug 'tmux-plugins/vim-tmux'
 Plug 'pearofducks/ansible-vim'
-"" Markdown
+" Markdown tables align
 Plug 'dhruvasagar/vim-table-mode'
-" previewer in browser
+" Markdown previewer in browser
 Plug 'iamcco/markdown-preview.nvim'
-"" Markdown/reStructuredText/textile/AsciiDoc previewer in browser
+" Markdown/reStructuredText/textile/AsciiDoc previewer in browser
 Plug 'previm/previm'
 
 " }}} filetype specific "
@@ -357,15 +355,14 @@ vnoremap k gk
 vnoremap > >gv
 vnoremap < <gv
 vnoremap <leader>sn "hy/<c-r>h<CR>
-vnoremap <leader>sN "hy?<c-r>h<CR>
 " search within visual selection
-vnoremap <leader>sv <Esc>/\%V
+vnoremap <leader>f <Esc>/\%V
 vnoremap <leader>y "+y
 vnoremap <leader>d "_d
 " replace word in visual selection only
 vnoremap <leader>er :s/\%V//g<left><left><left>
 " replace selection in a file
-vnoremap <leader>eR "zy:%s/<c-r>z//gc<left><left><left>
+vnoremap <leader>R "zy:%s/<c-r>z//gc<left><left><left>
 " sort by line length
 vnoremap <silent> <leader>es :! awk '{ print length(), $0 <Bar> "sort -n <Bar> cut -d\\  -f2-" }'<CR>
 
@@ -409,14 +406,13 @@ nnoremap <silent> <leader>_ :<c-u>exec 'resize -'.v:count1*5<CR>
 nnoremap <silent> <leader>= :<c-u>exec 'vertical resize +'.v:count1*20<CR>
 nnoremap <silent> <leader>- :<c-u>exec 'vertical resize -'.v:count1*20<CR>
 nnoremap <silent> <leader>/ :noh<CR>
+" copy selected info to clipboard
 nnoremap <silent> <leader>cn :let @+ = expand("%:t")<CR>:lua MyNotificationMin(vim.fn.getreg('+') .. " copied to clipboard")<CR>
 nnoremap <silent> <leader>cp :let @+ = expand("%:p")<CR>:lua MyNotificationMin(vim.fn.getreg('+') .. " copied to clipboard")<CR>
 " relative to pwd
 nnoremap <silent> <leader>cr :let @+ = expand("%")<CR>:lua MyNotificationMin(vim.fn.getreg('+') .. " copied to clipboard")<CR>
 nnoremap <silent> <leader>cd :let @+ = expand("%:p:h")<CR>:lua MyNotificationMin(vim.fn.getreg('+') .. " copied to clipboard")<CR>
 nnoremap <silent> <leader>cg :let @+ = @%.":".line('.')<CR>:lua MyNotificationMin(vim.fn.getreg('+') .. " copied to clipboard")<CR>
-nnoremap <silent> [<leader> :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
-nnoremap <silent> ]<leader> :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 nnoremap <silent> <leader>vs :source $MYVIMRC<CR>
 nnoremap <silent> <leader>vr :source $MYVIMRC <Bar> PlugClean <Bar> PlugInstall<CR>
 nnoremap <silent> <leader>vu :PlugUpdate --sync
@@ -504,7 +500,7 @@ lua << EOF
 		},
 	}
 EOF
-nnoremap .e <cmd>Trouble diagnostics toggle focus=true<cr>
+nnoremap ge <cmd>Trouble diagnostics toggle focus=true<cr>
 
 " preview of an LSP symbol
 lua << EOF
@@ -514,8 +510,7 @@ lua << EOF
 		bufhidden = "hide",
 	}
 EOF
-nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<CR>
-nnoremap gpi <cmd>lua require('goto-preview').goto_preview_implementation()<CR>
+nnoremap gD <cmd>lua require('goto-preview').goto_preview_definition()<CR>
 nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>
 
 " show function signature during editing
@@ -1045,12 +1040,12 @@ require('nvim-autopairs').setup{
 EOF
 
 " increment/decrement characters
-nmap + <Plug>(dial-increment)
-nmap - <Plug>(dial-decrement)
-vmap <leader>ei <Plug>(dial-increment)
-vmap <leader>ed <Plug>(dial-decrement)
-vmap <leader>eI g<Plug>(dial-increment)
-vmap <leader>eD g<Plug>(dial-decrement)
+"nmap + <Plug>(dial-increment)
+"nmap - <Plug>(dial-decrement)
+"vmap <leader>ei <Plug>(dial-increment)
+"vmap <leader>ed <Plug>(dial-decrement)
+"vmap <leader>eI g<Plug>(dial-increment)
+"vmap <leader>eD g<Plug>(dial-decrement)
 
 " draw diagrams
 nnoremap <silent> .v :lua Toggle_venn()<CR>
@@ -1117,14 +1112,6 @@ augroup my_hop_mappings
 	autocmd!
 	autocmd FileType Outline nnoremap <buffer> s <cmd>HopLine<CR>
 augroup END
-nnoremap f <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<CR>
-onoremap f <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<CR>
-nnoremap F <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>
-onoremap F <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>
-nnoremap t <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<CR>
-onoremap t <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<CR>
-nnoremap T <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = -1 })<CR>
-onoremap T <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = -1 })<CR>
 
 " jump to line number
 lua require('numb').setup()

@@ -7,10 +7,6 @@ require('github-theme').setup({
 			types = 'italic,bold',
 		}
 	},
-	-- for changes to take effect:
-	-- setopt rmstarsilent && rm -f $HOME/.cache/nvim/github-theme/*
-	-- OR
-	-- :GithubThemeInteractive
 	groups = {
 		github_dark_high_contrast = {
 			VertSplit = { fg = "#43566F" },

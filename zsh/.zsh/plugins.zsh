@@ -60,6 +60,8 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 ### theme ###
 zinit ice depth"1" # git clone depth
 zinit light romkatv/powerlevel10k
+# cross platform alternative to powerlevel10k: https://github.com/starship/starship
+# eval "$(starship init zsh)"
 
 ### vi-mode ###
 ZVM_VI_ESCAPE_BINDKEY=kj

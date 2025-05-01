@@ -70,8 +70,7 @@ function n() {
 }
 
 function my-editor-open () {
-	if [ $# -eq 0 ]
-	then
+	if [ $# -eq 0 ]; then
 		$EDITOR
 	else
 		if echo $1 | grep -q -E ":[[:digit:]]+$"; then
@@ -95,6 +94,32 @@ function my-editor-open () {
 				fi
 			fi
 			$EDITOR $1
+		fi
+	fi
+}
+
+function my-vscode-open () {
+	if [ $# -eq 0 ]; then
+		if command -v "windsurf" > /dev/null 2>&1 ; then
+			windsurf . &!
+		elif command -v "code" > /dev/null 2>&1 ; then
+			code .
+		else
+			my-editor-open
+		fi
+	else
+		local size
+		size=$(wc -c < $1)
+		if (( size > 1000000 )); then
+			nvim -u NONE $1
+			return
+		fi
+		if command -v "windsurf" > /dev/null 2>&1 ; then
+			windsurf --goto $1 &!
+		elif command -v "code" > /dev/null 2>&1 ; then
+			code --goto $1
+		else
+			my-editor-open $1
 		fi
 	fi
 }

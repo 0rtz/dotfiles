@@ -1,4 +1,5 @@
-alias c='cht.sh'
+# TODO: remove this, alias c used by my-vscode-open
+# alias c='cht.sh'
 alias q='qalc'
 alias fm='nautilus $PWD >/dev/null 2>&1  &!'
 alias cs='cht.sh --shell bash'
@@ -17,8 +18,6 @@ alias emj-fzf="emoji-fzf preview --prepend | fzf | awk '{ print \$1 }' | my-yank
 alias spl="codespell --summary --write-changes"
 alias nls="cat $HOME/.config/nnn/.selection | tr \"\0\" \"\n\""
 alias myip='curl -s https://ipinfo.io/ip'
-alias scr='grim -g "$(slurp)" - | wl-copy'
-alias screc='wf-recorder --geometry "$(slurp)" -f ./recording.mp4'
 alias my_networking_ports='sudo ss -lntup'
 alias TA='task add'
 alias TL='task next'

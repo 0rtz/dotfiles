@@ -1,27 +1,25 @@
 lua <<EOF
+-- modify github_dark_high_contrast to make it transparent
 require('github-theme').setup({
 	options = {
+		transparent = true,
 		styles = {
 			comments = 'italic',
 			keywords = 'bold',
 			types = 'italic,bold',
 		}
 	},
-	-- for changes to take effect interactively without restarting vim:
-	-- setopt rmstarsilent && rm -f $HOME/.cache/nvim/github-theme/*
-	-- OR
-	-- :GithubThemeInteractive
 	groups = {
 		github_dark_high_contrast = {
 			WinSeparator = { fg = "#43566F" },
 			Visual = { fg = "#71b7ff", bg = none },
 			Whitespace = { fg = "#ffffff" },
 			Folded = { bg = "#211825" },
-			-- transparency
-			Normal = { bg = none },
-			NormalNC = { bg = none },
-			NonText = { bg = none },
+			-- transparency for status line, buffer line
 			StatusLine = { bg = none },
+			StatusLineNC = { bg = none },
+			TabLineFill = { bg = none },
+			-- highlight current line number
 			CursorLineNr = { fg = "#d50000", bg = none, style = "bold" },
 			-- show current function/condition/etc under cursor
 			TreesitterContext = { bg = "#827390" },
