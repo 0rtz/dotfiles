@@ -7,7 +7,7 @@
 | **Window manager**       | **[sway](https://github.com/swaywm/sway), [hyprland](https://github.com/hyprwm/Hyprland)**              |
 |:-------------------------|:--------------------------------------------------------|
 | **Status bar**           | **[waybar](https://github.com/Alexays/Waybar)**         |
-| **Application launcher** | **[wofi](https://hg.sr.ht/~scoopta/wofi)**              |
+| **Application launcher** | **[rofi](https://github.com/in0ni/rofi-wayland)**              |
 | **Notification daemon**  | **[dunst](https://github.com/dunst-project/dunst)**     |
 | **Terminal**             | **[alacritty](https://github.com/alacritty/alacritty)** |
 | **File manager**         | **[nnn](https://github.com/jarun/nnn)**                 |
