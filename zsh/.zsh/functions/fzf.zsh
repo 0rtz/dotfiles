@@ -85,7 +85,12 @@ function my-powermenu-fzf () {
 			systemctl $op
 			;;
 		lock)
-			swaylock --indicator-idle-visible
+			if command -v "hyprlock" > /dev/null 2>&1 ; then
+				hyprlock
+			elif command -v "swaylock " > /dev/null 2>&1 ; then
+				swaylock --indicator-idle-visible
+			fi
+			return 1
 			;;
 	esac
 }

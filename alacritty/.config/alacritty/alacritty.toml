@@ -13,10 +13,11 @@ TERM = "alacritty"
 shell = "/bin/zsh"
 
 [window]
-opacity = 0.95
+opacity = 0.90
 
 [font]
-size = 16.5
+# size = 16.5
+size = 16.0
 
 [font.bold]
 family = "JetBrainsMonoNL NF"

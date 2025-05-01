@@ -1,0 +1,45 @@
+{
+	"modules-right": ["sway/workspaces", "pulseaudio", "sway/language", "clock"],
+
+	"include": [
+		"~/.config/waybar/config_base"
+	],
+
+	"sway/workspaces": {
+		"format": "{windows}",
+		"format-window-separator": " ",
+		"window-rewrite-default": "{name}",
+		"window-format": "{name}",
+		// WARN: change in ./config_hyprland as well
+		"window-rewrite": {
+			"class<Alacritty>": "",
+			"class<bitwarden>": "󰌆",
+			"class<firefox>": "󰈹",
+			"class<firefox> title<.*github.*>": "",
+			"class<gthumb>": "󰋩",
+			"class<jetbrains-clion>": "",
+			"class<jetbrains-pycharm>": "",
+			"class<jetbrains-webstorm>": "",
+			"class<mpv>": "",
+			"class<org.gnome.Nautilus>": "",
+			"class<neovide>": "",
+			"class<Brave-browser>": "",
+			"class<org.getmonero.monero-wallet-gui>": "󰖄",
+			"class<org.kde.okular>": "",
+			"class<qemu>": "",
+			"class<remote-viewer>": "",
+			"class<spicy>": "",
+			"class<resources_monitor>": "",
+			"class<Tor Browser>": "",
+			"class<com.github.xournalpp.xournalpp>": "󰏪",
+			"class<code>": "",
+			"class<windsurf>": ""
+		},
+		"disable-scroll": true
+	},
+	"sway/language": {
+		"format": "{flag}"
+	}
+}
+
+// # vim: ft=jsonc

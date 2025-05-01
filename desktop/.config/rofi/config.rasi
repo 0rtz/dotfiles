@@ -1,0 +1,12 @@
+configuration {
+	kb-secondary-copy: "";
+	kb-row-left: "Control+h";
+	kb-row-right: "Control+l";
+	kb-remove-char-back: "BackSpace";
+	kb-remove-to-eol: "";
+	kb-accept-entry: "Return";
+	kb-mode-complete: "";
+	kb-row-up: "Control+k,Up";
+	kb-row-down: "Control+j,Down";
+	kb-cancel: "Escape,Control+c";
+}

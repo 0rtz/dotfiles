@@ -1,0 +1,46 @@
+{
+	// run: waybar --config $HOME/.dotfiles/desktop/.config/waybar/config_hyprland
+
+	"modules-right": ["hyprland/workspaces", "pulseaudio", "hyprland/language", "clock"],
+
+	"include": [
+		"~/.config/waybar/config_base"
+	],
+
+	"hyprland/workspaces": {
+		"format": "{windows}",
+		"window-rewrite-default": "",
+		// WARN: change in ./config_sway as well
+		"window-rewrite": {
+			"class<Alacritty>": "",
+			"class<bitwarden>": "󰌆",
+			"class<firefox>": "󰈹",
+			"class<firefox> title<.*github.*>": "",
+			"class<gthumb>": "󰋩",
+			"class<jetbrains-clion>": "",
+			"class<jetbrains-pycharm>": "",
+			"class<jetbrains-webstorm>": "",
+			"class<mpv>": "",
+			"class<org.gnome.Nautilus>": "",
+			"class<neovide>": "",
+			"class<Brave-browser>": "",
+			"class<org.getmonero.monero-wallet-gui>": "󰖄",
+			"class<org.kde.okular>": "",
+			"class<qemu>": "",
+			"class<remote-viewer>": "",
+			"class<spicy>": "",
+			"class<resources_monitor>": "",
+			"class<Tor Browser>": "",
+			"class<com.github.xournalpp.xournalpp>": "󰏪",
+			"class<code>": "",
+			"class<windsurf>": ""
+		}
+	},
+	"hyprland/language": {
+		"format": "{}",
+		"format-en": "🇺🇸",
+		"format-ru": "🇷🇺"
+	}
+}
+
+// # vim: ft=jsonc

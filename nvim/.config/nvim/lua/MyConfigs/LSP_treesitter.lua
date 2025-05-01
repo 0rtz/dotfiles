@@ -20,6 +20,7 @@
 	-- Makefile
 	-- cmake
 	-- gitcommit
+	-- Hyprland configuration files
 
 -- Language servers configs used by the neovim LSP client
 local lsp_conf = require("lspconfig")
@@ -38,7 +39,7 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 	buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<CR>', opts)
 
-	-- open in split
+	-- open in split (peek)
 	buf_set_keymap('n', 'gF', '<Cmd>vsplit<CR><Cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
 	-- info about LSP symbol under cursor
@@ -49,16 +50,15 @@ local on_attach = function(client, bufnr)
 
 	-- LSP formatting
 	buf_set_keymap("n", "glf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
-	buf_set_keymap("n", "gla", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+	buf_set_keymap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 	buf_set_keymap("v", "glf", "<cmd>lua My_range_formatting()<CR>", opts)
 
 	-- LSP diagnostics
-	buf_set_keymap('n', '<leader>ie', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 	buf_set_keymap('n', '[e', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 	buf_set_keymap('n', ']e', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 	buf_set_keymap('n', '<space>qe', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
-	buf_set_keymap('n', '\\d', '<cmd>lua My_toggle_diagnostics_buffer()<CR>', opts)
-	buf_set_keymap('n', '\\D', '<cmd>lua My_toggle_diagnostics()<CR>', opts)
+	buf_set_keymap('n', '.e', '<cmd>lua My_toggle_diagnostics_buffer()<CR>', opts)
+	buf_set_keymap('n', '.E', '<cmd>lua My_toggle_diagnostics()<CR>', opts)
 end
 
 -- Language server diagnostic icons in signcolumn
@@ -259,6 +259,12 @@ table.insert(treesitter_sources, "gitcommit")
 efmls_sources.gitcommit = {
 	require('efmls-configs.linters.gitlint'),
 }
+
+-- Hyprland configuration files
+lsp_conf.hyprls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities
+})
 
 -- all filetypes
 efmls_sources['='] = {

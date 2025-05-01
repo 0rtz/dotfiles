@@ -1,111 +1,120 @@
-# ------------------------------------------
-# CONFIGURATIONS
-# ------------------------------------------
+# https://i3wm.org/docs/userguide.html
+# https://github.com/swaywm/sway/wiki
 
-# keyboard languages
+#############
+### Input ###
+#############
+
+# Keyboard languages
 input "type:keyboard" {
     xkb_layout us,ru
     xkb_options "caps:none,grp:shift_caps_toggle"
 }
 
-# status bar
-bar swaybar_command waybar
-
-# set cursor theme
-seat seat0 xcursor_theme phinger-cursors-dark 32
-# hide cursor after 3 seconds
-seat seat0 hide_cursor 3000
-
-# set gtk options since config.ini not read on wayland
-exec_always {
-    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
-    gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
-    gsettings set org.gnome.desktop.interface cursor-theme 'phinger-cursors-dark'
-    gsettings set org.gnome.desktop.interface cursor-size '32'
-    gsettings set org.gnome.desktop.interface font-name 'Noto Sans 12'
-}
-
-# window titles in tabbed layout
-font pango:Noto Sans Bold 11
-titlebar_padding 3 1
-title_align center
-
-# windows borders
-default_border pixel 3
-default_floating_border pixel 3
-hide_edge_borders --i3 smart
-gaps inner 8
-smart_gaps on
-
-# colors for windows
-client.focused          #95EBFF #95EBFF #000000 #95EBFF #d50000
-client.unfocused        #95EBFF #000000 #E6E6E6 #95EBFF #000000
-
-# do not select window under cursor
+# Do not select window under cursor automatically
 focus_follows_mouse no
 
-# initial container layout
-workspace_layout tabbed
+# Hide cursor after 3 seconds of inactivity
+seat seat0 hide_cursor 3000
 
-# focus when client requests urgency/window activation
-focus_on_window_activation focus
-
-# file manager float by default; ignore hints to not decorate window borders when floating
-for_window [app_id="org.gnome.Nautilus"] floating enable; border pixel 3
-# ignore hints to not decorate window borders when floating
-for_window [app_id="gthumb"] border pixel 3
-
-# turn off screen after 30 seconds of executing swaylock
-exec swayidle -w \
-timeout 2 'if pgrep -x swaylock; then swaymsg "output * dpms off"; fi' \
-resume 'swaymsg "output * dpms on"'
-
-# include machine specific config
-include ~/.config/sway/config_local
-
-# ------------------------------------------
-# KEYMAPS
-# ------------------------------------------
-
-# leader key
-# alt-key
+# Leader key (used in mappings)
+# alt key
 set $mod Mod1
-# win-key
+# win key
 # set $mod Mod4
 
-# do not switch to window on title frame click
-bindsym button1 nop
+##################
+### Appearance ###
+##################
 
-# keys for focus, movement, and resize directions
+# Cursor theme
+# $XCURSOR_THEME set in ~/.config/uwsm/env
+seat seat0 xcursor_theme phinger-cursors-light 32
+
+# Windows borders
+default_border pixel 2
+default_floating_border pixel 3
+hide_edge_borders --i3 smart
+gaps inner 0
+smart_gaps on
+
+# Windows tabs sizes in tabbed layout
+font pango:Noto Sans Bold 1
+titlebar_padding 1 1
+title_align center
+titlebar_border_thickness 1
+
+# Windows colors
+client.focused          #FF8181 #FF8181 #FF8181 #95EBFF #d50000
+client.unfocused        #000000 #000000 #000000 #95EBFF #000000
+client.focused_inactive #000000 #000000 #000000 #95EBFF #000000
+
+###############
+### Windows ###
+###############
+
+# Initial windows layout
+workspace_layout tabbed
+
+# Focus when client requests window activation (urgent window)
+focus_on_window_activation focus
+
+# File manager:
+# Window float by default
+for_window [app_id="org.gnome.Nautilus"] floating enable
+# Application draws its own border when floating => force sway's border (does not work with "for_window [floating] border pixel 3")
+for_window [app_id="org.gnome.Nautilus"] border pixel 3
+# Gthumb image vieiwer:
+for_window [app_id="org.gnome.gThumb"] border pixel 3
+
+# Keys for directions (focus, movement, resize windows)
 set $up k
 set $down j
 set $left h
 set $right l
-# change focus
+
+# Move focus between windows
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
-# move focused window
+
+# Move focused windows
 bindsym $mod+Shift+$left move left
 bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
-# alternatively use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
-# focus the parent container
-bindsym $mod+p focus parent
-# focus the child container
-bindsym $mod+c focus child
 
-# resize window (also possible with mouse)
+# Resize window (also possible with mouse right-click + $mod)
 bindsym $mod+Left        resize shrink width 10 px or 10 ppt
 bindsym $mod+Down        resize shrink height 10 px or 10 ppt
 bindsym $mod+Up          resize grow height 10 px or 10 ppt
 bindsym $mod+Right       resize grow width 10 px or 10 ppt
+
+# Toggle window tiling/floating mode
+bindsym $mod+Shift+space floating toggle
+# Change focus between tiling/floating windows
+bindsym $mod+space focus mode_toggle
+# Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# Split windows in horizontal orientation
+bindsym $mod+b split h
+# Split windows in vertical orientation
+bindsym $mod+v split v
+# Change windows layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout toggle split
+bindsym $mod+e layout toggle tabbed split
+
+# Enter fullscreen mode for the focused window
+bindsym $mod+f fullscreen toggle
+
+# Kill focused window
+bindsym $mod+Shift+x kill
+
+##################
+### Workspaces ###
+##################
 
 # Define names for default workspaces
 set $ws1 1
@@ -118,7 +127,8 @@ set $ws7 7
 set $ws8 8
 set $ws9 9
 set $ws10 10
-# switch to workspace
+
+# Switch workspaces
 bindsym $mod+q workspace number $ws1
 bindsym $mod+w workspace number $ws2
 bindsym $mod+d workspace number $ws3
@@ -131,7 +141,8 @@ bindsym $mod+6 workspace number $ws9
 bindsym $mod+7 workspace number $ws10
 bindsym $mod+a workspace back_and_forth
 bindsym $mod+Shift+a [urgent=latest] focus
-# move focused container to workspace
+
+# Move active window to a workspace
 bindsym $mod+Shift+q move container to workspace number $ws1
 bindsym $mod+Shift+w move container to workspace number $ws2
 bindsym $mod+Shift+d move container to workspace number $ws3
@@ -143,67 +154,54 @@ bindsym $mod+Shift+5 move container to workspace number $ws8
 bindsym $mod+Shift+6 move container to workspace number $ws9
 bindsym $mod+Shift+7 move container to workspace number $ws10
 
-# Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
-# toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
-# change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
-# move the currently focused window to the scratchpad
+# Move the currently focused window to the scratchpad
 bindsym $mod+Shift+period move scratchpad
-# Show the next scratchpad window or hide the focused scratchpad window.
-# If there are multiple scratchpad windows, this command cycles through them.
+# Cycle through scratchpad windows
 bindsym $mod+period scratchpad show
 
-# split in horizontal orientation
-bindsym $mod+b split h
-# split in vertical orientation
-bindsym $mod+v split v
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout toggle split
-bindsym $mod+e layout tabbed
-bindsym $mod+z layout stacking
-# enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
-# kill focused window
-bindsym $mod+Shift+x kill
+###################
+### Keybindings ###
+###################
 
-# reload the configuration file
-bindsym $mod+Shift+r reload
+# Application launcher
+bindsym $mod+Return exec "rofi -no-lazy-grab -theme $HOME/.config/rofi/desktop_apps.rasi -show drun -modi drun -run-command 'uwsm app -- {cmd}'"
 
-# application launcher
-bindsym $mod+Return exec "wofi --show drun"
-
-# toggle status bar
+# Toggle status bar
 bindsym $mod+o exec killall -SIGUSR1 waybar
 
-# poweroff menu
+# Poweroff menu
 for_window [app_id="^poweroff_menu$"] floating enable, sticky enable, resize set 10 ppt 21 ppt, border pixel 3
 bindsym $mod+Shift+Return exec alacritty --class poweroff_menu --command $SHELL --interactive -c 'my-powermenu-fzf'
 
-# terminal
-bindsym $mod+t exec alacritty
-
-# resources monitor
+# Show resources monitor
 bindsym $mod+u exec alacritty --class "resources_monitor" --option font.size=15.0 --command "btop"
 
-# notifications
+# Show last notification
 bindsym $mod+n exec dunstctl history-pop
 
-# pulseaudio volume
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1%
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+# Pick color
+bindsym $mod+p exec $HOME/usr/bin/my_pick_color.sh
 
-# ------------------------------------------
-# SYSTEMD
-# ------------------------------------------
+# Clock
+for_window [app_id="time_display"] floating enable
+for_window [app_id="time_display"] border pixel 3
+for_window [class="time_display"] resize set width 800px height 550px
+bindsym $mod+t exec alacritty --class "time_display" --option font.size=100.0 --command $SHELL -c "source $HOME/usr/bin/my_time.sh"
+bindsym --no-repeat --release $mod+t [app_id="time_display"] kill
 
-# imports several environment variables into the systemd user session and dbus
+# Reload the configuration file
+bindsym $mod+Shift+r reload
+
+############
+### Misc ###
+############
+
+# Include machine specific config
+include ~/.config/sway/config_local
+
+# Imports several environment variables into the systemd user session (line from default config: /etc/sway/config)
+# NOTE: this line must appear before starting my-desktop.target, otherwise systemd user units will not see desktop environment variables
+# If this line not added, uwsm forces session to log out
 include /etc/sway/config.d/*
-
-# launch dependent on sway-session.target systemd units
-exec "systemctl --user start sway-session.target"
-
-# start tmux server here in order for it to inherit all environment variables set by sway
-exec tmux new-session -d
+# Run dependent on my-desktop.target systemd units
+exec "systemctl --user start my-desktop.target"

@@ -1,11 +1,9 @@
 {
 	"layer": "top",
 	"position": "bottom",
-	"modules-left": ["tray", "bluetooth", "network", "custom/vpn", "custom/info_tmux", "custom/info_ssh", "custom/scratchpad-indicator", "custom/info_acrhlinux", "custom/systemd_failed", "custom/detect_xwayland", "custom/info-snapshot"],
-	"modules-right": ["sway/workspaces", "pulseaudio", "sway/language", "clock"],
 
 	// ##################################################
-	// ### modules-left #################################
+	"modules-left": ["tray", "bluetooth", "network", "custom/vpn", "custom/info_tmux", "custom/info_ssh", "custom/scratchpad-indicator", "custom/info_acrhlinux", "custom/systemd_failed", "custom/detect_xwayland", "custom/info-snapshot"],
 	"tray": {
 		"icon-size": 17,
 		"spacing": 10
@@ -34,7 +32,7 @@
 	},
 	"custom/info_tmux": {
 		"exec": "~/.config/waybar/info-tmux-sessions.sh",
-		"on-click": "alacritty --command $SHELL --interactive -c 'tmux attach-session'",
+		"on-click": "alacritty --command $SHELL --interactive -c 'tmux attach-session' & disown",
 		"interval": 1
 	},
 	"custom/info_ssh": {
@@ -43,10 +41,8 @@
 	},
 	"custom/scratchpad-indicator": {
 		"interval": 1,
-		"exec": "swaymsg -t get_tree | jq 'recurse(.nodes[]) | first(select(.name==\"__i3_scratch\")) | .floating_nodes | length | select(. >= 1)'",
-		"format": " ({})",
-		"on-click": "swaymsg 'scratchpad show'",
-		"on-click-right": "swaymsg 'move scratchpad'"
+		"exec": "/home/myuser/.config/waybar/scratchpad_is_empty.sh",
+		"format": " ({})"
 	},
 	"custom/info_acrhlinux": {
 		"exec": "~/.config/waybar/updates-arch.sh",
@@ -69,11 +65,6 @@
 	// ##################################################
 
 	// ##################################################
-	// ### modules-right ################################
-	"sway/workspaces": {
-		"disable-scroll": true,
-		"format": "{name}"
-	},
 	"pulseaudio": {
 		"format": "{icon} {volume}%",
 		"format-bluetooth": "{icon} {volume}%",
@@ -93,15 +84,11 @@
 		"on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
 		"ignored-sinks": ["Easy Effects Sink"]
 	},
-	"sway/language": {
-		"format": "{flag} {short} {variant}"
-	},
 	"clock": {
 		"format-alt": "{:%a, %d. %b  %H:%M}",
 		"on-click-right": "gnome-calendar"
 	}
 	// ##################################################
-
 }
 
 // # vim: ft=jsonc

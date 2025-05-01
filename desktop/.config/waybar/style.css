@@ -28,39 +28,39 @@ window#waybar {
 	margin-left: 0;
 }
 #bluetooth {
-	margin-left: 5;
+	margin-left: 5px;
 	color: #5BBEFF;
 }
 #network {
-	margin-left: 5;
+	margin-left: 5px;
 	color: #71FF5B;
 }
 #custom-vpn {
 	color: #71FF5B;
 }
 #custom-info_tmux {
-	margin-left: 5;
+	margin-left: 5px;
 }
 #custom-info_ssh {
-	margin-left: 5;
+	margin-left: 5px;
 }
 #custom-scratchpad-indicator {
-	margin-left: 5;
+	margin-left: 5px;
 }
 #custom-info_acrhlinux {
-	margin-left: 5;
+	margin-left: 5px;
 	color: #A8B7FF;
 }
 #custom-systemd_failed {
-	margin-left: 5;
+	margin-left: 5px;
 	color: #FF0000;
 }
 #custom-detect_xwayland {
-	margin-left: 5;
+	margin-left: 5px;
 	color: #FF0000;
 }
 #custom-info-snapshot {
-	margin-left: 5;
+	margin-left: 5px;
 	color: #FFB300;
 }
 
@@ -79,11 +79,11 @@ window#waybar {
 	color: #95EBFF;
 }
 #pulseaudio {
-	margin-right: 10;
+	margin-right: 10px;
 }
 #language {
-	margin-right: 5;
+	margin-right: 5px;
 }
 #clock {
-	margin-right: 5;
+	margin-right: 5px;
 }
