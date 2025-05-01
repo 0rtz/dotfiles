@@ -3,3 +3,4 @@ tmux/.config/tmux/plugins/
 en.dict
 vim-plug
 .pre-commit-config.yaml
+vim_check_plugins.sh

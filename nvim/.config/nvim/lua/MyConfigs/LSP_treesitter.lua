@@ -42,7 +42,7 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', 'gF', '<Cmd>vsplit<CR><Cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
 	-- info about LSP symbol under cursor
-	buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+	buf_set_keymap('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
 
 	-- info about function parameters under cursor
 	buf_set_keymap('n', 'gls', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -315,6 +315,9 @@ require'nvim-treesitter.configs'.setup {
 		additional_vim_regex_highlighting = {
 			"markdown",
 		},
+		-- disable highlights if these parsers are buggy
+		-- BUG: vim parser: flickering when scrolling in init.vim
+		disable = { "vim" },
 	},
 	-- '=' operator changes spaces to tabs where applicable
 	indent = {
@@ -338,17 +341,7 @@ require'nvim-treesitter.configs'.setup {
 		select = {
 			enable = true,
 			keymaps = {
-				["ac"] = "@class.outer",
-				["ic"] = "@class.inner",
-				["af"] = "@function.outer",
-				["if"] = "@function.inner",
-				["il"] = "@loop.inner",
-				["al"] = "@loop.outer",
-				["ii"] = "@conditional.inner",
-				["ai"] = "@conditional.outer",
-				["ak"] = "@comment.outer",
-				["ik"] = "@comment.inner",
-				["ab"] = "@block.outer",
+				["af"] = "@block.outer",
 			},
 		},
 		move = {

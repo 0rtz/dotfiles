@@ -179,7 +179,7 @@ Plug 'sakhnik/nvim-gdb',
 " continuously update ./Session.vim
 Plug 'tpope/vim-obsession'
 " open file at last editing position
-Plug 'ethanholz/nvim-lastplace'
+Plug 'farmergreg/vim-lastplace'
 
 " }}} Sessions "
 
@@ -213,15 +213,15 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'godlygeek/tabular'
 " additional text objects
 Plug 'wellle/targets.vim'
+" additional text objects
+Plug 'michaeljsmith/vim-indent-object'
 
 " }}} Editing "
 
 " {{{ Movement "
 
 " jump to word
-Plug 'phaazon/hop.nvim'
-" highlight unique characters on f/t
-Plug 'unblevable/quick-scope'
+Plug 'smoka7/hop.nvim'
 " jump to line number
 Plug 'nacro90/numb.nvim'
 
@@ -763,7 +763,7 @@ require('diffview').setup ({
 EOF
 nnoremap <leader>gD :DiffviewOpen<cr>
 
-" " }}} Git "
+" }}} Git "
 
 " {{{ Finder/Telescope "
 
@@ -1001,9 +1001,8 @@ augroup my_update_session
 augroup END
 
 " open file at last editing position
-lua require'nvim-lastplace'.setup{}
-let g:lastplace_ignore_buftype = 'quickfix,nofile,help,nofile'
-let g:lastplace_ignore_filetype = 'gitcommit,gitrebase,svn,hgcommit'
+let g:lastplace_ignore = 'gitcommit,gitrebase,hgcommit,svn,xxd'
+let g:lastplace_ignore_buftype = 'help,nofile,quickfix'
 let g:lastplace_open_folds = 1
 
 " }}} Sessions "
@@ -1118,9 +1117,14 @@ augroup my_hop_mappings
 	autocmd!
 	autocmd FileType Outline nnoremap <buffer> s <cmd>HopLine<CR>
 augroup END
-
-" highlight unique characters on f/t
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+nnoremap f <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<CR>
+onoremap f <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<CR>
+nnoremap F <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>
+onoremap F <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>
+nnoremap t <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<CR>
+onoremap t <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<CR>
+nnoremap T <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = -1 })<CR>
+onoremap T <cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = -1 })<CR>
 
 " jump to line number
 lua require('numb').setup()
