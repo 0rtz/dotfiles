@@ -4,7 +4,7 @@
 ![desktop](img)
 
 *Includes configuration files for*:
-| **Window manager**       | **[sway](https://github.com/swaywm/sway)**              |
+| **Window manager**       | **[sway](https://github.com/swaywm/sway), [hyprland](https://github.com/hyprwm/Hyprland)**              |
 |:-------------------------|:--------------------------------------------------------|
 | **Status bar**           | **[waybar](https://github.com/Alexays/Waybar)**         |
 | **Application launcher** | **[wofi](https://hg.sr.ht/~scoopta/wofi)**              |
