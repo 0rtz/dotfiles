@@ -13,7 +13,8 @@ call plug#begin()
 " {{{ colorschemes "
 
 " Plug 'EdenEast/nightfox.nvim',
-Plug 'projekt0n/github-nvim-theme',
+" Plug 'projekt0n/github-nvim-theme',
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
 " }}} colorschemes "
 
@@ -476,7 +477,16 @@ nnoremap <leader>iH :call <SID>hl_groups_info()<CR>
 " Uncomment plugin load before adding theme
 
 " projekt0n/github-nvim-theme
-:so $HOME/.config/nvim/themes/github_dark_high_contrast_transparent.vim
+":so $HOME/.config/nvim/themes/github_dark_high_contrast_transparent.vim
+
+lua <<EOF
+require("catppuccin").setup({
+    flavour = "mocha", -- latte, frappe, macchiato, mocha
+    transparent_background = true, -- disables setting the background color.
+})
+EOF
+
+colorscheme catppuccin
 
 " }}} colorschemes "
 
