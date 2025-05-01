@@ -16,7 +16,7 @@ let b:surround_108 = "[[\r]]"
 let b:surround_104 = "## \r #"
 
 " iamcco/markdown-preview.nvim
-nnoremap <buffer> \p :MarkdownPreviewToggle<CR>
+nnoremap <buffer> .p :MarkdownPreviewToggle<CR>
 let g:mkdp_auto_close = 0
 
 " dhruvasagar/vim-table-mode

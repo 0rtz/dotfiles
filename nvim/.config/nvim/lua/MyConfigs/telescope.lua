@@ -94,7 +94,5 @@ require('telescope').setup{
 require('telescope').load_extension('fzf')
 -- jump to search entry
 require('telescope').load_extension('hop')
--- change cwd to lsp's root dir or pattern
-require('telescope').load_extension('projects')
 -- notification manager
 require('telescope').load_extension('notify')

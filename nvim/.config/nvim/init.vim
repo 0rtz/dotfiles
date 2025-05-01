@@ -41,9 +41,9 @@ Plug 'kosayoda/nvim-lightbulb'
 " rename LSP symbol
 Plug 'filipdutescu/renamer.nvim'
 " class/symbols tree like viewer
-Plug 'simrat39/symbols-outline.nvim'
+Plug 'hedyhli/outline.nvim'
 " change cwd to lsp's root dir or pattern
-Plug 'ahmedkhalf/project.nvim'
+Plug 'airblade/vim-rooter'
 " LSP progress
 Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
 
@@ -211,6 +211,8 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'editorconfig/editorconfig-vim'
 " align text based on regex
 Plug 'godlygeek/tabular'
+" additional text objects
+Plug 'wellle/targets.vim'
 
 " }}} Editing "
 
@@ -344,19 +346,12 @@ smap kj <esc>
 " operators (c, d, y, etc...)
 onoremap H 0
 onoremap L $
-onoremap w iw
-onoremap q i"
-onoremap Q i'
-onoremap b i(
-onoremap B i[
 
 " visual mode
 vmap m '
 vnoremap M m
 vnoremap H 0
 vnoremap L $
-vnoremap q i"
-vnoremap Q i'
 vnoremap j gj
 vnoremap k gk
 vnoremap > >gv
@@ -394,9 +389,9 @@ nnoremap j gj
 nnoremap k gk
 nnoremap ` @q
 nnoremap ~ @w
-nnoremap \w :set wrap!<CR>
-nnoremap \l :set rnu!<CR>:set number!<CR>
-nnoremap \W :set colorcolumn=80
+nnoremap .w :set wrap!<CR>
+nnoremap .l :set rnu!<CR>:set number!<CR>
+nnoremap .W :set colorcolumn=80
 nnoremap . <nop>
 nnoremap * <nop>
 nnoremap # <nop>
@@ -509,7 +504,7 @@ lua << EOF
 		},
 	}
 EOF
-nnoremap \e <cmd>Trouble diagnostics toggle focus=true<cr>
+nnoremap .e <cmd>Trouble diagnostics toggle focus=true<cr>
 
 " preview of an LSP symbol
 lua << EOF
@@ -569,31 +564,35 @@ nnoremap glr <cmd>lua require("renamer").rename()<CR>
 
 " class/symbols tree like viewer
 lua << EOF
-require("symbols-outline").setup({
-	auto_close = false,
-	width = 30,
+require("outline").setup({
+	outline_window = {
+		width = 45,
+		relative_width = false,
+	},
 	keymaps = {
 		close = {"<Esc>"},
-		focus_location = "p",
+		peek_location = "p",
+		goto_and_close = {'<Enter>', 'o'},
 		fold = "zc",
 		unfold = "zo",
 		fold_all = "zM",
 		unfold_all = "zR",
 	},
+	symbol_folding = {
+		-- Unfold all nodes on open
+		autofold_depth = false,
+	},
 })
 EOF
 " NOTE: do not map to <Tab> since <Tab> and <C-i> are same
 " in the terminal and extended key <C-i> do not work in tmux
-nnoremap \s :SymbolsOutline<CR>
+nnoremap .s :Outline<CR>
 
 " change cwd to lsp's root dir or pattern
-lua << EOF
-require("project_nvim").setup({
-	detection_methods = {  "pattern", "lsp" },
-	patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "package.json", ".root", ".marksman.toml" },
-	telescope_default_action= "cd"
-})
-EOF
+let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json',
+			\'.root', '.marksman.toml' ]
+let g:rooter_ignore = 1
+let g:rooter_silent_chdir = 1
 
 " LSP progress
 lua << EOF
@@ -620,7 +619,7 @@ vim.g.rainbow_delimiters = {
 EOF
 
 " show current function/condition/etc under cursor
-nnoremap \C :TSContextToggle<CR>
+nnoremap .C :TSContextToggle<CR>
 
 " insert code annotation
 lua << EOF
@@ -787,7 +786,6 @@ nnoremap <leader>fn <cmd>lua require('telescope.builtin').find_files({
 			\ find_command = { "find", "-name", "*.md" },
 			\ })<cr>
 " plugins
-nnoremap <leader>fp <cmd>Telescope projects<cr>
 nnoremap <leader>ft <cmd>Telescope telescope-tabs list_tabs<cr>
 lua require('MyConfigs/telescope')
 
@@ -874,7 +872,7 @@ nnoremap <silent> <leader>bn :BWipeout nameless<CR>
 " quickfix window helpers
 nmap [q <Plug>(qf_qf_previous)
 nmap ]q  <Plug>(qf_qf_next)
-nmap \q <Plug>(qf_qf_toggle)
+nmap .q <Plug>(qf_qf_toggle)
 let g:qf_auto_open_quickfix = 0
 let g:qf_auto_open_loclist = 0
 let g:qf_auto_resize = 0
@@ -899,7 +897,7 @@ require('bqf').setup({
 EOF
 
 " full screen mode
-nnoremap \f :ZenMode<CR>
+nnoremap .f :ZenMode<CR>
 lua << EOF
 require("zen-mode").setup({
 	plugins = {
@@ -919,7 +917,7 @@ nnoremap <C-W>M <Cmd>WinShift swap<CR>
 
 " {{{ File explorer "
 
-nnoremap \n :NvimTreeFindFileToggle<CR>
+nnoremap .n :NvimTreeFindFileToggle<CR>
 lua require('MyConfigs/nvim-tree')
 
 nnoremap <silent> \N :NnnPicker<CR>
@@ -940,7 +938,7 @@ let g:neoterm_autojump = 1
 let g:neoterm_autoinsert = 1
 " execute command mapped on <leader>zm
 let g:neoterm_automap_keys = '<Space>zz'
-nnoremap \z :<c-u>exec v:count.'Ttoggle'<cr>
+nnoremap .z :<c-u>exec v:count.'Ttoggle'<cr>
 " exit from vim terminal input prompt
 tnoremap <silent> <c-\> <c-\><c-n>
 nnoremap <leader>zm :Tmap clear;
@@ -1056,7 +1054,7 @@ vmap <leader>eI g<Plug>(dial-increment)
 vmap <leader>eD g<Plug>(dial-decrement)
 
 " draw diagrams
-nnoremap <silent> \v :lua Toggle_venn()<CR>
+nnoremap <silent> .v :lua Toggle_venn()<CR>
 lua <<EOF
 function _G.Toggle_venn()
 	local venn_enabled = vim.inspect(vim.b.venn_enabled)
@@ -1285,7 +1283,7 @@ function! s:toggleList()
 		let &expandtab = s:my_expand_tab
 	endif
 endfunction
-nnoremap <silent> \t :call <SID>toggleList()<CR>
+nnoremap <silent> .t :call <SID>toggleList()<CR>
 
 " show colors of colorcodes
 lua << EOF
@@ -1293,10 +1291,10 @@ if jit ~= nil then
 	require 'colorizer'.setup{}
 end
 EOF
-nnoremap \o :ColorizerAttachToBuffer<CR>
+nnoremap .o :ColorizerAttachToBuffer<CR>
 
 " undo visualizer
-nnoremap \u :MundoToggle<CR>
+nnoremap .u :MundoToggle<CR>
 
 " notification manager
 lua <<EOF

@@ -21,6 +21,7 @@ require('github-theme').setup({
 			Normal = { bg = none },
 			NormalNC = { bg = none },
 			NonText = { bg = none },
+			StatusLine = { bg = none },
 			CursorLineNr = { fg = "#d50000", bg = none, style = "bold" },
 			-- show current function/condition/etc under cursor
 			TreesitterContext = { bg = "#827390" },

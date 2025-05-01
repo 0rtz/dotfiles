@@ -62,11 +62,16 @@ local on_attach = function(client, bufnr)
 end
 
 -- Language server diagnostic icons in signcolumn
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-	local hl = "DiagnosticSign" .. type
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
+vim.diagnostic.config({
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = ' ',
+			[vim.diagnostic.severity.WARN] = ' ',
+			[vim.diagnostic.severity.HINT] = ' ',
+			[vim.diagnostic.severity.INFO] = ' ',
+		},
+	},
+})
 -- Language server diagnostics virtual text
 vim.diagnostic.config({
 	virtual_text = {

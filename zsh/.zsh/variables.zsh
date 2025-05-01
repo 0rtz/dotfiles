@@ -20,6 +20,9 @@ export HISTFILE=$HOME/.zsh_history
 # ssh-agent
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
+# Use wayland for applications using Electron 28+
+export ELECTRON_OZONE_PLATFORM_HINT='wayland'
+
 # n/curses: number of milliseconds to wait after reading an escape character
 export ESCDELAY=0
 
