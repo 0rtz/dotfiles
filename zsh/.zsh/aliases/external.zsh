@@ -17,7 +17,7 @@ alias emj="git add --all && git commit -m '✍️'"
 alias emj-fzf="emoji-fzf preview --prepend | fzf | awk '{ print \$1 }' | my-yank-to-clipboard"
 alias spl="codespell --summary --write-changes"
 alias nls="cat $HOME/.config/nnn/.selection | tr \"\0\" \"\n\""
-alias myip='curl -s http://ipecho.net/plain'
+alias myip='curl -s https://ipinfo.io/ip'
 alias scsht='grim -g "$(slurp)" - | wl-copy'
 alias screc='wf-recorder --geometry "$(slurp)" -f ./recording.mp4'
 alias my_networking_ports='sudo ss -lntup'
@@ -27,6 +27,7 @@ alias TD='task done'
 alias TE='task <task_number> modify'
 alias dut='gdu'
 alias dua='gdu -n /'
+alias curl='curl --tlsv1.3 --location --proto https'
 if command -v exa > /dev/null; then
 	alias l='exa -aglbh --git --icons --color always'
 	alias ll='ls -lAFh --color=tty'

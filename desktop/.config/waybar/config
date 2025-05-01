@@ -20,7 +20,7 @@
 	"network": {
 		"format": "{ifname}",
 		"interval": 1,
-		"format-wifi": " ",
+		"format-wifi": "󰖩",
 		"format-ethernet": "󰈀",
 		"format-disconnected": "",
 		"tooltip-format-wifi": " {essid}\n\nSignal strength: {signalStrength}%\nFrequency: {frequency}\nIP: {ipaddr}/{cidr}\n {bandwidthDownBytes}       {bandwidthUpBytes}",
