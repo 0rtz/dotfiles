@@ -1104,6 +1104,7 @@ augroup END
 " align text based on regex
 nnoremap <leader>ea :Tabularize /
 vnoremap <leader>ea :Tabularize /
+vnoremap <leader>/ :Tabularize /\/\/<CR>
 
 " }}} Editing "
 

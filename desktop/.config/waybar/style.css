@@ -73,7 +73,7 @@ window#waybar {
 	margin-right: 20px;
 }
 #workspaces button.visible {
-	color: #FF9595;
+	color: #d50000;
 }
 #workspaces button.urgent {
 	color: #95EBFF;

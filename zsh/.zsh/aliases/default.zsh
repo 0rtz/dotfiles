@@ -1,4 +1,6 @@
 alias l='ls -lAFh --color=tty'
+alias h='sha256sum'
+alias u='uptime --pretty'
 alias src='exec zsh'
 alias sl='ln -s -n -f <link_to> <link_name>'
 alias cp='cp -i'
@@ -49,7 +51,7 @@ alias -g S='| tr " " "\n"'
 alias -g C='| wc -l'
 alias -g E='| tail'
 alias -g B='| head'
-alias -g G='| grep -e ""'
+alias -g G='| grep -i -e ""'
 alias -g X='| xargs --no-run-if-empty --open-tty -I{}'
 alias -g V="| $EDITOR"
 # print only the first field from each line (e.g. select Usernames)
