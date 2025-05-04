@@ -1,15 +1,13 @@
----@diagnostic disable: need-check-nil
+local cmp = require('cmp')
+-- Vscode-like icons for completion menu items
+local lspkind = require('lspkind')
+-- Insert code annotation
+local neogen = require('neogen')
+
 local feedkey = function(key, mode)
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
-local cmp = require('cmp')
--- vscode-like icons for completion menu items
-local lspkind = require('lspkind')
--- insert code annotation
-local neogen = require('neogen')
-
--- nvim-cmp default configuration
 cmp.setup({
 	enabled = function()
 		return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
@@ -21,18 +19,6 @@ cmp.setup({
 		expand = function(args)
 			vim.fn["vsnip#anonymous"](args.body)
 		end,
-	},
-	sorting = {
-		comparators = {
-			cmp.config.compare.offset,
-			cmp.config.compare.exact,
-			cmp.config.compare.recently_used,
-			require("clangd_extensions.cmp_scores"),
-			cmp.config.compare.kind,
-			cmp.config.compare.sort_text,
-			cmp.config.compare.length,
-			cmp.config.compare.order,
-		},
 	},
 	mapping = {
 		["<C-u>"] = cmp.mapping.scroll_docs(-4),
@@ -86,7 +72,7 @@ cmp.setup({
 })
 
 -- :getcmdtype() = get cmdline type
--- cmdline type specific configuration
+-- cmdline type specific configurations:
 cmp.setup.cmdline('/', {
 	mapping = {
 		["<C-j>"] = cmp.mapping(cmp.mapping.select_next_item(), { 'c' }),
@@ -111,34 +97,13 @@ cmp.setup.cmdline('@', {
 	sources = { { name = "path" } }
 })
 
--- programming languages specific completion
-cmp.setup.filetype({ "c", "cpp", "lua" }, {
-	sources = {
-		{ name = "nvim_lsp" },
-		{ name = "vsnip" },
-		{ name = "path" },
-	},
-})
-
--- source for dictionary words
+-- Source for words in custom dictionary
 local dict = {
 	["*"] = { os.getenv("HOME").."/.config/nvim/en.dict" },
 }
 require("cmp_dictionary").setup({
 	paths = dict["*"],
 	exact_length = 2,
+	-- ignore the case of the first character in dictionary
 	first_case_insensitive = true,
-})
-
--- source for git commit messages
--- Triggers:
-	-- Issues: #
-	-- Mentions: @
-	-- Pull Requests: #
-require("cmp_git").setup()
-cmp.setup.filetype('gitcommit', {
-	sources = {
-		{ name = 'git' },
-		{ name = 'buffer' },
-	},
 })

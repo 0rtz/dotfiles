@@ -18,77 +18,79 @@ Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
 " }}} colorschemes "
 
-" {{{ LSP/treesitter "
+" {{{ LSP (Language Server Protocol) "
 
-" Configs for the Nvim LSP client
+" Default Nvim LSP client configurations for various LSP servers
 Plug 'neovim/nvim-lspconfig'
 " Language Servers package manager
 Plug 'williamboman/mason.nvim'
+" Autoinstalls Language Servers setup with nvim-lspconfig
 Plug 'williamboman/mason-lspconfig.nvim',
-" linters & formatters configuration plugin for efm LSP
-Plug 'creativenull/efmls-configs-nvim'
-" validate some popular JSON document types
+" Validate some popular JSON/YAML document types
 Plug 'b0o/schemastore.nvim'
-" Clangd's off-spec features
-Plug 'p00f/clangd_extensions.nvim'
-" preview of diagnostics
+" Preview of diagnostics
 Plug 'folke/trouble.nvim'
-" preview of an LSP symbol
-Plug 'rmagatti/goto-preview',
-" show function signature during editing
+" Show function signature during editing
 Plug 'ray-x/lsp_signature.nvim'
-" show lightbulb when there is a code action available under cursor
+" Show lightbulb when there is a code action available under cursor
 Plug 'kosayoda/nvim-lightbulb'
-" rename LSP symbol
-Plug 'filipdutescu/renamer.nvim'
-" class/symbols tree like viewer
+" Rename LSP symbol under cursor
+Plug 'smjonas/inc-rename.nvim'
+" Class/symbols tree like viewer
 Plug 'hedyhli/outline.nvim'
-" change cwd to lsp's root dir or pattern
-Plug 'airblade/vim-rooter'
-" LSP progress
-Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
 
-" treesitter
+" }}} LSP (Language Server Protocol) "
+
+" {{{ Treesitter "
+
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdateSync'}
-" highlight parentheses with different colors
+" Highlight parentheses with different colors
 Plug 'hiphish/rainbow-delimiters.nvim'
-" semantic nested commenting
+" Semantic nested commenting
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
-" motions for LSP symbols
-Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-" show current function/condition/etc under cursor
+" Show current function/condition/etc under cursor
 Plug 'romgrk/nvim-treesitter-context'
-" insert code annotation
+" Insert code annotation
 Plug 'danymat/neogen'
-" better folds
+" Better folds
 Plug 'kevinhwang91/promise-async'
 Plug 'kevinhwang91/nvim-ufo'
 
-" }}} LSP/treesitter "
+" }}} Treesitter "
+
+" {{{ Formatters "
+
+Plug 'stevearc/conform.nvim'
+
+" }}} Formatters "
+
+" {{{ Linters "
+
+Plug 'mfussenegger/nvim-lint'
+
+" }}} Linters "
 
 " {{{ Completion "
 
-" completion engine
+" Completion engine
 Plug 'hrsh7th/nvim-cmp'
-" source for neovim's built-in language server client
+" Source for neovim's built-in language server client
 Plug 'hrsh7th/cmp-nvim-lsp'
-" source for words in buffer
+" Source for words in buffer
 Plug 'hrsh7th/cmp-buffer'
-" source for filesystem paths
+" Source for filesystem paths
 Plug 'hrsh7th/cmp-path'
-" source for vim's cmdline
+" Source for vim's cmdline
 Plug 'hrsh7th/cmp-cmdline'
-" source for vim-vsnip
-Plug 'hrsh7th/cmp-vsnip',
-" source for dictionary words
+" Source for words in custom dictionary
 Plug 'uga-rosa/cmp-dictionary'
-" source for git commit messages
-Plug 'petertriho/cmp-git'
-" support for LSP/VSCode's snippet format (snippets engine)
+" Support for LSP/VSCode's snippet format (snippets engine)
 Plug 'hrsh7th/vim-vsnip'
-" snippets collection
+" Source for vim-vsnip
+Plug 'hrsh7th/cmp-vsnip',
+" Snippets collection
 Plug 'rafamadriz/friendly-snippets'
-" vscode-like icons for completion menu items
+" Vscode-like icons for completion menu items
 Plug 'onsails/lspkind-nvim'
 
 " }}} Completion "
@@ -150,6 +152,8 @@ Plug 'sindrets/winshift.nvim'
 
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'mcchrish/nnn.vim'
+" Change cwd to lsp's root dir or pattern
+Plug 'airblade/vim-rooter'
 
 " }}} File explorer "
 
@@ -331,6 +335,8 @@ augroup my_default_ft
 	autocmd!
 	autocmd BufEnter * if &filetype == "" | setlocal ft=text | endif
 augroup END
+" do not close folds by default
+set foldlevelstart=99
 
 " }}} Options "
 
@@ -490,15 +496,108 @@ colorscheme catppuccin
 
 " }}} colorschemes "
 
-" {{{ LSP/treesitter "
+" {{{ LSP (Language Server Protocol) "
 
-lua require('MyConfigs/LSP_treesitter')
+lua << EOF
+vim.diagnostic.config({
+	-- Language server diagnostic icons in signcolumn
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = ' ',
+			[vim.diagnostic.severity.WARN] = ' ',
+			[vim.diagnostic.severity.HINT] = ' ',
+			[vim.diagnostic.severity.INFO] = ' ',
+		},
+	},
+	-- Language server diagnostics virtual text
+	virtual_text = {
+		source = true,
+		prefix = '',
+		severity = {
+			min = vim.diagnostic.severity.INFO,
+		},
+		severity_sort = true,
+	},
+})
+
+-- Language Servers package manager
+require("mason").setup()
+-- Autoinstalls Language Servers setup with nvim-lspconfig
+-- call before vim.lsp.enable('$LANGUAGE_SERVER')
+require("mason-lspconfig").setup()
+
+-- Default Nvim LSP client configurations for various LSP servers:
+
+-- bash
+-- includes shellcheck linter support
+vim.lsp.enable('bashls')
+
+-- yaml
+vim.lsp.enable('yamlls')
+vim.lsp.config('yamlls', {
+	settings = {
+		yaml = {
+			-- https://github.com/b0o/SchemaStore.nvim
+			schemaStore = {
+				-- You must disable built-in schemaStore support if you want to use
+				-- SchemaStore.nvim plugin and its advanced options like `ignore`.
+				enable = false,
+				-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+				url = "",
+			},
+			schemas = require('schemastore').yaml.schemas(),
+		},
+	},
+})
+
+-- yaml.ansible
+-- includes ansiblelint support
+vim.lsp.enable('ansiblels')
+
+-- json
+vim.lsp.enable('jsonls')
+vim.lsp.config('jsonls', {
+	settings = {
+		json = {
+			-- https://github.com/b0o/SchemaStore.nvim
+			schemas = require('schemastore').json.schemas(),
+			validate = { enable = true },
+		},
+	},
+})
+
+-- vim
+vim.lsp.enable('vimls')
+
+-- dockerfile
+vim.lsp.enable('dockerls')
+
+-- lua
+vim.lsp.enable('lua_ls')
+
+-- markdown
+vim.lsp.enable('marksman')
+
+-- hyprlang
+vim.lsp.enable('hyprls')
+EOF
+
+nnoremap gd :lua vim.lsp.buf.declaration()<CR>
+nnoremap gf :lua vim.lsp.buf.definition()<CR>
+nnoremap gr :Telescope lsp_references<CR>
+nnoremap gh :lua vim.lsp.buf.hover()<CR>
+nnoremap ga :lua vim.lsp.buf.code_action()<CR>
+nnoremap [e :lua vim.diagnostic.goto_prev()<CR>
+nnoremap ]e :lua vim.diagnostic.goto_next()<CR>
+nnoremap <leader>qe :lua vim.diagnostic.setqflist()<CR>
+" toggle diagnostics info
+nnoremap .e :lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<CR>
 
 " LSP info
 nnoremap <leader>il <cmd>LspInfo<CR>
 nnoremap <leader>iL <cmd>Mason<CR>
 
-" preview of diagnostics
+" Preview of diagnostics
 lua << EOF
 	require('trouble').setup {
 		mode = "document_diagnostics",
@@ -512,62 +611,33 @@ lua << EOF
 EOF
 nnoremap ge <cmd>Trouble diagnostics toggle focus=true<cr>
 
-" preview of an LSP symbol
-lua << EOF
-	require('goto-preview').setup {
-		width = 100,
-		height = 20,
-		bufhidden = "hide",
-	}
-EOF
-nnoremap gD <cmd>lua require('goto-preview').goto_preview_definition()<CR>
-nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>
-
-" show function signature during editing
+" Show function signature during editing
 lua << EOF
 	require('lsp_signature').setup({
 		hint_enable = false,
 	})
 EOF
 
-" show lightbulb when there is a code action available under cursor
+" Show lightbulb when there is a code action available under cursor
 lua << EOF
-require('nvim-lightbulb').setup({
-	sign = {
-		enabled = false,
-	},
-	virtual_text = {
-		enabled = true,
-		text = "💡",
-		hl_mode = "combine",
-	},
+require("nvim-lightbulb").setup({
 	autocmd = {
-		enabled = true,
-		pattern = {"*"},
-		updatetime = -1,
-		events = {"CursorHold", "CursorHoldI"}
+		enabled = true
 	},
-	ignore = {
-		-- LSP client names to ignore.
-		clients = {"marksman","jsonls"},
-	},
+    ignore = {
+        -- Filetypes to ignore.
+        ft = {"markdown", "json"},
+    },
 })
 EOF
 
-" rename LSP symbol
+" Rename LSP symbol under cursor
 lua << EOF
-require('renamer').setup {
-	show_refs = true,
-	with_qf_list = true,
-	with_popup = false,
-	handler = function(param)
-		vim.cmd('execute "normal \\<Plug>(qf_qf_toggle_stay)"')
-	end,
-}
+require("inc_rename").setup()
 EOF
-nnoremap glr <cmd>lua require("renamer").rename()<CR>
+nnoremap glr :IncRename 
 
-" class/symbols tree like viewer
+" Class/symbols tree like viewer
 lua << EOF
 require("outline").setup({
 	outline_window = {
@@ -590,43 +660,44 @@ require("outline").setup({
 })
 EOF
 " NOTE: do not map to <Tab> since <Tab> and <C-i> are same
-" in the terminal and extended key <C-i> do not work in tmux
+" in the terminal and extended key <C-i> does not work in tmux
 nnoremap .s :Outline<CR>
 
-" change cwd to lsp's root dir or pattern
-let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json',
-			\'.root', '.marksman.toml' ]
-let g:rooter_ignore = 1
-let g:rooter_silent_chdir = 1
+" }}} LSP (Language Server Protocol) "
 
-" LSP progress
+" {{{ Treesitter "
+
 lua << EOF
-require("fidget").setup({
-	sources = {
-		["ansiblels"] = {
-			ignore = true,
+require'nvim-treesitter.configs'.setup {
+	-- auto install parsers on buffer enter, needs tree-sitter cli
+	auto_install = true,
+	ignore_install = {},
+
+	highlight = {
+		enable = true,
+		-- for the following filetypes: enable treesitter highlighting + vim builtin highlighting
+		additional_vim_regex_highlighting = {
+			-- "markdown",
 		},
+		-- disable highlights if these parsers are buggy
+		-- BUG: vim parser: flickering when scrolling in init.vim
+		-- disable = { "vim" },
 	},
-})
-EOF
 
-" treesitter
-set foldlevel=99
-set foldlevelstart=99
-" use treesitter's = operator on whole buffer
-nnoremap <silent> <expr> <leader>ei 'ggvG='.( line(".") == 1 ? '' : '<C-o>')
-
-" highlight parentheses with different colors
-lua << EOF
-vim.g.rainbow_delimiters = {
-	blacklist = {'markdown'},
+	-- '=' operator changes spaces to tabs where applicable
+	indent = {
+		enable = true
+	},
 }
 EOF
 
-" show current function/condition/etc under cursor
-nnoremap .C :TSContextToggle<CR>
+" use treesitter's = operator on whole buffer
+nnoremap <silent> <expr> <leader>ei 'ggvG='.( line(".") == 1 ? '' : '<C-o>')
 
-" insert code annotation
+" Show current function/condition/etc under cursor
+nnoremap .c :TSContextToggle<CR>
+
+" Insert code annotation
 lua << EOF
 require('neogen').setup {
 	enabled = true,
@@ -634,9 +705,9 @@ require('neogen').setup {
 EOF
 nnoremap <leader>eA :Neogen<CR>
 
-" better folds
+" Better folds
 lua <<EOF
- --  line numbers in fold
+-- virtual text in folds: " line numbers"
 local handler = function(virtText, lnum, endLnum, width, truncate)
 	local newVirtText = {}
 	local suffix = ('  %d '):format(endLnum - lnum)
@@ -671,9 +742,69 @@ require('ufo').setup({
 	fold_virt_text_handler = handler,
 	open_fold_hl_timeout = 0,
 })
+
 EOF
 
-" }}} LSP/treesitter "
+" }}} Treesitter "
+
+" {{{ Formatters "
+
+lua <<EOF
+conform = require("conform")
+
+-- format visual selection and leave visual mode
+vim.keymap.set("", "glf", function()
+  conform.format({ async = true }, function(err)
+    if not err then
+      local mode = vim.api.nvim_get_mode().mode
+      if vim.startswith(string.lower(mode), "v") then
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+      end
+    end
+  end)
+end, { desc = "Format code" })
+
+-- list of used formatters
+conform.setup({
+	formatters_by_ft = {
+		sh = { "shellharden" },
+	},
+})
+EOF
+nnoremap glf :lua conform.format()<CR>
+
+" }}} Formatters "
+
+" {{{ Linters "
+
+lua <<EOF
+-- list of used linters
+require('lint').linters_by_ft = {
+	yaml = {'yamllint'},
+	vim = {'vint'},
+	dockerfile = {'hadolint'},
+	markdown = {'markdownlint'},
+	gitcommit = {'gitlint'},
+}
+-- apply lints when opening new buffer
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+	callback = function()
+		-- Runs the linters defined in `linters_by_ft`
+		require("lint").try_lint()
+		-- Always run specific linter
+		require("lint").try_lint("codespell")
+	end,
+})
+-- apply lints after saving buffer
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+	callback = function()
+		require("lint").try_lint()
+		require("lint").try_lint("codespell")
+	end,
+})
+EOF
+
+" }}} Linters "
 
 " {{{ Completion "
 
@@ -948,6 +1079,12 @@ nnoremap .z :<c-u>exec v:count.'Ttoggle'<cr>
 tnoremap <silent> <c-\> <c-\><c-n>
 nnoremap <leader>zm :Tmap clear;
 nnoremap <leader>zx :<c-u>exec v:count.'Tclose!'<cr>
+
+" Change cwd to lsp's root dir or pattern
+let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json',
+			\'.root', '.marksman.toml' ]
+let g:rooter_ignore = 1
+let g:rooter_silent_chdir = 1
 
 " }}} Terminal "
 
