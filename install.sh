@@ -18,10 +18,10 @@ function install_term() {
 		stow --verbose=2 --target "$HOME" "$e"|| { echo -e "\n\nError: stow terminal failed" >&2; exit 1; }
 	done
 
-	echo -e "\n\nvim plugins:\n"
-	nvim --headless +PlugInstall +qall
-	# create dictionary for 'uga-rosa/cmp-dictionary' vim plugin
-	aspell -d en dump master | aspell -l en expand > ~/.config/nvim/en.dict
+	# Plug 'iamcco/markdown-preview.nvim' is not installed correctly when run headless
+	# https://github.com/iamcco/markdown-preview.nvim/issues/497
+	# echo -e "\n\nvim plugins:\n"
+	# nvim --headless -c "PlugInstall --sync" +qall
 
 	echo -e "\n\ntmux plugins:\n"
 	./tmux/.config/tmux/plugins/tpm/bin/install_plugins

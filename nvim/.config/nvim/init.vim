@@ -98,28 +98,23 @@ Plug 'onsails/lspkind-nvim'
 " {{{ Git "
 
 Plug 'tpope/vim-fugitive'
-" show git commit messages history under the cursor
+" Show git commit messages history under the cursor
 Plug 'rhysd/git-messenger.vim'
-" show git log
+" Show git log
 Plug 'junegunn/gv.vim'
-" git hunks
+" Git hunks
 Plug 'lewis6991/gitsigns.nvim'
-" tabpage for diffs preview
+" Tabpage for diffs preview
 Plug 'sindrets/diffview.nvim'
 
 " }}} Git "
 
 " {{{ Finder/Telescope "
 
-Plug 'nvim-telescope/telescope.nvim'
-" dependency for some plugins + telescope
 Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 " compiled telescope sorter
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-" jump to search entry
-Plug 'nvim-telescope/telescope-hop.nvim'
-" search nvim tabs
-Plug 'LukasPietzschmann/telescope-tabs'
 
 " }}} Finder/Telescope "
 
@@ -133,25 +128,22 @@ Plug 'kyazdani42/nvim-web-devicons'
 
 " {{{ Tabs & Windows & Buffers "
 
-" buffer line
+" Buffer line
 Plug 'akinsho/bufferline.nvim'
-" delete buffers based on conditions
+" Delete buffers based on conditions
 Plug 'kazhala/close-buffers.nvim'
-" quickfix window helpers
+" Quickfix window helpers
 Plug 'romainl/vim-qf'
-" better quickfix window
+" Better quickfix window
 Plug 'kevinhwang91/nvim-bqf'
-" full screen mode
+" Full screen mode
 Plug 'folke/zen-mode.nvim'
-" rearrange windows
-Plug 'sindrets/winshift.nvim'
 
 " }}} Tabs & Windows & Buffers "
 
 " {{{ File explorer "
 
 Plug 'kyazdani42/nvim-tree.lua'
-Plug 'mcchrish/nnn.vim'
 " Change cwd to lsp's root dir or pattern
 Plug 'airblade/vim-rooter'
 
@@ -163,70 +155,41 @@ Plug 'kassio/neoterm'
 
 " }}} Terminal "
 
-" {{{ Debugging "
-
-" DAP client
-Plug 'mfussenegger/nvim-dap'
-" adapter for Neovim lua
-Plug 'jbyuki/one-small-step-for-vimkind'
-" variable values as virtual text
-Plug 'theHamsta/nvim-dap-virtual-text'
-
-" vim plugins debugging
-Plug 'tpope/vim-scriptease'
-" c/c++, bash debugger
-Plug 'sakhnik/nvim-gdb',
-
-" }}} Debugging "
-
-" {{{ Sessions "
-
-" continuously update ./Session.vim
-Plug 'tpope/vim-obsession'
-" open file at last editing position
-Plug 'farmergreg/vim-lastplace'
-
-" }}} Sessions "
-
-" {{{ Auto save "
-
-Plug 'Pocco81/auto-save.nvim'
-
-" }}} Auto save "
-
 " {{{ Editing "
 
-" surround with parentheses/quotes
-Plug 'tpope/vim-surround'
-" switch between single-line/multiline code block
-Plug 'AndrewRadev/splitjoin.vim'
-" move visual selection up/down
+" Auto save buffer on edit
+Plug 'Pocco81/auto-save.nvim'
+" Guess buffer indentation
+Plug 'NMAC427/guess-indent.nvim'
+" Move visual selection up/down
 Plug 'matze/vim-move'
-" automatically close parentheses
+" Automatically close parentheses
 Plug 'windwp/nvim-autopairs'
-" increment/decrement characters
-"Plug 'monaqa/dial.nvim'
-" draw diagrams
+" Draw diagrams
 Plug 'jbyuki/venn.nvim'
-" strip trailing whitespaces
+" Strip trailing whitespaces
 Plug 'ntpeters/vim-better-whitespace'
-" apply editorconfig coding styles as nvim options
+" Apply editorconfig coding styles as nvim options
 Plug 'editorconfig/editorconfig-vim'
-" align text based on regex
+" Align text based on regex
 Plug 'godlygeek/tabular'
-" additional text objects
+" Surround with parentheses/quotes
+Plug 'tpope/vim-surround'
+" Additional text objects
 Plug 'wellle/targets.vim'
-" additional text objects
+" Additional text objects
 Plug 'michaeljsmith/vim-indent-object'
 
 " }}} Editing "
 
 " {{{ Movement "
 
-" jump to word
+" Jump to word
 Plug 'smoka7/hop.nvim'
-" jump to line number
+" Jump to line number
 Plug 'nacro90/numb.nvim'
+" Open file at last editing position
+Plug 'farmergreg/vim-lastplace'
 
 " }}} Movement "
 
@@ -234,30 +197,28 @@ Plug 'nacro90/numb.nvim'
 
 " grep/rg wrappers
 Plug 'mhinz/vim-grepper'
-" find definitions/references/usages without LSP
+" Find definitions/references/usages without LSP
 Plug 'pechorin/any-jump.vim'
-" browser search engine (dependency of Plug 'previm/previm')
-Plug 'tyru/open-browser.vim'
-" show search matches count as virtual text
+" Show search matches count as virtual text
 Plug 'kevinhwang91/nvim-hlslens'
 
 " }}} Search "
 
 " {{{ Info "
 
-" show available mappings
+" Show available mappings
 Plug 'folke/which-key.nvim'
-" highlight todo comments
+" Highlight todo comments
 Plug 'folke/todo-comments.nvim'
-" highlight word under cursor
+" Highlight word under cursor
 Plug 'RRethy/vim-illuminate'
-" show indentation
+" Show indentation
 Plug 'lukas-reineke/indent-blankline.nvim'
-" show colors of colorcodes
+" Show colors of colorcodes
 Plug 'norcalli/nvim-colorizer.lua'
-" undo visualizer
+" Undo visualizer
 Plug 'simnalamburt/vim-mundo'
-" notification manager
+" Notification manager
 Plug 'rcarriga/nvim-notify'
 
 " }}} Info "
@@ -269,9 +230,7 @@ Plug 'pearofducks/ansible-vim'
 " Markdown tables align
 Plug 'dhruvasagar/vim-table-mode'
 " Markdown previewer in browser
-Plug 'iamcco/markdown-preview.nvim'
-" Markdown/reStructuredText/textile/AsciiDoc previewer in browser
-Plug 'previm/previm'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 " }}} filetype specific "
 
@@ -286,56 +245,56 @@ endif
 
 " {{{ Options "
 
-" disable mouse
+" Disable mouse
 set mouse=
-" do not add <EOL> at the end of file if it does not exist
+" Do not add <EOL> at the end of file if it does not exist
 set nofixeol
 " 24-bit RGB color in terminal
 set termguicolors
-" highlight current line number with 'CursorLineNr'
+" Highlight current line number with 'CursorLineNr'
 set cursorline
 set cursorlineopt=number
-" highlight current line number with 'CursorLineNr' in focused window only
+" Highlight current line number with 'CursorLineNr' in focused window only
 augroup cursorline_set_group
 	autocmd!
 	autocmd BufEnter,FocusGained,WinEnter * set cursorline
 	autocmd BufLeave,FocusLost,WinLeave   * set nocursorline
 augroup END
-" display signs in the 'number' column
+" Display signs in the 'number' column
 set signcolumn=number
 " CTRL-D move cursor to the first character on the line
 set startofline
-" time to wait mapped sequence to complete (affect 'show available mappings' plugin)
+" Time to wait mapped sequence to complete (affect 'Show available mappings' plugin)
 set timeoutlen=300
-" how to display whitespace characters in 'list' mode
+" How to display whitespace characters in 'list' mode
 set listchars+=trail:,eol:,space:,tab:├─┤
-" undo persistent history
+" Undo persistent history
 set undofile
 let &undodir = stdpath('data') . '/undohistory'
-" show line numbers
+" Show line numbers
 set number
-" show relative line numbers in focused window only
+" Show relative line numbers in focused window only
 augroup my_numbertoggle
 	autocmd!
 	autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set relativenumber   | endif
 	autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set norelativenumber | endif
 augroup END
-" if rg is installed use it for the ':grep' command
+" If rg is installed use it for the ':grep' command
 if executable('rg')
 	set grepprg=rg\ --vimgrep\ --smart-case\ --no-heading
 	set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
-" treat tab as 4 spaces by default
+" Treat tab as 4 spaces by default
 set tabstop=4
 set shiftwidth=4
-" do not wrap lines by default
+" Do not wrap lines by default
 set nowrap
-" set filetype to text if not detected
+" Set filetype to text if not detected
 augroup my_default_ft
 	autocmd!
 	autocmd BufEnter * if &filetype == "" | setlocal ft=text | endif
 augroup END
-" do not close folds by default
+" Do not close folds by default
 set foldlevelstart=99
 
 " }}} Options "
@@ -400,7 +359,6 @@ nnoremap . <nop>
 nnoremap * <nop>
 nnoremap # <nop>
 nnoremap <c-w>c <nop>
-nnoremap <c-a> <nop>
 nnoremap <silent> <leader>X :qa<CR>
 nnoremap <silent> <leader>sn /<c-r><c-w><CR>
 nnoremap <silent> <leader>sN ?<c-r><c-w><CR>
@@ -423,14 +381,7 @@ nnoremap <silent> <leader>cg :let @+ = @%.":".line('.')<CR>:lua MyNotificationMi
 nnoremap <silent> <leader>vs :source $MYVIMRC<CR>
 nnoremap <silent> <leader>vr :source $MYVIMRC <Bar> PlugClean <Bar> PlugInstall<CR>
 nnoremap <silent> <leader>vu :PlugUpdate --sync
-
-" }}} Mappings "
-
-" {{{ Functions "
-
-lua require('MyConfigs/functions')
-
-" change indentation to spaces
+" Change indentation to spaces
 function! s:Convert_To_Spaces() range
 	if (&expandtab == 1)
 		exe a:firstline . ',' . a:lastline . 'retab'
@@ -441,7 +392,7 @@ function! s:Convert_To_Spaces() range
 	endif
 endfunction
 vnoremap <leader>ew :call <SID>Convert_To_Spaces()<CR>
-" change indentation to tabs
+" Change indentation to tabs
 function! s:Convert_To_Tabs() range
 	if (&expandtab == 1)
 		set noexpandtab
@@ -452,7 +403,6 @@ function! s:Convert_To_Tabs() range
 	endif
 endfunction
 vnoremap <leader>et :call <SID>Convert_To_Tabs()<CR>
-
 function! s:toggleLang()
 	if (&keymap ==# '')
 		set keymap=russian-jcukenwin
@@ -465,6 +415,10 @@ endfunction
 nnoremap <silent> <c-n> :call <SID>toggleLang()<CR>
 inoremap <silent> <c-n> <C-o>:call <SID>toggleLang()<CR>
 
+" }}} Mappings "
+
+" {{{ colorschemes "
+
 function s:hl_groups_info()
 	let tmpfile = tempname()
 	exe 'redir > ' . tmpfile
@@ -476,11 +430,7 @@ endfunction
 nnoremap <leader>ih :Inspect<CR>
 nnoremap <leader>iH :call <SID>hl_groups_info()<CR>
 
-" }}} Functions "
-
-" {{{ colorschemes "
-
-" Uncomment plugin load before adding theme
+" NOTE: Uncomment plugin load before adding theme
 
 " projekt0n/github-nvim-theme
 ":so $HOME/.config/nvim/themes/github_dark_high_contrast_transparent.vim
@@ -491,7 +441,6 @@ require("catppuccin").setup({
     transparent_background = true, -- disables setting the background color.
 })
 EOF
-
 colorscheme catppuccin
 
 " }}} colorschemes "
@@ -659,8 +608,7 @@ require("outline").setup({
 	},
 })
 EOF
-" NOTE: do not map to <Tab> since <Tab> and <C-i> are same
-" in the terminal and extended key <C-i> does not work in tmux
+" NOTE: do not map to <Tab> since <Tab> and <C-i> are same in the terminal and extended key <C-i> does not work in tmux
 nnoremap .s :Outline<CR>
 
 " }}} LSP (Language Server Protocol) "
@@ -691,7 +639,7 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 
-" use treesitter's = operator on whole buffer
+" Use treesitter's = operator on whole buffer
 nnoremap <silent> <expr> <leader>ei 'ggvG='.( line(".") == 1 ? '' : '<C-o>')
 
 " Show current function/condition/etc under cursor
@@ -752,7 +700,7 @@ EOF
 lua <<EOF
 conform = require("conform")
 
--- format visual selection and leave visual mode
+-- Format visual selection and leave visual mode
 vim.keymap.set("", "glf", function()
   conform.format({ async = true }, function(err)
     if not err then
@@ -764,7 +712,7 @@ vim.keymap.set("", "glf", function()
   end)
 end, { desc = "Format code" })
 
--- list of used formatters
+-- List of used formatters
 conform.setup({
 	formatters_by_ft = {
 		sh = { "shellharden" },
@@ -778,7 +726,7 @@ nnoremap glf :lua conform.format()<CR>
 " {{{ Linters "
 
 lua <<EOF
--- list of used linters
+-- List of used linters
 require('lint').linters_by_ft = {
 	yaml = {'yamllint'},
 	vim = {'vint'},
@@ -786,7 +734,7 @@ require('lint').linters_by_ft = {
 	markdown = {'markdownlint'},
 	gitcommit = {'gitlint'},
 }
--- apply lints when opening new buffer
+-- Apply lints when opening new buffer
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	callback = function()
 		-- Runs the linters defined in `linters_by_ft`
@@ -795,7 +743,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 		require("lint").try_lint("codespell")
 	end,
 })
--- apply lints after saving buffer
+-- Apply lints after saving buffer
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	callback = function()
 		require("lint").try_lint()
@@ -811,7 +759,7 @@ EOF
 set updatetime=100
 set completeopt=menu,menuone,noselect
 set shortmess+=c
-" sync tabstop placeholder (multiple places snippets)
+" Sync tabstop placeholder (multiple places snippets)
 let g:vsnip_sync_delay = 0
 let g:vsnip_choice_delay = 200
 lua require('MyConfigs/nvim-cmp')
@@ -820,79 +768,66 @@ lua require('MyConfigs/nvim-cmp')
 
 " {{{ Git "
 
-nnoremap <leader>gb <cmd>Telescope git_branches<cr>
-nnoremap <leader>gfc <cmd>Telescope git_commits<cr>
-nnoremap <leader>gfb <cmd>Telescope git_bcommits<cr>
-
 " tpope/vim-fugitive
 nnoremap <leader>gs :Git<cr><C-w>T
-nnoremap <leader>gA :Gwrite<cr>
+nnoremap <leader>ga :Gwrite<cr>
 nnoremap <leader>gc :Git commit<cr>
 nnoremap <leader>qd :Git difftool<cr>
 nnoremap <leader>gd :tab Git diff<cr>
 nnoremap <leader>gh :tab Git diff HEAD~1 HEAD<cr>
-" show git objects in '+'(clipboard) register
-nnoremap <leader>go :tab Git show <c-r>+<cr>
 augroup my_fugitive_new_maps
 	autocmd!
 	autocmd FileType fugitive call <SID>SetFugitiveMaps()
 	function s:SetFugitiveMaps()
+		" Diff new Tab
 		nmap <buffer> dt dp<C-w>T
+		" Diff Preview
 		nmap <buffer> dd dp
 	endfunction
 augroup END
 
-" show git commit messages history under the cursor
+" Show git commit messages history under the cursor
 " o = older. Back to older commit at the line
 let g:git_messenger_no_default_mappings = v:true
-nnoremap <leader>gB :GitMessenger<cr>
+nnoremap <leader>gL :GitMessenger<cr>
 
-" show git log
+" Show git log
 nnoremap <leader>gl :GV --max-count=1000<cr>
 
-" git hunks
+" Git hunks
 lua << EOF
 require('gitsigns').setup {
 	-- keybindings
 	on_attach = function(bufnr)
-		local function map(mode, lhs, rhs, opts)
-			opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
-			vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
+		local gitsigns = require('gitsigns')
+
+		local function map(mode, l, r, opts)
+			opts = opts or {}
+			opts.buffer = bufnr
+			vim.keymap.set(mode, l, r, opts)
 		end
-		-- Navigation
-		map('n', ']h', "&diff ? ']h' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
-		map('n', '[h', "&diff ? '[h' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
-		-- Actions
-		map('n', '<leader>ga', '<cmd>Gitsigns stage_hunk<CR>')
-		map('v', '<leader>g', '<cmd>Gitsigns stage_hunk<CR>')
-		map('n', '<leader>gr', '<cmd>Gitsigns reset_hunk<CR>')
-		map('v', '<leader>G', '<cmd>Gitsigns reset_hunk<CR>')
-		map('n', '<leader>gu', '<cmd>Gitsigns undo_stage_hunk<CR>')
-		map('n', '<leader>gU', '<cmd>Gitsigns reset_buffer_index<CR>')
-		map('n', '<leader>gR', '<cmd>Gitsigns reset_buffer<CR>')
-		map('n', '<leader>gp', '<cmd>Gitsigns preview_hunk<CR>')
-		-- Text object
-		map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-		map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+
+		map('n', ']h', function() gitsigns.nav_hunk('next') end)
+		map('n', '[h', function() gitsigns.nav_hunk('prev') end)
+		map('v', '<leader>g', function() gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') }) end)
+		map('v', '<leader>G', function() gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') }) end)
+		map('n', '<leader>gp', gitsigns.preview_hunk)
 	end
 }
 EOF
 
-" tabpage for diffs preview
+" Tabpage for diffs preview
 lua << EOF
 local cb = require'diffview.config'.diffview_callback
 require('diffview').setup ({
 	keymaps = {
 		view = {
-			["<C-t>"] = cb("goto_file_tab"),
-			["\\n"]   = cb("toggle_files"),
+			[".n"] = cb("toggle_files"),
 		},
 		file_panel = {
-			["s"]       = "<cmd>HopLine<CR>",
-			["a"]       = cb("toggle_stage_entry"),
-			["q"]       = "<cmd>HopLine<CR>",
-			["<C-t>"]   = cb("goto_file_tab"),
-			["\\n"]     = cb("toggle_files"),
+			[".n"] = cb("toggle_files"),
+			["s"]  = "<cmd>HopLine<CR>",
+			["a"]  = cb("toggle_stage_entry"),
 		},
 	},
 })
@@ -903,7 +838,6 @@ nnoremap <leader>gD :DiffviewOpen<cr>
 
 " {{{ Finder/Telescope "
 
-" builtin
 nnoremap <leader>ff <cmd>Telescope find_files find_command=rg,--glob=!.git,--hidden,--files<cr>
 nnoremap <leader>fF <cmd>Telescope find_files find_command=rg,--no-ignore,--glob=!.git,--hidden,--files<cr>
 nnoremap <leader>fr <cmd>Telescope live_grep<cr>
@@ -911,19 +845,70 @@ nnoremap <leader>fa <cmd>Telescope current_buffer_fuzzy_find<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>fm <cmd>Telescope man_pages<cr>
-nnoremap <leader>fM <cmd>Telescope marks<cr>
 nnoremap <leader>fq <cmd>Telescope quickfix<cr>
 nnoremap <leader>fj <cmd>Telescope jumplist<cr>
 nnoremap <leader>fk <cmd>Telescope keymaps<cr>
-nnoremap <leader>fN <cmd>Telescope notify<cr>
+nnoremap <leader>fn <cmd>lua require('telescope.builtin').find_files({cwd = "~/.notes", find_command = { "find", "-name", "*.md" }})<cr>
 nnoremap <leader>fl <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
-nnoremap <leader>fn <cmd>lua require('telescope.builtin').find_files({
-			\ cwd = "~/.notes",
-			\ find_command = { "find", "-name", "*.md" },
-			\ })<cr>
-" plugins
-nnoremap <leader>ft <cmd>Telescope telescope-tabs list_tabs<cr>
-lua require('MyConfigs/telescope')
+
+lua <<EOF
+local actions = require('telescope.actions')
+local action_layout = require('telescope.actions.layout')
+require('telescope').setup{
+	defaults = {
+		mappings = {
+			i = {
+				["<C-j>"] = actions.move_selection_next,
+				["<C-k>"] = actions.move_selection_previous,
+				["<C-l>"] = actions.select_default,
+				["<C-v>"] = { '<c-r>+',type = "command" },
+				["<C-f>"] = actions.results_scrolling_down,
+				["<C-b>"] = actions.results_scrolling_up,
+				["<C-p>"] = action_layout.toggle_preview,
+				["<C-c>"] = actions.close,
+			},
+			n = {
+				["<C-s>"] = actions.select_horizontal,
+				["<C-v>"] = actions.select_vertical,
+				["<C-l>"] = actions.select_default,
+				["<esc>"] = actions.close,
+				["<C-c>"] = actions.close,
+			},
+		},
+		-- theme
+		border = false,
+		layout_strategy = "bottom_pane",
+		layout_config = {
+			bottom_pane = {
+				height = 100,
+				prompt_position = "bottom",
+			},
+		},
+		prompt_prefix = "   ",
+		selection_caret = "",
+		entry_prefix = "",
+		--------
+	},
+
+	pickers = {
+		buffers = {
+			mappings = {
+				i = {
+					["<C-b>"] = actions.delete_buffer,
+				},
+				n = {
+					["<C-b>"] = actions.delete_buffer,
+				},
+			},
+		},
+		man_pages = {
+			sections = { "ALL" },
+		},
+	},
+}
+-- Compiled telescope sorter
+require('telescope').load_extension('fzf')
+EOF
 
 " }}} Finder/Telescope "
 
@@ -935,7 +920,6 @@ lua require('MyConfigs/statusline')
 
 " {{{ Tabs & Windows & Buffers "
 
-" builtin
 nnoremap <silent><leader>1 1gt
 nnoremap <silent><leader>2 2gt
 nnoremap <silent><leader>3 3gt
@@ -945,29 +929,27 @@ nnoremap <silent><leader>6 6gt
 nnoremap <silent><leader>7 7gt
 nnoremap <silent><leader>8 8gt
 nnoremap <silent><leader>9 9gt
-nnoremap <leader>Tl :<C-U>exec "tabm +" . (v:count1)<CR>
-nnoremap <leader>Th :<C-U>exec "tabm -" . (v:count1)<CR>
+nnoremap <C-w>t :tab sp<cr>
+nnoremap <leader>tL :<C-U>exec "tabm +" . (v:count1)<CR>
+nnoremap <leader>tH :<C-U>exec "tabm -" . (v:count1)<CR>
 augroup my_last_tab
 	au!
 	au TabLeave * let g:lasttab = tabpagenr()
 augroup END
 nnoremap <silent> <c-l> :exe "tabn ".g:lasttab<cr>
-nnoremap <leader>t :tab sp<cr>
-nnoremap <leader>D :tabclose<cr>
 nnoremap <silent> <c-h> :e #<CR>
+nnoremap <leader>D :tabclose<cr>
 
-" buffer line
+" Buffer line
 lua << EOF
 require("bufferline").setup {
 	options = {
 		-- tab close icon
-		close_icon = '',
 		show_buffer_close_icons = false,
 		indicator = {
 			icon = '󰁚',
 			style = 'icon',
 		},
-		color_icons = false,
 		offsets = {
 			{
 				filetype = "NvimTree",
@@ -994,18 +976,15 @@ nnoremap <silent> <leader>h :BufferLineCyclePrev<CR>
 nnoremap <silent> <leader>l :BufferLineCycleNext<CR>
 nnoremap <silent> <leader>H :BufferLineMovePrev<CR>
 nnoremap <silent> <leader>L :BufferLineMoveNext<CR>
-nnoremap <silent> <leader>bse :BufferLineSortByExtension<CR>
-nnoremap <silent> <leader>bsd :BufferLineSortByDirectory<CR>
-nnoremap <silent> <leader>bst :BufferLineSortByTabs<CR>
 nnoremap <silent> <leader>bp :BufferLineTogglePin<CR>
 
-" delete buffers based on conditions
+" Delete buffers based on conditions
 nnoremap <silent> <leader>d :BWipeout! this<CR>
 nnoremap <silent> <leader>bo :BWipeout other<CR>
 nnoremap <silent> <leader>bh :BWipeout hidden<CR>
 nnoremap <silent> <leader>bn :BWipeout nameless<CR>
 
-" quickfix window helpers
+" Quickfix window helpers
 nmap [q <Plug>(qf_qf_previous)
 nmap ]q  <Plug>(qf_qf_next)
 nmap .q <Plug>(qf_qf_toggle)
@@ -1013,7 +992,7 @@ let g:qf_auto_open_quickfix = 0
 let g:qf_auto_open_loclist = 0
 let g:qf_auto_resize = 0
 
-" better quickfix window
+" Better quickfix window
 lua << EOF
 require('bqf').setup({
 	magic_window = false,
@@ -1025,7 +1004,7 @@ require('bqf').setup({
 		pscrollup = '<C-u>',
 		pscrolldown = '<C-d>',
 		pscrollorig = '<C-o>',
-		ptogglemode = '\\f',
+		ptogglemode = '.f',
 		stoggledown = '<C-space>',
 		filter = '<C-q>'
 	},
@@ -1045,25 +1024,78 @@ require("zen-mode").setup({
 })
 EOF
 
-" rearrange windows
-nnoremap <C-W>m <Cmd>WinShift<CR>
-nnoremap <C-W>M <Cmd>WinShift swap<CR>
-
 " }}} Tabs & Windows & Buffers "
 
 " {{{ File explorer "
 
-nnoremap .n :NvimTreeFindFileToggle<CR>
-lua require('MyConfigs/nvim-tree')
+lua <<EOF
+-- customise mappings
+local function on_attach(bufnr)
+	local api = require('nvim-tree.api')
 
-nnoremap <silent> \N :NnnPicker<CR>
-let g:nnn#set_default_mappings = 0
-let g:nnn#command = 'NNN_TMPFILE= nnn -o -Q -H -A'
-let g:nnn#layout = 'vnew'
-let g:nnn#action = {
-		\ '<c-t>': 'tab split',
-		\ '<c-x>': 'split',
-		\ '<c-s>': 'vsplit' }
+	local function opts(desc)
+		return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+	end
+
+	vim.keymap.set('n', '<C-l>', api.tree.change_root_to_node, opts('Cd to directory'))
+	vim.keymap.set('n', '<C-h>', api.tree.change_root_to_parent, opts('Cd to parent directory'))
+	vim.keymap.set('n', '<C-v>', api.node.open.vertical, opts('Open in vertical split'))
+	vim.keymap.set('n', '<C-s>', api.node.open.horizontal, opts('Open in horizontal split'))
+	vim.keymap.set('n', '<C-t>', api.node.open.tab, opts('Open in new tab'))
+	vim.keymap.set('n', '<C-]>', api.tree.change_root_to_node, opts('CD'))
+	vim.keymap.set('n', '<C-[>', api.tree.change_root_to_parent, opts('CD'))
+	vim.keymap.set('n', 'o', api.node.open.edit, opts('Open'))
+	vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
+	vim.keymap.set('n', '<Tab>', api.node.open.preview, opts('Open Preview'))
+	vim.keymap.set('n', 'J', api.node.navigate.sibling.last, opts('Move to last file in directory'))
+	vim.keymap.set('n', 'K', api.node.navigate.sibling.first, opts('Move to first file in directory'))
+	vim.keymap.set('n', 'R', api.tree.reload, opts('Refresh'))
+	vim.keymap.set('n', 'a', api.fs.create, opts('Create'))
+	vim.keymap.set('n', 'c', api.fs.create, opts('Create'))
+	vim.keymap.set('n', 'd', api.fs.trash, opts('Trash'))
+	vim.keymap.set('n', 'r', api.fs.rename,	opts('Rename'))
+	vim.keymap.set('n', 's', "<cmd>HopLine<CR>", opts('Jump to file'))
+end
+
+require'nvim-tree'.setup {
+	view = {
+		width = 40,
+	},
+	on_attach = on_attach,
+	filters = {
+		git_ignored = false,
+		dotfiles = false,
+		custom = {
+			'node_modules',
+			'.cache',
+			'*.o',
+		}
+	},
+	sync_root_with_cwd = true,
+	respect_buf_cwd = true,
+	reload_on_bufenter = true,
+	update_focused_file = {
+		enable = true,
+		update_root = true,
+	},
+	trash = {
+		cmd = "trash-put",
+		require_confirm = true,
+	},
+	actions = {
+		open_file = {
+			quit_on_open = true,
+		},
+	}
+}
+EOF
+nnoremap .n :NvimTreeFindFileToggle<CR>
+
+" Change cwd based on pattern
+let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json',
+			\'.root', '.marksman.toml' ]
+let g:rooter_ignore = 1
+let g:rooter_silent_chdir = 1
 
 " }}} File explorer "
 
@@ -1080,77 +1112,11 @@ tnoremap <silent> <c-\> <c-\><c-n>
 nnoremap <leader>zm :Tmap clear;
 nnoremap <leader>zx :<c-u>exec v:count.'Tclose!'<cr>
 
-" Change cwd to lsp's root dir or pattern
-let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json',
-			\'.root', '.marksman.toml' ]
-let g:rooter_ignore = 1
-let g:rooter_silent_chdir = 1
-
 " }}} Terminal "
 
-" {{{ Debugging "
+" {{{ Editing "
 
-" neovim-lua debugger
-lua require('MyConfigs/debug')
-nnoremap <silent> <leader>Uc <Cmd>lua require'dap'.continue()<CR>
-nnoremap <silent> <leader>Us <Cmd>lua require'osv'.launch({port = 8086})<CR>
-nnoremap <silent> <leader>Ux <Cmd>lua require'dap'.disconnect()<CR>
-
-" c/c++ debugger
-function! NvimGdbNoTKeymaps()
-	tnoremap <silent> <buffer> kj <c-\><c-n>
-endfunction
-let g:nvimgdb_config_override = {
-	\ 'key_breakpoint': 'r',
-	\ 'key_next': 'n',
-	\ 'key_step': 'i',
-	\ 'key_finish': 'f',
-	\ 'key_continue': 'c',
-	\ 'key_until': 'u',
-	\ 'key_eval': 'p',
-	\ 'set_tkeymaps': 'NvimGdbNoTKeymaps',
-	\ }
-let g:nvimgdb_disable_start_keymaps = v:true
-function s:rungdb()
-	let db = input('GDB: Binary to debug path: ')
-	let arg = input('GDB: '.db.' arguments: ')
-	execute('GdbStart gdb -q --eval-command=start --args '.db.' '.arg)
-endfunction
-nnoremap <leader>ug :call <SID>rungdb()<CR>
-nnoremap <leader>ux :GdbDebugStop<CR>
-
-" }}} Debugging "
-
-" {{{ Sessions "
-
-set sessionoptions+=winpos,terminal
-
-" continuously update ./Session.vim
-nnoremap <leader>ss <cmd>Obsession .<cr>
-function! s:update_session() range
-	if &ft =~ 'gitcommit\|gitrebase\|svn\|hgcommit\|qf\|help'
-		return
-	endif
-	if filereadable('./Session.vim')
-		source ./Session.vim
-		Obsession ./Session.vim
-		lua vim.notify("Restored and tracking session in Session.vim", "INFO", { title = "Vim session", timeout = 100})
-	endif
-endfunction
-augroup my_update_session
-	autocmd!
-	autocmd VimEnter * nested call <SID>update_session()
-augroup END
-
-" open file at last editing position
-let g:lastplace_ignore = 'gitcommit,gitrebase,hgcommit,svn,xxd'
-let g:lastplace_ignore_buftype = 'help,nofile,quickfix'
-let g:lastplace_open_folds = 1
-
-" }}} Sessions "
-
-" {{{ Auto save "
-
+" Auto save buffer on edit
 lua <<EOF
 require("auto-save").setup({
 	execution_message = {
@@ -1159,22 +1125,17 @@ require("auto-save").setup({
 })
 EOF
 
-" }}} Auto save "
+" Guess buffer indentation
+lua << EOF
+require('guess-indent').setup {}
+EOF
 
-" {{{ Editing "
-
-" switch between single-line/multiline code block
-let g:splitjoin_split_mapping = ''
-let g:splitjoin_join_mapping = ''
-nnoremap <leader>es :SplitjoinSplit<CR>
-nnoremap <leader>ej :SplitjoinJoin<CR>
-
-" move visual selection up/down
+" Move visual selection up/down
 let g:move_map_keys = 0
 vmap K <Plug>MoveBlockUp
 vmap J <Plug>MoveBlockDown
 
-" automatically close parentheses
+" Automatically close parentheses
 lua <<EOF
 require('nvim-autopairs').setup{
 	map_c_w = true,
@@ -1186,15 +1147,7 @@ require('nvim-autopairs').setup{
 }
 EOF
 
-" increment/decrement characters
-"nmap + <Plug>(dial-increment)
-"nmap - <Plug>(dial-decrement)
-"vmap <leader>ei <Plug>(dial-increment)
-"vmap <leader>ed <Plug>(dial-decrement)
-"vmap <leader>eI g<Plug>(dial-increment)
-"vmap <leader>eD g<Plug>(dial-decrement)
-
-" draw diagrams
+" Draw diagrams
 nnoremap <silent> .v :lua Toggle_venn()<CR>
 lua <<EOF
 function _G.Toggle_venn()
@@ -1223,7 +1176,7 @@ function _G.Toggle_venn()
 end
 EOF
 
-" strip trailing whitespaces
+" Strip trailing whitespaces
 let g:better_whitespace_enabled=1
 let g:better_whitespace_filetypes_blacklist=['diff', 'git', 'gitcommit', 'qf', 'help', 'fugitive']
 let g:better_whitespace_guicolor='#6F6565'
@@ -1233,14 +1186,14 @@ vnoremap <leader>eT :StripWhitespace<CR>
 nnoremap ]t :NextTrailingWhitespace<CR>
 nnoremap [t :PrevTrailingWhitespace<CR>
 
-" apply editorconfig coding styles as nvim options
+" Apply editorconfig coding styles as nvim options
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 augroup my_editorconfig_ignore
 	autocmd!
 	au FileType gitcommit let b:EditorConfig_disable = 1
 augroup END
 
-" align text based on regex
+" Align text based on regex
 nnoremap <leader>ea :Tabularize /
 vnoremap <leader>ea :Tabularize /
 vnoremap <leader>/ :Tabularize /\/\/<CR>
@@ -1249,7 +1202,7 @@ vnoremap <leader>/ :Tabularize /\/\/<CR>
 
 " {{{ Movement "
 
-" jump to word
+" Jump to word
 nnoremap s <cmd>HopWord<CR>
 vnoremap s <cmd>HopWord<CR>
 nnoremap <C-s> <cmd>HopLine<CR>
@@ -1260,8 +1213,13 @@ augroup my_hop_mappings
 	autocmd FileType Outline nnoremap <buffer> s <cmd>HopLine<CR>
 augroup END
 
-" jump to line number
+" Jump to line number
 lua require('numb').setup()
+
+" Open file at last editing position
+let g:lastplace_ignore = 'gitcommit,gitrebase,hgcommit,svn,xxd'
+let g:lastplace_ignore_buftype = 'help,nofile,quickfix'
+let g:lastplace_open_folds = 1
 
 " }}} Movement "
 
@@ -1280,21 +1238,11 @@ nnoremap <leader>r :Grepper<CR>
 nnoremap <leader>R :Grepper -stop<CR>
 vmap <leader>r <plug>(GrepperOperator)
 
-" find definitions/references/usages without LSP
+" Find definitions/references/usages without LSP
 let g:any_jump_disable_default_keybindings = 1
 nnoremap gs :AnyJump<CR>
 
-" browser search engine
-let g:netrw_nogx = 1 " disable netrw's gx mapping.
-function s:search_github() range
-	normal! gv"xy
-	let context = getreg('x')
-	execute 'OpenBrowserSmartSearch -github ' . context
-endfunction
-vmap gi <Plug>(openbrowser-smart-search)
-vmap gh :<c-u>call <SID>search_github()<CR>
-
-" show search matches count as virtual text
+" Show search matches count as virtual text
 lua <<EOF
 	require('hlslens').setup({
 	nearest_only = true,
@@ -1306,18 +1254,18 @@ EOF
 
 " {{{ Info "
 
-" show available mappings
+" Show available mappings
 lua << EOF
 local presets = require("which-key.plugins.presets")
 presets.operators["v"] = nil
 require("which-key").setup{}
 EOF
 
-" highlight todo comments
+" Highlight todo comments
 nnoremap <leader>qt <cmd>TodoQuickFix<cr>
 lua require("todo-comments").setup()
 
-" highlight word under cursor
+" Highlight word under cursor
 lua << EOF
 require('illuminate').configure({
 	providers = {
@@ -1341,7 +1289,7 @@ EOF
 nnoremap <silent> <c-j> <cmd>lua require('illuminate').goto_next_reference()<CR>
 nnoremap <silent> <c-k> <cmd>lua require('illuminate').goto_prev_reference()<CR>
 
-" show indentation
+" Show indentation
 lua << EOF
 require("ibl").setup {
 	indent = { char = "▏" },
@@ -1350,56 +1298,6 @@ require("ibl").setup {
 			"markdown",
 		},
 	},
-	scope = {
-		include = {
-			-- highlight all nodes (cause weird highlighting sometimes)
-			-- node_type = { ["*"] = { "*" } },
-			-- :InspectTree go get node_type
-			node_type = {
-				["*"] = {
-					"argument_list",
-					"arguments",
-					"assignment_statement",
-					"Block",
-					"chunk",
-					"class",
-					"ContainerDecl",
-					"dictionary",
-					"do_block",
-					"do_statement",
-					"element",
-					"except",
-					"FnCallArguments",
-					"for",
-					"for_statement",
-					"function",
-					"function_declaration",
-					"function_definition",
-					"if_statement",
-					"IfExpr",
-					"IfStatement",
-					"import",
-					"InitList",
-					"list_literal",
-					"method",
-					"object",
-					"ParamDeclList",
-					"repeat_statement",
-					"selector",
-					"SwitchExpr",
-					"table",
-					"table_constructor",
-					"try",
-					"tuple",
-					"type",
-					"var",
-					"while",
-					"while_statement",
-					"with",
-				},
-			},
-		},
-	}
 }
 EOF
 let s:my_width_of_tab = &tabstop
@@ -1423,7 +1321,7 @@ function! s:toggleList()
 endfunction
 nnoremap <silent> .t :call <SID>toggleList()<CR>
 
-" show colors of colorcodes
+" Show colors of colorcodes
 lua << EOF
 if jit ~= nil then
 	require 'colorizer'.setup{}
@@ -1431,11 +1329,21 @@ end
 EOF
 nnoremap .o :ColorizerAttachToBuffer<CR>
 
-" undo visualizer
+" Undo visualizer
 nnoremap .u :MundoToggle<CR>
 
-" notification manager
+" Notification manager
 lua <<EOF
+-- notification manager custom_instance
+function MyNotificationMin(str)
+	local custom_opts = {
+		render = "minimal",
+		stages = "static",
+		timeout = 1500,
+	}
+	local custom_instance = vim.notify.instance(custom_opts, false)
+	custom_instance(str, 2, custom_opts)
+end
 require("notify").setup({
 	timeout = 3000,
 	background_colour = "#000000",
@@ -1445,22 +1353,6 @@ EOF
 nnoremap <leader>n <cmd>lua require("notify").dismiss({pending=true, silent=true})<CR>
 
 " }}} Info "
-
-" {{{ filetype specific "
-
-" Markdown previewer in browser
-" workaround for https://github.com/iamcco/markdown-preview.nvim/issues/497
-augroup my_markdown_preview_postinstall
-	autocmd!
-	autocmd BufEnter *.md call <SID>post_install_markdown_preview()
-	function s:post_install_markdown_preview()
-		if exists(':MarkdownPreviewToggle')
-			call mkdp#util#install()
-		endif
-	endfunction
-augroup END
-
-" }}} filetype specific "
 
 " {{{ Gui-nvim "
 
