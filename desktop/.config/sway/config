@@ -173,9 +173,6 @@ bindsym $mod+o exec killall -SIGUSR1 waybar
 for_window [app_id="^poweroff_menu$"] floating enable, sticky enable, resize set 10 ppt 21 ppt, border pixel 3
 bindsym $mod+Shift+Return exec alacritty --class poweroff_menu --command $SHELL --interactive -c 'my-powermenu-fzf'
 
-# Show resources monitor
-bindsym $mod+u exec alacritty --class "resources_monitor" --option font.size=15.0 --command "btop"
-
 # Show last notification
 bindsym $mod+n exec dunstctl history-pop
 
