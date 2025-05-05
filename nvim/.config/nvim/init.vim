@@ -1266,26 +1266,6 @@ nnoremap <leader>qt <cmd>TodoQuickFix<cr>
 lua require("todo-comments").setup()
 
 " Highlight word under cursor
-lua << EOF
-require('illuminate').configure({
-	providers = {
-		'treesitter',
-		'regex',
-	},
-	-- WARN slow down vim on large files
-	-- disable 'filetypes_denylist' with loc > 'large_file_cutoff'
-	large_file_cutoff = 3000,
-	large_file_overrides = {
-		providers = {
-			'regex',
-		},
-		filetypes_denylist = {
-			'c',
-			'cpp',
-		},
-	},
-})
-EOF
 nnoremap <silent> <c-j> <cmd>lua require('illuminate').goto_next_reference()<CR>
 nnoremap <silent> <c-k> <cmd>lua require('illuminate').goto_prev_reference()<CR>
 
