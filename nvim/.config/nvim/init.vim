@@ -10,13 +10,13 @@ endif
 
 call plug#begin()
 
-" {{{ colorschemes "
+" {{{ Colorschemes "
 
 " Plug 'EdenEast/nightfox.nvim',
 " Plug 'projekt0n/github-nvim-theme',
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
-" }}} colorschemes "
+" }}} Colorschemes "
 
 " {{{ LSP (Language Server Protocol) "
 
@@ -44,10 +44,6 @@ Plug 'hedyhli/outline.nvim'
 " {{{ Treesitter "
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdateSync'}
-" Highlight parentheses with different colors
-Plug 'hiphish/rainbow-delimiters.nvim'
-" Semantic nested commenting
-Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 " Show current function/condition/etc under cursor
 Plug 'romgrk/nvim-treesitter-context'
 " Insert code annotation
@@ -55,6 +51,10 @@ Plug 'danymat/neogen'
 " Better folds
 Plug 'kevinhwang91/promise-async'
 Plug 'kevinhwang91/nvim-ufo'
+" Semantic nested commenting
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+" Highlight parentheses with different colors
+Plug 'hiphish/rainbow-delimiters.nvim'
 
 " }}} Treesitter "
 
@@ -229,7 +229,7 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'pearofducks/ansible-vim'
 " Markdown tables align
 Plug 'dhruvasagar/vim-table-mode'
-" Markdown previewer in browser
+" Markdown previewer in browser (hook does not work in nvim --headless)
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 " }}} filetype specific "
@@ -264,8 +264,6 @@ augroup END
 set signcolumn=number
 " CTRL-D move cursor to the first character on the line
 set startofline
-" Time to wait mapped sequence to complete (affect 'Show available mappings' plugin)
-set timeoutlen=300
 " How to display whitespace characters in 'list' mode
 set listchars+=trail:,eol:,space:,tab:├─┤
 " Undo persistent history
@@ -303,17 +301,15 @@ set foldlevelstart=99
 
 let mapleader = "\<Space>"
 
-" select (completion) mode
+" Select (completion) mode
 smap c <BS>
 smap kj <esc>
 
-" operators (c, d, y, etc...)
+" Operators (c, d, y, etc...)
 onoremap H 0
 onoremap L $
 
-" visual mode
-vmap m '
-vnoremap M m
+" Visual mode
 vnoremap H 0
 vnoremap L $
 vnoremap j gj
@@ -321,18 +317,40 @@ vnoremap k gk
 vnoremap > >gv
 vnoremap < <gv
 vnoremap <leader>sn "hy/<c-r>h<CR>
-" search within visual selection
+" Search within visual selection
 vnoremap <leader>f <Esc>/\%V
 vnoremap <leader>y "+y
 vnoremap <leader>d "_d
-" replace word in visual selection only
+" Replace word in visual selection only
 vnoremap <leader>er :s/\%V//g<left><left><left>
-" replace selection in a file
+" Replace selection in a file
 vnoremap <leader>R "zy:%s/<c-r>z//gc<left><left><left>
-" sort by line length
+" Sort by line length
 vnoremap <silent> <leader>es :! awk '{ print length(), $0 <Bar> "sort -n <Bar> cut -d\\  -f2-" }'<CR>
+" Change indentation to spaces
+function! s:Convert_To_Spaces() range
+	if (&expandtab == 1)
+		exe a:firstline . ',' . a:lastline . 'retab'
+	else
+		set expandtab
+		exe a:firstline . ',' . a:lastline .  'retab'
+		set noexpandtab
+	endif
+endfunction
+vnoremap <leader>ew :call <SID>Convert_To_Spaces()<CR>
+" Change indentation to tabs
+function! s:Convert_To_Tabs() range
+	if (&expandtab == 1)
+		set noexpandtab
+		exe a:firstline . ',' . a:lastline . 'retab!'
+		set expandtab
+	else
+		exe a:firstline . ',' . a:lastline .  'retab!'
+	endif
+endfunction
+vnoremap <leader>et :call <SID>Convert_To_Tabs()<CR>
 
-" insert mode
+" Insert mode
 inoremap kj <esc>
 inoremap <C-p> <C-r>"
 inoremap <C-e> <C-o>$
@@ -340,12 +358,10 @@ inoremap <C-l> <Right>
 inoremap <C-h> <Left>
 inoremap <C-v> <c-r>+
 
-" command line mode
+" Command line mode
 cnoremap <C-v> <c-r>+
 
-" normal mode
-nmap m '
-nnoremap M m
+" Normal mode
 nnoremap H 0
 nnoremap L $
 nnoremap j gj
@@ -371,38 +387,16 @@ nnoremap <silent> <leader>_ :<c-u>exec 'resize -'.v:count1*5<CR>
 nnoremap <silent> <leader>= :<c-u>exec 'vertical resize +'.v:count1*20<CR>
 nnoremap <silent> <leader>- :<c-u>exec 'vertical resize -'.v:count1*20<CR>
 nnoremap <silent> <leader>/ :noh<CR>
-" copy selected info to clipboard
+" Copy selected info to clipboard
 nnoremap <silent> <leader>cn :let @+ = expand("%:t")<CR>:lua MyNotificationMin(vim.fn.getreg('+') .. " copied to clipboard")<CR>
 nnoremap <silent> <leader>cp :let @+ = expand("%:p")<CR>:lua MyNotificationMin(vim.fn.getreg('+') .. " copied to clipboard")<CR>
-" relative to pwd
+" Relative to pwd
 nnoremap <silent> <leader>cr :let @+ = expand("%")<CR>:lua MyNotificationMin(vim.fn.getreg('+') .. " copied to clipboard")<CR>
 nnoremap <silent> <leader>cd :let @+ = expand("%:p:h")<CR>:lua MyNotificationMin(vim.fn.getreg('+') .. " copied to clipboard")<CR>
 nnoremap <silent> <leader>cg :let @+ = @%.":".line('.')<CR>:lua MyNotificationMin(vim.fn.getreg('+') .. " copied to clipboard")<CR>
 nnoremap <silent> <leader>vs :source $MYVIMRC<CR>
 nnoremap <silent> <leader>vr :source $MYVIMRC <Bar> PlugClean <Bar> PlugInstall<CR>
 nnoremap <silent> <leader>vu :PlugUpdate --sync
-" Change indentation to spaces
-function! s:Convert_To_Spaces() range
-	if (&expandtab == 1)
-		exe a:firstline . ',' . a:lastline . 'retab'
-	else
-		set expandtab
-		exe a:firstline . ',' . a:lastline .  'retab'
-		set noexpandtab
-	endif
-endfunction
-vnoremap <leader>ew :call <SID>Convert_To_Spaces()<CR>
-" Change indentation to tabs
-function! s:Convert_To_Tabs() range
-	if (&expandtab == 1)
-		set noexpandtab
-		exe a:firstline . ',' . a:lastline . 'retab!'
-		set expandtab
-	else
-		exe a:firstline . ',' . a:lastline .  'retab!'
-	endif
-endfunction
-vnoremap <leader>et :call <SID>Convert_To_Tabs()<CR>
 function! s:toggleLang()
 	if (&keymap ==# '')
 		set keymap=russian-jcukenwin
@@ -417,7 +411,7 @@ inoremap <silent> <c-n> <C-o>:call <SID>toggleLang()<CR>
 
 " }}} Mappings "
 
-" {{{ colorschemes "
+" {{{ Colorschemes "
 
 function s:hl_groups_info()
 	let tmpfile = tempname()
@@ -438,12 +432,12 @@ nnoremap <leader>iH :call <SID>hl_groups_info()<CR>
 lua <<EOF
 require("catppuccin").setup({
     flavour = "mocha", -- latte, frappe, macchiato, mocha
-    transparent_background = true, -- disables setting the background color.
+    transparent_background = true, -- disables setting the background color
 })
 EOF
 colorscheme catppuccin
 
-" }}} colorschemes "
+" }}} Colorschemes "
 
 " {{{ LSP (Language Server Protocol) "
 
@@ -486,6 +480,7 @@ vim.lsp.enable('yamlls')
 vim.lsp.config('yamlls', {
 	settings = {
 		yaml = {
+			-- Validate some popular JSON/YAML document types
 			-- https://github.com/b0o/SchemaStore.nvim
 			schemaStore = {
 				-- You must disable built-in schemaStore support if you want to use
@@ -508,6 +503,7 @@ vim.lsp.enable('jsonls')
 vim.lsp.config('jsonls', {
 	settings = {
 		json = {
+			-- Validate some popular JSON/YAML document types
 			-- https://github.com/b0o/SchemaStore.nvim
 			schemas = require('schemastore').json.schemas(),
 			validate = { enable = true },
@@ -531,6 +527,9 @@ vim.lsp.enable('marksman')
 vim.lsp.enable('hyprls')
 EOF
 
+nnoremap <leader>il <cmd>LspInfo<CR>
+nnoremap <leader>iL <cmd>Mason<CR>
+
 nnoremap gd :lua vim.lsp.buf.declaration()<CR>
 nnoremap gf :lua vim.lsp.buf.definition()<CR>
 nnoremap gr :Telescope lsp_references<CR>
@@ -541,10 +540,6 @@ nnoremap ]e :lua vim.diagnostic.goto_next()<CR>
 nnoremap <leader>qe :lua vim.diagnostic.setqflist()<CR>
 " toggle diagnostics info
 nnoremap .e :lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<CR>
-
-" LSP info
-nnoremap <leader>il <cmd>LspInfo<CR>
-nnoremap <leader>iL <cmd>Mason<CR>
 
 " Preview of diagnostics
 lua << EOF
@@ -617,18 +612,17 @@ nnoremap .s :Outline<CR>
 
 lua << EOF
 require'nvim-treesitter.configs'.setup {
-	-- auto install parsers on buffer enter, needs tree-sitter cli
+	-- Auto install parsers on buffer enter, needs tree-sitter cli
 	auto_install = true,
 	ignore_install = {},
 
 	highlight = {
 		enable = true,
-		-- for the following filetypes: enable treesitter highlighting + vim builtin highlighting
+		-- For the following filetypes: enable treesitter highlighting + vim builtin highlighting
 		additional_vim_regex_highlighting = {
 			-- "markdown",
 		},
-		-- disable highlights if these parsers are buggy
-		-- BUG: vim parser: flickering when scrolling in init.vim
+		-- Disable treesitter highlighting if these parsers are buggy
 		-- disable = { "vim" },
 	},
 
@@ -638,7 +632,6 @@ require'nvim-treesitter.configs'.setup {
 	},
 }
 EOF
-
 " Use treesitter's = operator on whole buffer
 nnoremap <silent> <expr> <leader>ei 'ggvG='.( line(".") == 1 ? '' : '<C-o>')
 
@@ -655,7 +648,7 @@ nnoremap <leader>eA :Neogen<CR>
 
 " Better folds
 lua <<EOF
--- virtual text in folds: " line numbers"
+-- Virtual text in folds: " line numbers"
 local handler = function(virtText, lnum, endLnum, width, truncate)
 	local newVirtText = {}
 	local suffix = ('  %d '):format(endLnum - lnum)
@@ -944,8 +937,10 @@ nnoremap <leader>D :tabclose<cr>
 lua << EOF
 require("bufferline").setup {
 	options = {
-		-- tab close icon
+		-- Buffer close icon
 		show_buffer_close_icons = false,
+		-- Tab close icon
+		close_icon = '',
 		indicator = {
 			icon = '󰁚',
 			style = 'icon',
@@ -1011,7 +1006,7 @@ require('bqf').setup({
 })
 EOF
 
-" full screen mode
+" Full screen mode
 nnoremap .f :ZenMode<CR>
 lua << EOF
 require("zen-mode").setup({
@@ -1104,10 +1099,10 @@ let g:rooter_silent_chdir = 1
 let g:neoterm_default_mod = 'botright'
 let g:neoterm_autojump = 1
 let g:neoterm_autoinsert = 1
-" execute command mapped on <leader>zm
+" Execute command mapped on <leader>zm
 let g:neoterm_automap_keys = '<Space>zz'
 nnoremap .z :<c-u>exec v:count.'Ttoggle'<cr>
-" exit from vim terminal input prompt
+" Exit from vim terminal input prompt
 tnoremap <silent> <c-\> <c-\><c-n>
 nnoremap <leader>zm :Tmap clear;
 nnoremap <leader>zx :<c-u>exec v:count.'Tclose!'<cr>
@@ -1260,6 +1255,8 @@ local presets = require("which-key.plugins.presets")
 presets.operators["v"] = nil
 require("which-key").setup{}
 EOF
+" Time to wait mapped sequence to complete (affect 'Show available mappings' plugin)
+set timeoutlen=300
 
 " Highlight todo comments
 nnoremap <leader>qt <cmd>TodoQuickFix<cr>
@@ -1314,7 +1311,7 @@ nnoremap .u :MundoToggle<CR>
 
 " Notification manager
 lua <<EOF
--- notification manager custom_instance
+-- Notification manager custom_instance (used in mappings)
 function MyNotificationMin(str)
 	local custom_opts = {
 		render = "minimal",
@@ -1342,7 +1339,7 @@ if exists('g:neovide')
 	noremap <C-V> "+p
 	cnoremap <C-V> <C-r>+
 	imap <C-V> <C-r>+
-	" gui window title
+	" Gui window title
 	set title titlestring=%<%F
 	set guifont=JetBrainsMonoNL\ NF:h16.5:#e-subpixelantialias:#h-slight
 	" let g:neovide_refresh_rate=144

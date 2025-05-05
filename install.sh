@@ -11,7 +11,7 @@ function check_prog() {
 }
 
 term_configs=(zsh nnn nvim tmux)
-desktop_configs=(desktop alacritty)
+desktop_configs=(desktop)
 
 function install_term() {
 	for e in "${term_configs[@]}"; do
@@ -51,7 +51,7 @@ function update() {
 	if [ "$is_init" = true ]; then
 		if [ -f "$HOME/.config/nvim/init.vim" ]; then
 			echo -e "\n\nvim plugins:\n"
-			nvim --headless +PlugUpdate +qall
+			nvim --headless -c "PlugInstall --sync" +qall
 		fi
 		if [ -f "$HOME/.config/tmux/tmux.conf" ]; then
 			echo -e "\n\ntmux plugins:\n"
@@ -85,19 +85,18 @@ function check_health() {
 }
 
 usage="
-$(basename "$0") [TYPE || OPTION]
+$(basename "$0") [OPTION]
 
-script to install dotfiles
+Script to install dotfiles
 
-TYPE:
+OPTION:
 	-t | --term
-		link dotfiles for programs that are available through terminal interface
+		link dotfiles only for programs that are available through terminal interface
 		install plugins with (nvim, tmux, zsh) plugin manager
 
 	-d | --desktop
-		link dotfiles for desktop programs
+		link dotfiles only for desktop programs
 
-OPTION:
 	-u | --update
 		update:
 			nvim plugins
@@ -112,16 +111,16 @@ OPTION:
 		check whether everything set up right
 "
 
-CLI=0
-DESK=0
+CLI=1
+DESK=1
 while (( $# )); do
 	case "$1" in
 		-t|--term)
-			CLI=1
+			DESK=0
 			shift
 			;;
 		-d|--desktop)
-			DESK=1
+			CLI=0
 			shift
 			;;
 		-h|--help)
