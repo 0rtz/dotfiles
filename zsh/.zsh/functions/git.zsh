@@ -9,13 +9,48 @@ _JJD-git-remote-names() {
 }
 
 function my-add-git-remote() {
+	usage="
+Usage: $(basename "$0") remote_name url
+	"
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+			-h|--help)
+				echo "${usage}"
+				return
+			;;
+			*)
+				POSITIONAL_ARGS+=("$1") # save positional arg
+				shift
+			;;
+		esac
+	done
+	# restore arguments
+	set -- "${POSITIONAL_ARGS[@]}"
 	git remote add $1 $2
 	git fetch $1
 }
 
-# $1 = Branch name to create on remote (required parameter)
-# $2 = Remote name to create branch on (optional parameter; default = origin)
 function my-git-create-branch-remote() {
+	usage="
+Usage: $(basename "$0") branch_name [remote_name]
+
+'branch_name' = branch name to create on remote (required parameter)
+'remote_name' = remote name to create branch on (optional parameter; default = origin)
+	"
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+			-h|--help)
+				echo "${usage}"
+				return
+			;;
+			*)
+				POSITIONAL_ARGS+=("$1") # save positional arg
+				shift
+			;;
+		esac
+	done
+	# restore arguments
+	set -- "${POSITIONAL_ARGS[@]}"
 	if [[ -z $1 ]]; then
 		>&2 echo -e "\nERROR. Specify branch to create. Exiting..."
 		return 1
@@ -45,9 +80,27 @@ function my-git-create-branch-remote() {
 }
 compdef _JJD-git-remote-names my-git-create-branch-remote
 
-# $1 = Branch name to delete on remote (required parameter)
-# $2 = Remote name to delete branch on (optional parameter; default = origin)
 function my-git-delete-branch-remote() {
+	usage="
+Usage: $(basename "$0") branch_name [remote_name]
+
+'branch_name' = branch name to delete on remote (required parameter)
+'remote_name' = remote name to delete branch on (optional parameter; default = origin)
+	"
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+			-h|--help)
+				echo "${usage}"
+				return
+			;;
+			*)
+				POSITIONAL_ARGS+=("$1") # save positional arg
+				shift
+			;;
+		esac
+	done
+	# restore arguments
+	set -- "${POSITIONAL_ARGS[@]}"
 	if [[ -z $1 ]]; then
 		>&2 echo -e "\nERROR. Specify branch to delete. Exiting..."
 		return 1
@@ -104,8 +157,26 @@ _my-git-delete-branch-remote() {
 }
 compdef _my-git-delete-branch-remote my-git-delete-branch-remote
 
-# $1 = Remote branch to track (required parameter)
 function my-git-track-remote-branch() {
+	usage="
+Usage: $(basename "$0") branch_name
+Make current branch track remote branch 'branch_name' (required parameter)
+	"
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+			-h|--help)
+				echo "${usage}"
+				return
+			;;
+			*)
+				POSITIONAL_ARGS+=("$1") # save positional arg
+				shift
+			;;
+		esac
+	done
+	# restore arguments
+	set -- "${POSITIONAL_ARGS[@]}"
+
 	branch=$(git rev-parse --abbrev-ref HEAD)
 	git branch "$branch" --set-upstream-to "$1"
 }
@@ -133,14 +204,50 @@ function my-git-commit-and-squash-into-prev() {
 }
 
 function my-git-edit-config() {
+	usage="
+Usage: $(basename "$0") name email
+Set name and email for current repo
+	"
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+			-h|--help)
+				echo "${usage}"
+				return
+			;;
+			*)
+				POSITIONAL_ARGS+=("$1") # save positional arg
+				shift
+			;;
+		esac
+	done
+	# restore arguments
+	set -- "${POSITIONAL_ARGS[@]}"
 	git config user.name "$1";
 	git config user.email "$2";
 	echo "New git repo name: "; git config user.name
 	echo "New git repo email: "; git config user.email
 }
 
-# move branch to current HEAD and cherry pick it's last commit from previous position
 function my-git-move-on-current-cherrypick-last() {
+	usage="
+Usage: $(basename "$0") branch_name
+
+branch_name = branch to move to current HEAD and cherry pick it's last commit from previous position (required parameter)
+	"
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+			-h|--help)
+				echo "${usage}"
+				return
+			;;
+			*)
+				POSITIONAL_ARGS+=("$1") # save positional arg
+				shift
+			;;
+		esac
+	done
+	# restore arguments
+	set -- "${POSITIONAL_ARGS[@]}"
 	if  ! git rev-parse --quiet --verify "$1" > /dev/null; then
 		>&2 echo -e "\nERROR. Branch: $1 does not exist. Exiting...\n"; return 1
 	fi
@@ -155,9 +262,25 @@ function my-git-move-on-current-cherrypick-last() {
 }
 compdef _JJD-git-branch-names my-git-move-on-current-cherrypick-last
 
-# $1 - first branch
-# $2 - second branch
 function my-git-oldest-common-ancestor() {
+	usage="
+Usage: $(basename "$0") first_branch second_branch
+Show oldest common ancestor between 'first_branch' and 'second_branch'
+	"
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+			-h|--help)
+				echo "${usage}"
+				return
+			;;
+			*)
+				POSITIONAL_ARGS+=("$1") # save positional arg
+				shift
+			;;
+		esac
+	done
+	# restore arguments
+	set -- "${POSITIONAL_ARGS[@]}"
 	local b1=$1
 	if [[ $# -eq 1 ]]; then
 		local b2=HEAD
@@ -172,9 +295,25 @@ function my-git-oldest-common-ancestor() {
 }
 compdef _JJD-git-branch-names my-git-oldest-common-ancestor
 
-# $1 - first branch
-# $2 - second branch
 function my-git-recent-common-ancestor() {
+	usage="
+Usage: $(basename "$0") first_branch second_branch
+Show recent common ancestor between 'first_branch' and 'second_branch'
+	"
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+			-h|--help)
+				echo "${usage}"
+				return
+			;;
+			*)
+				POSITIONAL_ARGS+=("$1") # save positional arg
+				shift
+			;;
+		esac
+	done
+	# restore arguments
+	set -- "${POSITIONAL_ARGS[@]}"
 	local b1=$1
 	if [[ $# -eq 1 ]]; then
 		local b2=HEAD
@@ -185,9 +324,27 @@ function my-git-recent-common-ancestor() {
 }
 compdef _JJD-git-branch-names my-git-recent-common-ancestor
 
-# show diff relative to main branch of repository
-# useful for branch reviews
 function my-git-main-branch-diff() {
+	usage="
+Usage: $(basename "$0") [branch_name]
+
+Show diff between current branch and 'branch_name' (optional parameter; default = main branch of repository)
+Useful for branch reviews
+	"
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+			-h|--help)
+				echo "${usage}"
+				return
+			;;
+			*)
+				POSITIONAL_ARGS+=("$1") # save positional arg
+				shift
+			;;
+		esac
+	done
+	# restore arguments
+	set -- "${POSITIONAL_ARGS[@]}"
 	if [[ -z "$1" ]]; then
 		REVIEW_BASE="$(git remote show origin | grep 'HEAD branch' | cut -d':' -f2 | tr -d '[:blank:]')"
 	else
@@ -268,17 +425,4 @@ function my-git-divergence-remote() {
 			echo 'Try setting branch.$CurrentBranch.remote'
 		}
 	}
-}
-
-function my-git-show-deleted() {
-	setopt local_options pipefail
-	git log --raw --no-renames --date=short --format="%h %cd" "$@" |
-		awk '/^[0-9a-f]/ { commit=$1; date=$2 }
-			/^:/ && $5 == "D" { print date, commit "^:" $6 }' |
-				git -p column
-}
-
-# specify path from 'my-git-show-deleted' to delete from history completely
-function my-git-purge-from-history() {
-	git filter-repo --invert-paths --path $1
 }

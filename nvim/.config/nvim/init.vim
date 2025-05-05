@@ -868,7 +868,18 @@ require('telescope').setup{
 				["<C-c>"] = actions.close,
 			},
 		},
-		-- theme
+		-- Allows livegrep to search in all files starting from current cwd
+		vimgrep_arguments = {
+			'rg',
+			'--color=never',
+			'--no-heading',
+			'--with-filename',
+			'--line-number',
+			'--column',
+			'--smart-case',
+			'--hidden'
+		},
+		-- Theme
 		border = false,
 		layout_strategy = "bottom_pane",
 		layout_config = {
@@ -1223,7 +1234,8 @@ let g:lastplace_open_folds = 1
 " grep/rg wrappers
 runtime plugin/grepper.vim
 let g:grepper.prompt_quote = 2
-let g:grepper.tools = ['rg', 'rg_hidden', 'grep']
+" <Tab> to switch between tools
+let g:grepper.tools = ['rg_hidden', 'rg', 'grep']
 let g:grepper.rg_hidden = {
 \   'grepprg': 'rg -H --no-heading --vimgrep --hidden --no-ignore',
 \   'grepformat': '%f:%l:%c:%m,%f',

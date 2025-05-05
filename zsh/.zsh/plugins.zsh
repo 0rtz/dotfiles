@@ -17,11 +17,6 @@ ZSH_FZF_HISTORY_SEARCH_END_OF_LINE=true
 ZSH_FZF_HISTORY_SEARCH_DATES_IN_SEARCH=false
 ZSH_FZF_HISTORY_SEARCH_REMOVE_DUPLICATES=true
 
-### CTRL-R per directory history ###
-# echo $HISTORY_BASE - per directory history dir
-HISTORY_START_WITH_GLOBAL=true
-zinit light jimhester/per-directory-history
-
 ### show tab-completion items with fzf ###
 zinit light Aloxaf/fzf-tab
 # use tmux popup to show results
@@ -60,8 +55,6 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 ### theme ###
 zinit ice depth"1" # git clone depth
 zinit light romkatv/powerlevel10k
-# cross platform alternative to powerlevel10k: https://github.com/starship/starship
-# eval "$(starship init zsh)"
 
 ### vi-mode ###
 ZVM_VI_ESCAPE_BINDKEY=kj

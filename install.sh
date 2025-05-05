@@ -14,23 +14,25 @@ term_configs=(zsh nnn nvim tmux)
 desktop_configs=(desktop)
 
 function install_term() {
+	echo -e "\n\n======================================== Linking cli programs dotfiles ========================================\n"
 	for e in "${term_configs[@]}"; do
 		stow --verbose=2 --target "$HOME" "$e"|| { echo -e "\n\nError: stow terminal failed" >&2; exit 1; }
 	done
 
 	# Plug 'iamcco/markdown-preview.nvim' is not installed correctly when run headless
 	# https://github.com/iamcco/markdown-preview.nvim/issues/497
-	# echo -e "\n\nvim plugins:\n"
+	# echo -e "\n\n======================================== Installing neovim plugins ========================================\n"
 	# nvim --headless -c "PlugInstall --sync" +qall
 
-	echo -e "\n\ntmux plugins:\n"
+	echo -e "\n\n======================================== Installing tmux plugins ========================================\n"
 	./tmux/.config/tmux/plugins/tpm/bin/install_plugins
 
-	echo -e "\n\nzsh plugins and theme:\n"
+	echo -e "\n\n======================================== Installing zsh plugins ========================================\n"
 	zsh -ic "fast-theme XDG:overlay"
 }
 
 function install_desktop() {
+	echo -e "\n\n======================================== Linking desktop programs dotfiles ========================================\n"
 	for e in "${desktop_configs[@]}"; do
 		stow --verbose=2 --target "$HOME" "$e" || { echo -e "\n\nError: stow desktop failed" >&2; exit 1; }
 	done
@@ -62,7 +64,7 @@ function update() {
 			zsh -i -c "zinit update --parallel | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
 			zsh -i -c "zinit self-update | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
 		fi
-		echo -e "\n\nVim updated. Do not forget to run ':Mason' -> 'Shift+U' to update outdated packages\n"
+		echo -e "\n\nVim updated. Do not forget to run ':Mason' -> 'Shift+U' to update outdated LSPs\n"
 	else
 		echo "Initializing repo submodules..."
 		git submodule update --checkout --init --jobs "$(nproc)" --depth 1

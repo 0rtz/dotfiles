@@ -16,7 +16,6 @@ fi
 # my dotfiles
 # NOTE: might have problems when reordering
 [ -f $HOME/.zsh/configs.zsh ]    && source $HOME/.zsh/configs.zsh
-[ -f $HOME/.zsh/variables.zsh ]  && source $HOME/.zsh/variables.zsh
 [ -f $HOME/.zsh/plugins.zsh ]    && source $HOME/.zsh/plugins.zsh
 [ -d $HOME/.zsh/functions ]      && for f in $HOME/.zsh/functions/*.zsh; do source $f; done
 [ -d $HOME/.zsh/aliases ]        && for f in $HOME/.zsh/aliases/*.zsh; do source $f; done

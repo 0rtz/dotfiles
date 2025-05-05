@@ -98,32 +98,6 @@ function my-editor-open () {
 	fi
 }
 
-function my-vscode-open () {
-	if [ $# -eq 0 ]; then
-		if command -v "windsurf" > /dev/null 2>&1 ; then
-			windsurf . &!
-		elif command -v "code" > /dev/null 2>&1 ; then
-			code .
-		else
-			my-editor-open
-		fi
-	else
-		local size
-		size=$(wc -c < $1)
-		if (( size > 1000000 )); then
-			nvim -u NONE $1
-			return
-		fi
-		if command -v "windsurf" > /dev/null 2>&1 ; then
-			windsurf --goto $1 &!
-		elif command -v "code" > /dev/null 2>&1 ; then
-			code --goto $1
-		else
-			my-editor-open $1
-		fi
-	fi
-}
-
 function my-create-edit-tmp() {
 	local TMP=$(mktemp)
 	$EDITOR ${TMP}
@@ -177,21 +151,6 @@ function my-tmux-session-create-run-cmd()
 }
 compdef _path_commands my-tmux-session-create-run-cmd
 
-function my-tmux-session-run-cmd()
-{
-	if [[ "$#" -eq 0 ]]; then
-		>&2 echo -e "\nERROR. Specify command to run. Exiting..."; return 1
-	fi
-	SESSION_NAME=$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 8)
-	tmux new-session -d -s $SESSION_NAME "$@"
-	if [[ -z "${TMUX}" ]]; then
-		tmux attach-session -t $SESSION_NAME
-	else
-		echo "Session $SESSION_NAME created"
-	fi
-}
-compdef _path_commands my-tmux-session-run-cmd
-
 function my-processes-search() {
 	if [[ -z $1 ]]; then
 		>&2 echo -e "ERROR: Specify PID or process name. Exiting..."
@@ -222,3 +181,28 @@ function my-replace-recursive() {
 		find . -type f -exec sd "$1" "$2" {} +
 	fi
 }
+
+function my-delay-wrapper() {
+	usage="
+Usage: $(basename "$0") timeout CMD...
+Execute 'CMD...' after 'timeout'
+	"
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+			-h|--help)
+				echo "${usage}"
+				return
+			;;
+			*)
+				POSITIONAL_ARGS+=("$1") # save positional arg
+				shift
+			;;
+		esac
+	done
+	# restore arguments
+	set -- "${POSITIONAL_ARGS[@]}"
+	sleep $1
+	echo "Executing ${@:2}"
+	"${@:2}"
+}
+compdef _command_names my-delay-wrapper
