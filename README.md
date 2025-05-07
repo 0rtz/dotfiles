@@ -1,7 +1,8 @@
 
 # My linux dotfiles ⌨
 
-![desktop](img)
+![Screenshot_20250507171013](img)
+
 
 *Includes configuration files for*:
 | **Window manager**       | **[sway](https://github.com/swaywm/sway), [hyprland](https://github.com/hyprwm/Hyprland)**              |
@@ -18,8 +19,6 @@
 *Deploybale to \$HOME with GNU Stow*:
 
 ```bash
-# link configuration files for cli programs
-./install.sh --term
-# link configuration files for programs available in desktop environment
-./install.sh --desktop
+# link configuration files 
+./install.sh
 ```
