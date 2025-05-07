@@ -2,4 +2,3 @@
 tmux/.config/tmux/plugins/
 en.dict
 vim-plug
-vim_check_plugins.sh

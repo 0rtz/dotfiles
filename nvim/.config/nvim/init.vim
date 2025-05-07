@@ -113,8 +113,10 @@ Plug 'sindrets/diffview.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-" compiled telescope sorter
+" Compiled telescope sorter
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+" Search undo tree
+Plug 'debugloop/telescope-undo.nvim'
 
 " }}} Finder/Telescope "
 
@@ -144,8 +146,9 @@ Plug 'folke/zen-mode.nvim'
 " {{{ File explorer "
 
 Plug 'kyazdani42/nvim-tree.lua'
-" Change cwd to lsp's root dir or pattern
+" Change cwd based on pattern
 Plug 'airblade/vim-rooter'
+" TODO: check if forks https://github.com/ahmedkhalf/project.nvim of appear
 
 " }}} File explorer "
 
@@ -173,10 +176,12 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'editorconfig/editorconfig-vim'
 " Align text based on regex
 Plug 'godlygeek/tabular'
+" Replace selection recursively in all files
+Plug 'nvim-pack/nvim-spectre'
+" Splitting/joining blocks of code
+Plug 'Wansmer/treesj'
 " Surround with parentheses/quotes
 Plug 'tpope/vim-surround'
-" Additional text objects
-Plug 'wellle/targets.vim'
 " Additional text objects
 Plug 'michaeljsmith/vim-indent-object'
 
@@ -223,7 +228,7 @@ Plug 'rcarriga/nvim-notify'
 
 " }}} Info "
 
-" {{{ filetype specific "
+" {{{ Filetype specific "
 
 Plug 'tmux-plugins/vim-tmux'
 Plug 'pearofducks/ansible-vim'
@@ -231,8 +236,10 @@ Plug 'pearofducks/ansible-vim'
 Plug 'dhruvasagar/vim-table-mode'
 " Markdown previewer in browser (hook does not work in nvim --headless)
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+" Improve viewing Markdown files
+Plug 'MeanderingProgrammer/render-markdown.nvim'
 
-" }}} filetype specific "
+" }}} Filetype specific "
 
 call plug#end()
 
@@ -322,9 +329,9 @@ vnoremap <leader>f <Esc>/\%V
 vnoremap <leader>y "+y
 vnoremap <leader>d "_d
 " Replace word in visual selection only
-vnoremap <leader>er :s/\%V//g<left><left><left>
-" Replace selection in a file
-vnoremap <leader>R "zy:%s/<c-r>z//gc<left><left><left>
+vnoremap <leader>eR :s/\%V//g<left><left><left>
+" Replace selection in current file
+vnoremap <leader>ef "zy:%s/<c-r>z//gc<left><left><left>
 " Sort by line length
 vnoremap <silent> <leader>es :! awk '{ print length(), $0 <Bar> "sort -n <Bar> cut -d\\  -f2-" }'<CR>
 " Change indentation to spaces
@@ -591,6 +598,7 @@ require("outline").setup({
 	keymaps = {
 		close = {"<Esc>"},
 		peek_location = "p",
+		goto_location = '<Tab>',
 		goto_and_close = {'<Enter>', 'o'},
 		fold = "zc",
 		unfold = "zo",
@@ -843,6 +851,7 @@ nnoremap <leader>fj <cmd>Telescope jumplist<cr>
 nnoremap <leader>fk <cmd>Telescope keymaps<cr>
 nnoremap <leader>fn <cmd>lua require('telescope.builtin').find_files({cwd = "~/.notes", find_command = { "find", "-name", "*.md" }})<cr>
 nnoremap <leader>fl <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+nnoremap <leader>fu <cmd>Telescope undo<cr>
 
 lua <<EOF
 local actions = require('telescope.actions')
@@ -911,7 +920,9 @@ require('telescope').setup{
 	},
 }
 -- Compiled telescope sorter
-require('telescope').load_extension('fzf')
+require("telescope").load_extension("fzf")
+-- Search undo tree
+require("telescope").load_extension("undo")
 EOF
 
 " }}} Finder/Telescope "
@@ -1204,6 +1215,12 @@ nnoremap <leader>ea :Tabularize /
 vnoremap <leader>ea :Tabularize /
 vnoremap <leader>/ :Tabularize /\/\/<CR>
 
+" Replace selection recursively in all files
+vnoremap <leader>er :<esc><cmd>lua require("spectre").open_visual()<CR>
+
+" Splitting/joining blocks of code
+nnoremap <leader>es :lua require('treesj').toggle()<CR>
+
 " }}} Editing "
 
 " {{{ Movement "
@@ -1342,6 +1359,24 @@ EOF
 nnoremap <leader>n <cmd>lua require("notify").dismiss({pending=true, silent=true})<CR>
 
 " }}} Info "
+
+" {{{ Filetype specific "
+
+" Improve viewing Markdown files
+lua <<EOF
+-- configure render-markdown for transparent background
+require('render-markdown').setup({
+	code = {
+		disable_background = true,
+		border = 'none',
+	},
+	heading = {
+		width = 'block',
+	},
+})
+EOF
+
+" }}} Filetype specific "
 
 " {{{ Gui-nvim "
 

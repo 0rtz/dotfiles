@@ -64,7 +64,7 @@ function update() {
 			zsh -i -c "zinit update --parallel | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
 			zsh -i -c "zinit self-update | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
 		fi
-		echo -e "\n\nVim updated. Do not forget to run ':Mason' -> 'Shift+U' to update outdated LSPs\n"
+		echo -e "\n\nVim updated. Do not forget:\n1) ':Mason' -> 'Shift+U' to update outdated LSPs\n2) my_vim_check_plugins.sh"
 	else
 		echo "Initializing repo submodules..."
 		git submodule update --checkout --init --jobs "$(nproc)" --depth 1
