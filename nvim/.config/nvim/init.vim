@@ -37,7 +37,7 @@ Plug 'kosayoda/nvim-lightbulb'
 " Rename LSP symbol under cursor
 Plug 'smjonas/inc-rename.nvim'
 " Class/symbols tree like viewer
-Plug 'hedyhli/outline.nvim'
+Plug 'stevearc/aerial.nvim'
 
 " }}} LSP (Language Server Protocol) "
 
@@ -590,29 +590,20 @@ nnoremap glr :IncRename
 
 " Class/symbols tree like viewer
 lua << EOF
-require("outline").setup({
-	outline_window = {
-		width = 45,
-		relative_width = false,
+require("aerial").setup({
+	layout = {
+		min_width = 45,
 	},
 	keymaps = {
-		close = {"<Esc>"},
-		peek_location = "p",
-		goto_location = '<Tab>',
-		goto_and_close = {'<Enter>', 'o'},
-		fold = "zc",
-		unfold = "zo",
-		fold_all = "zM",
-		unfold_all = "zR",
+		["<CR>"] = "actions.jump",
+		["<Tab>"] = "actions.scroll",
+		["s"] = "<cmd>HopLine<CR>",
 	},
-	symbol_folding = {
-		-- Unfold all nodes on open
-		autofold_depth = false,
-	},
+	close_on_select = true,
 })
 EOF
 " NOTE: do not map to <Tab> since <Tab> and <C-i> are same in the terminal and extended key <C-i> does not work in tmux
-nnoremap .s :Outline<CR>
+nnoremap .s :AerialToggle<CR>
 
 " }}} LSP (Language Server Protocol) "
 
