@@ -15,15 +15,16 @@ alias nls="cat $HOME/.config/nnn/.selection | tr \"\0\" \"\n\""
 alias myip='curl -s https://ipinfo.io/ip'
 alias my_networking_ports='sudo ss -lntup'
 alias my_networking_connections='lsof -Pni'
-alias TA='task add'
-alias TL='task next'
-alias TD='task done'
+alias TP='task projects'
+alias TA='task project: add'
+alias TL='task project: next'
 alias TE='task <task_number> modify'
+alias TD='task done'
 # Disk Usage Tui
 alias dut='gdu'
 alias dua='gdu -n /'
 alias curl='curl --tlsv1.3 --location --proto https'
-alias emj-fzf="emoji-fzf preview --prepend | fzf | awk '{ print \$1 }' | my-yank-to-clipboard"
+alias emj="emoji-fzf preview --prepend | fzf | awk '{ print \$1 }' | my-yank-to-clipboard"
 if command -v exa > /dev/null; then
 	alias l='exa -aglbh --git --icons --color always'
 	alias ll='ls -lAFh --color=tty'

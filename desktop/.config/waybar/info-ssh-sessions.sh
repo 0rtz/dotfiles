@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sessions="$(ss | grep ssh)"
+sessions="$(ls /tmp/.ssh_* 2>/dev/null || true)"
 
 if [ -n "$sessions" ]; then
 	count=$(echo "$sessions" | wc -l)

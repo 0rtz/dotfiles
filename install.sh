@@ -19,10 +19,8 @@ function install_term() {
 		stow --verbose=2 --target "$HOME" "$e"|| { echo -e "\n\nError: stow terminal failed" >&2; exit 1; }
 	done
 
-	# Plug 'iamcco/markdown-preview.nvim' is not installed correctly when run headless
-	# https://github.com/iamcco/markdown-preview.nvim/issues/497
-	# echo -e "\n\n======================================== Installing neovim plugins ========================================\n"
-	# nvim --headless -c "PlugInstall --sync" +qall
+	echo -e "\n\n======================================== Installing neovim plugins ========================================\n"
+	nvim --headless -c "PlugInstall --sync" +qall
 
 	echo -e "\n\n======================================== Installing tmux plugins ========================================\n"
 	./tmux/.config/tmux/plugins/tpm/bin/install_plugins
@@ -53,7 +51,7 @@ function update() {
 	if [ "$is_init" = true ]; then
 		if [ -f "$HOME/.config/nvim/init.vim" ]; then
 			echo -e "\n\nvim plugins:\n"
-			nvim --headless -c "PlugInstall --sync" +qall
+			nvim --headless -c "PlugUpdate --sync" +qall
 		fi
 		if [ -f "$HOME/.config/tmux/tmux.conf" ]; then
 			echo -e "\n\ntmux plugins:\n"

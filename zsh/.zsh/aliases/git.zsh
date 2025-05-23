@@ -77,10 +77,11 @@ alias gia='forgit::ignore >> .gitignore'
 alias gignore='git update-index --assume-unchanged'
 alias gunignore='git update-index --no-assume-unchanged'
 alias gkeep='echo >> .gitkeep'
-# git objects info
+alias gignorels='git ls-files --others --i --exclude-standard' # list ignored files
+# git objects
 alias gso='git show'
+# tags
 alias gtls='git tag | sort -V'
-alias gils='git ls-files --others --i --exclude-standard' # list ignored files
 # revert changes
 alias gunmodify='git checkout --'
 alias grh='git reset --hard'

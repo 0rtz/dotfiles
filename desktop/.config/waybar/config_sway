@@ -1,4 +1,7 @@
 {
+	// run: waybar --config $HOME/.dotfiles/desktop/.config/waybar/config_hyprland
+	// get class of applications: swaymsg -t get_tree
+
 	"modules-right": ["sway/workspaces", "pulseaudio", "sway/language", "clock"],
 
 	"include": [
@@ -33,7 +36,8 @@
 			"class<Tor Browser>": "",
 			"class<com.github.xournalpp.xournalpp>": "󰏪",
 			"class<code>": "",
-			"class<windsurf>": ""
+			"class<windsurf>": "",
+			"class<thunderbird>": "",
 		},
 		"disable-scroll": true
 	},

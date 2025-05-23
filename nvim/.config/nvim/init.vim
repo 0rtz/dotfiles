@@ -44,7 +44,7 @@ Plug 'stevearc/aerial.nvim'
 " {{{ Treesitter "
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdateSync'}
-" Show current function/condition/etc under cursor
+" Show current function/condition/etc (context) under cursor
 Plug 'romgrk/nvim-treesitter-context'
 " Insert code annotation
 Plug 'danymat/neogen'
@@ -234,8 +234,10 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'pearofducks/ansible-vim'
 " Markdown tables align
 Plug 'dhruvasagar/vim-table-mode'
-" Markdown previewer in browser (hook does not work in nvim --headless)
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+" Markdown previewer in browser
+" NOTE: "{ 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}" is not installing correctly when run via nvim --headless
+" https://github.com/iamcco/markdown-preview.nvim/issues/497
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 " Improve viewing Markdown files
 Plug 'MeanderingProgrammer/render-markdown.nvim'
 
@@ -329,7 +331,7 @@ vnoremap <leader>f <Esc>/\%V
 vnoremap <leader>y "+y
 vnoremap <leader>d "_d
 " Replace word in visual selection only
-vnoremap <leader>eR :s/\%V//g<left><left><left>
+vnoremap <leader>ev :s/\%V//g<left><left><left>
 " Replace selection in current file
 vnoremap <leader>ef "zy:%s/<c-r>z//gc<left><left><left>
 " Sort by line length
@@ -369,6 +371,10 @@ inoremap <C-v> <c-r>+
 cnoremap <C-v> <c-r>+
 
 " Normal mode
+nnoremap . <nop>
+nnoremap * <nop>
+nnoremap # <nop>
+nnoremap <c-w>c <nop>
 nnoremap H 0
 nnoremap L $
 nnoremap j gj
@@ -378,10 +384,6 @@ nnoremap ~ @w
 nnoremap .w :set wrap!<CR>
 nnoremap .l :set rnu!<CR>:set number!<CR>
 nnoremap .W :set colorcolumn=80
-nnoremap . <nop>
-nnoremap * <nop>
-nnoremap # <nop>
-nnoremap <c-w>c <nop>
 nnoremap <silent> <leader>X :qa<CR>
 nnoremap <silent> <leader>sn /<c-r><c-w><CR>
 nnoremap <silent> <leader>sN ?<c-r><c-w><CR>
@@ -473,8 +475,11 @@ vim.diagnostic.config({
 -- Language Servers package manager
 require("mason").setup()
 -- Autoinstalls Language Servers setup with nvim-lspconfig
--- call before vim.lsp.enable('$LANGUAGE_SERVER')
-require("mason-lspconfig").setup()
+-- call require("mason-lspconfig").setup() before vim.lsp.enable('$LANGUAGE_SERVER')
+-- TODO: https://github.com/mason-org/mason-lspconfig.nvim/issues/535
+require("mason-lspconfig").setup({
+	ensure_installed = { "bashls", "yamlls", "ansiblels", "jsonls", "vimls", "dockerls", "dockerls", "lua_ls", "marksman", "hyprls" }
+})
 
 -- Default Nvim LSP client configurations for various LSP servers:
 
@@ -545,6 +550,7 @@ nnoremap ga :lua vim.lsp.buf.code_action()<CR>
 nnoremap [e :lua vim.diagnostic.goto_prev()<CR>
 nnoremap ]e :lua vim.diagnostic.goto_next()<CR>
 nnoremap <leader>qe :lua vim.diagnostic.setqflist()<CR>
+nnoremap <leader>ie :lua vim.diagnostic.open_float()<CR>
 " toggle diagnostics info
 nnoremap .e :lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<CR>
 
@@ -611,6 +617,8 @@ nnoremap .s :AerialToggle<CR>
 
 lua << EOF
 require'nvim-treesitter.configs'.setup {
+    ensure_installed = { "markdown", "bash", "lua" },
+
 	-- Auto install parsers on buffer enter, needs tree-sitter cli
 	auto_install = true,
 	ignore_install = {},
@@ -621,8 +629,10 @@ require'nvim-treesitter.configs'.setup {
 		additional_vim_regex_highlighting = {
 			-- "markdown",
 		},
-		-- Disable treesitter highlighting if these parsers are buggy
-		-- disable = { "vim" },
+		-- For the following filetypes: disable treesitter highlighting
+		disable = {
+			"vim"
+		},
 	},
 
 	-- '=' operator changes spaces to tabs where applicable
@@ -634,7 +644,15 @@ EOF
 " Use treesitter's = operator on whole buffer
 nnoremap <silent> <expr> <leader>ei 'ggvG='.( line(".") == 1 ? '' : '<C-o>')
 
-" Show current function/condition/etc under cursor
+" Show current function/condition/etc (context) under cursor
+lua << EOF
+require'treesitter-context'.setup({
+	-- on_attach = function(bufnr)
+	-- 	-- disable context in markdown files
+	-- 	return vim.bo[bufnr].filetype ~= 'markdown'
+	-- end
+})
+EOF
 nnoremap .c :TSContextToggle<CR>
 
 " Insert code annotation
@@ -722,24 +740,17 @@ lua <<EOF
 require('lint').linters_by_ft = {
 	yaml = {'yamllint'},
 	vim = {'vint'},
-	dockerfile = {'hadolint'},
 	markdown = {'markdownlint'},
 	gitcommit = {'gitlint'},
 }
--- Apply lints when opening new buffer
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
+-- Apply lints when opening new buffer and after saving buffer
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
 	callback = function()
 		-- Runs the linters defined in `linters_by_ft`
 		require("lint").try_lint()
-		-- Always run specific linter
+		-- Always run specific linters
 		require("lint").try_lint("codespell")
-	end,
-})
--- Apply lints after saving buffer
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	callback = function()
-		require("lint").try_lint()
-		require("lint").try_lint("codespell")
+		require("lint").try_lint("editorconfig-checker")
 	end,
 })
 EOF
@@ -841,6 +852,7 @@ nnoremap <leader>fq <cmd>Telescope quickfix<cr>
 nnoremap <leader>fj <cmd>Telescope jumplist<cr>
 nnoremap <leader>fk <cmd>Telescope keymaps<cr>
 nnoremap <leader>fn <cmd>lua require('telescope.builtin').find_files({cwd = "~/.notes", find_command = { "find", "-name", "*.md" }})<cr>
+nnoremap <leader>fs <cmd>Telescope lsp_document_symbols<cr>
 nnoremap <leader>fl <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
 nnoremap <leader>fu <cmd>Telescope undo<cr>
 
@@ -926,15 +938,15 @@ lua require('MyConfigs/statusline')
 
 " {{{ Tabs & Windows & Buffers "
 
-nnoremap <silent><leader>1 1gt
-nnoremap <silent><leader>2 2gt
-nnoremap <silent><leader>3 3gt
-nnoremap <silent><leader>4 4gt
-nnoremap <silent><leader>5 5gt
-nnoremap <silent><leader>6 6gt
-nnoremap <silent><leader>7 7gt
-nnoremap <silent><leader>8 8gt
-nnoremap <silent><leader>9 9gt
+nnoremap <silent><C-w>1 1gt
+nnoremap <silent><C-w>2 2gt
+nnoremap <silent><C-w>3 3gt
+nnoremap <silent><C-w>4 4gt
+nnoremap <silent><C-w>5 5gt
+nnoremap <silent><C-w>6 6gt
+nnoremap <silent><C-w>7 7gt
+nnoremap <silent><C-w>8 8gt
+nnoremap <silent><C-w>9 9gt
 nnoremap <C-w>t :tab sp<cr>
 nnoremap <leader>tL :<C-U>exec "tabm +" . (v:count1)<CR>
 nnoremap <leader>tH :<C-U>exec "tabm -" . (v:count1)<CR>
@@ -1207,7 +1219,26 @@ vnoremap <leader>ea :Tabularize /
 vnoremap <leader>/ :Tabularize /\/\/<CR>
 
 " Replace selection recursively in all files
+nnoremap <leader>er :<esc><cmd>lua require("spectre").toggle()<CR>
 vnoremap <leader>er :<esc><cmd>lua require("spectre").open_visual()<CR>
+lua <<EOF
+require('spectre').setup({
+find_engine = {
+	['rg'] = {
+		cmd = "rg",
+		-- Enable replacing in hidden directories/files by default
+		args = {
+			'--color=never',
+			'--no-heading',
+			'--with-filename',
+			'--line-number',
+			'--column',
+			'--hidden'
+		},
+		},
+	},
+})
+EOF
 
 " Splitting/joining blocks of code
 nnoremap <leader>es :lua require('treesj').toggle()<CR>
@@ -1355,6 +1386,10 @@ nnoremap <leader>n <cmd>lua require("notify").dismiss({pending=true, silent=true
 
 " Improve viewing Markdown files
 lua <<EOF
+function MyDump(...)
+	local objects = vim.tbl_map(vim.inspect, {...})
+	print(unpack(objects))
+end
 -- configure render-markdown for transparent background
 require('render-markdown').setup({
 	code = {
@@ -1363,6 +1398,9 @@ require('render-markdown').setup({
 	},
 	heading = {
 		width = 'block',
+	},
+	sign = {
+		enabled = false,
 	},
 })
 EOF

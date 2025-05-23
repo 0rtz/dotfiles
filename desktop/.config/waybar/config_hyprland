@@ -1,5 +1,6 @@
 {
 	// run: waybar --config $HOME/.dotfiles/desktop/.config/waybar/config_hyprland
+	// get class of applications: hyprctl clients
 
 	"modules-right": ["hyprland/workspaces", "pulseaudio", "hyprland/language", "clock"],
 
@@ -33,7 +34,8 @@
 			"class<Tor Browser>": "",
 			"class<com.github.xournalpp.xournalpp>": "󰏪",
 			"class<code>": "",
-			"class<windsurf>": ""
+			"class<windsurf>": "",
+			"class<thunderbird>": "",
 		}
 	},
 	"hyprland/language": {

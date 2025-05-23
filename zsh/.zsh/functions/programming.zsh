@@ -14,3 +14,16 @@ source .venv/bin/activate
 EOF
 	direnv allow . && exec zsh
 }
+
+function my-shared-libs-fzf() {
+	declare -A shared_libs
+	shared_libs=()
+	for filename in /proc/[0-9]*; do
+		local libs=(`cat "$filename"/maps 2>/dev/null  | awk '{print $6;}' | grep '\.so' | uniq`)
+		for i in "${libs[@]}"
+		do
+			((shared_libs[$i]++))
+		done
+	done
+	print -l ${(k)shared_libs} | fzf --preview-label="Processes opened shared lib:" --preview='lsof -H {}' | xargs --no-run-if-empty lsof -H
+}

@@ -1,3 +1,4 @@
+alias nn='npm run start'
 alias npmin='npm install'
 alias npmrm='npm uninstall'
 alias npmls='npm list'
