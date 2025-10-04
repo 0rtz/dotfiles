@@ -126,12 +126,7 @@ function my-create-script() {
 
 function my-eval-var() {
 	echo -e "cmd:\n\n******************************\n${(P)1}\n******************************\n"
-	if read -q "choice?Execute: y/n? "; then
-		echo
-		eval "${(P)1}"
-	else
-		print "\nAborting..."
-	fi
+	eval "${(P)1}"
 }
 compdef _vars my-eval-var
 
@@ -269,7 +264,7 @@ function my-ripgrep-fzf() {
 	fi
 }
 
-function rga-fzf() {
+function rgaf() {
 	RG_PREFIX="rga --files-with-matches"
 	local file
 	file="$(

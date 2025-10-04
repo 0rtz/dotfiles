@@ -41,7 +41,7 @@
 	},
 	"custom/scratchpad-indicator": {
 		"interval": 1,
-		"exec": "/home/myuser/.config/waybar/scratchpad_is_empty.sh",
+		"exec": "~/.config/waybar/scratchpad_is_empty.sh",
 		"format": " ({})"
 	},
 	"custom/info_acrhlinux": {

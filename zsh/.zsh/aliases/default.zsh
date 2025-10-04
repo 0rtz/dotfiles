@@ -20,7 +20,7 @@ alias duf='find . -type f -exec du -csh --apparent-size {} + | sort --human-nume
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
 alias dmesg='sudo dmesg --color=auto --follow'
-alias make="make --jobs=$(nproc --ignore=2)"
+alias makej="make --jobs=$(nproc --ignore=2)"
 alias psa='ps aux'
 alias pscpu='ps -eo pid,ppid,cmd:100,%mem,%cpu --sort=-%cpu | head'
 alias psmem='ps -eo user,pid,%cpu,%mem,args --sort=-%mem | head -n 20'

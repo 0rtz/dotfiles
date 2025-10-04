@@ -109,17 +109,6 @@ Plug 'sindrets/diffview.nvim'
 
 " }}} Git "
 
-" {{{ Finder/Telescope "
-
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-" Compiled telescope sorter
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-" Search undo tree
-Plug 'debugloop/telescope-undo.nvim'
-
-" }}} Finder/Telescope "
-
 " {{{ Status line "
 
 Plug 'nvim-lualine/lualine.nvim'
@@ -154,7 +143,7 @@ Plug 'airblade/vim-rooter'
 
 " {{{ Terminal "
 
-Plug 'kassio/neoterm'
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 
 " }}} Terminal "
 
@@ -177,7 +166,7 @@ Plug 'editorconfig/editorconfig-vim'
 " Align text based on regex
 Plug 'godlygeek/tabular'
 " Replace selection recursively in all files
-Plug 'nvim-pack/nvim-spectre'
+Plug 'MagicDuck/grug-far.nvim'
 " Splitting/joining blocks of code
 Plug 'Wansmer/treesj'
 " Surround with parentheses/quotes
@@ -202,10 +191,17 @@ Plug 'farmergreg/vim-lastplace'
 
 " grep/rg wrappers
 Plug 'mhinz/vim-grepper'
-" Find definitions/references/usages without LSP
-Plug 'pechorin/any-jump.vim'
 " Show search matches count as virtual text
 Plug 'kevinhwang91/nvim-hlslens'
+
+" Finder/Telescope:
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+" Compiled telescope sorter
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+" Search undo tree
+Plug 'debugloop/telescope-undo.nvim'
+Plug 'LukasPietzschmann/telescope-tabs'
 
 " }}} Search "
 
@@ -283,8 +279,8 @@ set number
 " Show relative line numbers in focused window only
 augroup my_numbertoggle
 	autocmd!
-	autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set relativenumber   | endif
-	autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set norelativenumber | endif
+	autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &number && mode() != "i" | set relativenumber   | endif
+	autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &number                  | set norelativenumber | endif
 augroup END
 " If rg is installed use it for the ':grep' command
 if executable('rg')
@@ -309,6 +305,7 @@ set foldlevelstart=99
 " {{{ Mappings "
 
 let mapleader = "\<Space>"
+let maplocalleader = "\<Space>"
 
 " Select (completion) mode
 smap c <BS>
@@ -382,7 +379,45 @@ nnoremap k gk
 nnoremap ` @q
 nnoremap ~ @w
 nnoremap .w :set wrap!<CR>
-nnoremap .l :set rnu!<CR>:set number!<CR>
+function! MyToggleLeftColumn()
+	if &signcolumn !=# 'no'
+		set signcolumn=no
+	else
+		set signcolumn=number
+	endif
+	set relativenumber!
+	set number!
+endfunction
+" call MyToggleLeftColumn() by default
+augroup my_DisableLeftColumn
+	autocmd!
+	autocmd VimEnter * call MyToggleLeftColumn()
+augroup END
+nnoremap .l :call MyToggleLeftColumn()<CR>
+function! MyToggleBars()
+	if &laststatus !=# 0
+		set laststatus=0
+	else
+		set laststatus=3
+	endif
+	if &showtabline !=# 0
+		set showtabline=0
+	else
+		set showtabline=2
+	endif
+	if &cmdheight !=# 0
+		" Hide command-line unless it is being used
+		set cmdheight=0
+	else
+		set cmdheight=1
+	endif
+endfunction
+" call MyToggleBars() by default
+augroup my_ToggleBars
+	autocmd!
+	autocmd VimEnter * call MyToggleBars()
+augroup END
+nnoremap .b :call MyToggleBars()<CR>
 nnoremap .W :set colorcolumn=80
 nnoremap <silent> <leader>X :qa<CR>
 nnoremap <silent> <leader>sn /<c-r><c-w><CR>
@@ -478,7 +513,7 @@ require("mason").setup()
 -- call require("mason-lspconfig").setup() before vim.lsp.enable('$LANGUAGE_SERVER')
 -- TODO: https://github.com/mason-org/mason-lspconfig.nvim/issues/535
 require("mason-lspconfig").setup({
-	ensure_installed = { "bashls", "yamlls", "ansiblels", "jsonls", "vimls", "dockerls", "dockerls", "lua_ls", "marksman", "hyprls" }
+	ensure_installed = { "bashls", "yamlls", "ansiblels", "jsonls", "vimls", "dockerls", "lua_ls", "marksman", "hyprls" }
 })
 
 -- Default Nvim LSP client configurations for various LSP servers:
@@ -510,18 +545,19 @@ vim.lsp.config('yamlls', {
 -- includes ansiblelint support
 vim.lsp.enable('ansiblels')
 
--- json
-vim.lsp.enable('jsonls')
-vim.lsp.config('jsonls', {
-	settings = {
-		json = {
-			-- Validate some popular JSON/YAML document types
-			-- https://github.com/b0o/SchemaStore.nvim
-			schemas = require('schemastore').json.schemas(),
-			validate = { enable = true },
-		},
-	},
-})
+-- TODO: remove
+-- -- json
+-- vim.lsp.enable('jsonls')
+-- vim.lsp.config('jsonls', {
+-- 	settings = {
+-- 		json = {
+-- 			-- Validate some popular JSON/YAML document types
+-- 			-- https://github.com/b0o/SchemaStore.nvim
+-- 			schemas = require('schemastore').json.schemas(),
+-- 			validate = { enable = true },
+-- 		},
+-- 	},
+-- })
 
 -- vim
 vim.lsp.enable('vimls')
@@ -604,6 +640,10 @@ require("aerial").setup({
 		["<CR>"] = "actions.jump",
 		["<Tab>"] = "actions.scroll",
 		["s"] = "<cmd>HopLine<CR>",
+        ["h"] = "actions.right",
+        ["l"] = "actions.left",
+        ["H"] = "0",
+        ["L"] = "$",
 	},
 	close_on_select = true,
 })
@@ -617,7 +657,7 @@ nnoremap .s :AerialToggle<CR>
 
 lua << EOF
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "markdown", "bash", "lua" },
+    ensure_installed = { "markdown", "bash", "lua", "latex" },
 
 	-- Auto install parsers on buffer enter, needs tree-sitter cli
 	auto_install = true,
@@ -631,7 +671,7 @@ require'nvim-treesitter.configs'.setup {
 		},
 		-- For the following filetypes: disable treesitter highlighting
 		disable = {
-			"vim"
+			"vim",
 		},
 	},
 
@@ -750,7 +790,6 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
 		require("lint").try_lint()
 		-- Always run specific linters
 		require("lint").try_lint("codespell")
-		require("lint").try_lint("editorconfig-checker")
 	end,
 })
 EOF
@@ -839,97 +878,6 @@ nnoremap <leader>gD :DiffviewOpen<cr>
 
 " }}} Git "
 
-" {{{ Finder/Telescope "
-
-nnoremap <leader>ff <cmd>Telescope find_files find_command=rg,--glob=!.git,--hidden,--files<cr>
-nnoremap <leader>fF <cmd>Telescope find_files find_command=rg,--no-ignore,--glob=!.git,--hidden,--files<cr>
-nnoremap <leader>fr <cmd>Telescope live_grep<cr>
-nnoremap <leader>fa <cmd>Telescope current_buffer_fuzzy_find<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-nnoremap <leader>fm <cmd>Telescope man_pages<cr>
-nnoremap <leader>fq <cmd>Telescope quickfix<cr>
-nnoremap <leader>fj <cmd>Telescope jumplist<cr>
-nnoremap <leader>fk <cmd>Telescope keymaps<cr>
-nnoremap <leader>fn <cmd>lua require('telescope.builtin').find_files({cwd = "~/.notes", find_command = { "find", "-name", "*.md" }})<cr>
-nnoremap <leader>fs <cmd>Telescope lsp_document_symbols<cr>
-nnoremap <leader>fl <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
-nnoremap <leader>fu <cmd>Telescope undo<cr>
-
-lua <<EOF
-local actions = require('telescope.actions')
-local action_layout = require('telescope.actions.layout')
-require('telescope').setup{
-	defaults = {
-		mappings = {
-			i = {
-				["<C-j>"] = actions.move_selection_next,
-				["<C-k>"] = actions.move_selection_previous,
-				["<C-l>"] = actions.select_default,
-				["<C-v>"] = { '<c-r>+',type = "command" },
-				["<C-f>"] = actions.results_scrolling_down,
-				["<C-b>"] = actions.results_scrolling_up,
-				["<C-p>"] = action_layout.toggle_preview,
-				["<C-c>"] = actions.close,
-			},
-			n = {
-				["<C-s>"] = actions.select_horizontal,
-				["<C-v>"] = actions.select_vertical,
-				["<C-l>"] = actions.select_default,
-				["<esc>"] = actions.close,
-				["<C-c>"] = actions.close,
-			},
-		},
-		-- Allows livegrep to search in all files starting from current cwd
-		vimgrep_arguments = {
-			'rg',
-			'--color=never',
-			'--no-heading',
-			'--with-filename',
-			'--line-number',
-			'--column',
-			'--smart-case',
-			'--hidden'
-		},
-		-- Theme
-		border = false,
-		layout_strategy = "bottom_pane",
-		layout_config = {
-			bottom_pane = {
-				height = 100,
-				prompt_position = "bottom",
-			},
-		},
-		prompt_prefix = "   ",
-		selection_caret = "",
-		entry_prefix = "",
-		--------
-	},
-
-	pickers = {
-		buffers = {
-			mappings = {
-				i = {
-					["<C-b>"] = actions.delete_buffer,
-				},
-				n = {
-					["<C-b>"] = actions.delete_buffer,
-				},
-			},
-		},
-		man_pages = {
-			sections = { "ALL" },
-		},
-	},
-}
--- Compiled telescope sorter
-require("telescope").load_extension("fzf")
--- Search undo tree
-require("telescope").load_extension("undo")
-EOF
-
-" }}} Finder/Telescope "
-
 " {{{ Statusline "
 
 lua require('MyConfigs/statusline')
@@ -938,6 +886,9 @@ lua require('MyConfigs/statusline')
 
 " {{{ Tabs & Windows & Buffers "
 
+nnoremap <silent> <c-h> :e #<CR>
+nnoremap <silent> <leader>h :bprevious<CR>
+nnoremap <silent> <leader>l :bnext<CR>
 nnoremap <silent><C-w>1 1gt
 nnoremap <silent><C-w>2 2gt
 nnoremap <silent><C-w>3 3gt
@@ -948,15 +899,14 @@ nnoremap <silent><C-w>7 7gt
 nnoremap <silent><C-w>8 8gt
 nnoremap <silent><C-w>9 9gt
 nnoremap <C-w>t :tab sp<cr>
-nnoremap <leader>tL :<C-U>exec "tabm +" . (v:count1)<CR>
-nnoremap <leader>tH :<C-U>exec "tabm -" . (v:count1)<CR>
+nnoremap <silent> <leader>tl :<C-U>exec "tabm +" . (v:count1)<CR>
+nnoremap <silent> <leader>th :<C-U>exec "tabm -" . (v:count1)<CR>
+nnoremap <leader>D :tabclose<cr>
 augroup my_last_tab
 	au!
 	au TabLeave * let g:lasttab = tabpagenr()
 augroup END
 nnoremap <silent> <c-l> :exe "tabn ".g:lasttab<cr>
-nnoremap <silent> <c-h> :e #<CR>
-nnoremap <leader>D :tabclose<cr>
 
 " Buffer line
 lua << EOF
@@ -992,8 +942,6 @@ require("bufferline").setup {
 EOF
 nnoremap <silent> gb :BufferLinePick<CR>
 nnoremap <silent> gB :BufferLinePickClose<CR>
-nnoremap <silent> <leader>h :BufferLineCyclePrev<CR>
-nnoremap <silent> <leader>l :BufferLineCycleNext<CR>
 nnoremap <silent> <leader>H :BufferLineMovePrev<CR>
 nnoremap <silent> <leader>L :BufferLineMoveNext<CR>
 nnoremap <silent> <leader>bp :BufferLineTogglePin<CR>
@@ -1035,6 +983,10 @@ EOF
 nnoremap .f :ZenMode<CR>
 lua << EOF
 require("zen-mode").setup({
+	window = {
+        width = 200,
+        height = 100,
+	},
 	plugins = {
         options = {
 			laststatus = 0,
@@ -1112,8 +1064,7 @@ EOF
 nnoremap .n :NvimTreeFindFileToggle<CR>
 
 " Change cwd based on pattern
-let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json',
-			\'.root', '.marksman.toml' ]
+let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'package.json', '.root', '.marksman.toml' ]
 let g:rooter_ignore = 1
 let g:rooter_silent_chdir = 1
 
@@ -1121,16 +1072,18 @@ let g:rooter_silent_chdir = 1
 
 " {{{ Terminal "
 
-let g:neoterm_default_mod = 'botright'
-let g:neoterm_autojump = 1
-let g:neoterm_autoinsert = 1
-" Execute command mapped on <leader>zm
-let g:neoterm_automap_keys = '<Space>zz'
-nnoremap .z :<c-u>exec v:count.'Ttoggle'<cr>
-" Exit from vim terminal input prompt
-tnoremap <silent> <c-\> <c-\><c-n>
-nnoremap <leader>zm :Tmap clear;
-nnoremap <leader>zx :<c-u>exec v:count.'Tclose!'<cr>
+" Exit from vim terminal input prompt (be able to scroll in terminal buffer)
+tnoremap <silent> <c-]> <c-\><c-n>
+
+lua <<EOF
+require("toggleterm").setup({
+	open_mapping = [[<c-\>]],
+	terminal_mappings = true,
+	insert_mappings = true,
+})
+EOF
+" execute last shell command
+nnoremap <leader>z :<c-u>TermExec go_back=0 cmd="!!"<CR>
 
 " }}} Terminal "
 
@@ -1174,7 +1127,7 @@ function _G.Toggle_venn()
 	local venn_enabled = vim.inspect(vim.b.venn_enabled)
 	if venn_enabled == "nil" then
 		vim.b.venn_enabled = true
-		vim.cmd[[setlocal ve=all]]
+		vim.cmd[[set ve=all]]
 		-- draw a line
 		vim.api.nvim_buf_set_keymap(0, "n", "J", "<C-v>j:VBox<CR>", {noremap = true})
 		vim.api.nvim_buf_set_keymap(0, "n", "K", "<C-v>k:VBox<CR>", {noremap = true})
@@ -1188,7 +1141,7 @@ function _G.Toggle_venn()
 		vim.api.nvim_buf_set_keymap(0, "v", "f", ":VFill<CR>", {noremap = true})
 		MyNotificationMin("virtualedit mode actviated")
 	else
-		vim.cmd[[setlocal ve=]]
+		vim.cmd[[set ve=]]
 		vim.cmd[[mapclear <buffer>]]
 		vim.b.venn_enabled = nil
 		MyNotificationMin("virtualedit mode disabled")
@@ -1219,26 +1172,8 @@ vnoremap <leader>ea :Tabularize /
 vnoremap <leader>/ :Tabularize /\/\/<CR>
 
 " Replace selection recursively in all files
-nnoremap <leader>er :<esc><cmd>lua require("spectre").toggle()<CR>
-vnoremap <leader>er :<esc><cmd>lua require("spectre").open_visual()<CR>
-lua <<EOF
-require('spectre').setup({
-find_engine = {
-	['rg'] = {
-		cmd = "rg",
-		-- Enable replacing in hidden directories/files by default
-		args = {
-			'--color=never',
-			'--no-heading',
-			'--with-filename',
-			'--line-number',
-			'--column',
-			'--hidden'
-		},
-		},
-	},
-})
-EOF
+nnoremap <leader>er :<esc><cmd>lua require('grug-far').open()<CR>
+vnoremap <leader>er :<esc><cmd>lua require('grug-far').with_visual_selection()<CR>
 
 " Splitting/joining blocks of code
 nnoremap <leader>es :lua require('treesj').toggle()<CR>
@@ -1284,10 +1219,6 @@ nnoremap <leader>r :Grepper<CR>
 nnoremap <leader>R :Grepper -stop<CR>
 vmap <leader>r <plug>(GrepperOperator)
 
-" Find definitions/references/usages without LSP
-let g:any_jump_disable_default_keybindings = 1
-nnoremap gs :AnyJump<CR>
-
 " Show search matches count as virtual text
 lua <<EOF
 	require('hlslens').setup({
@@ -1295,6 +1226,101 @@ lua <<EOF
 	nearest_float_when = 'never'
 })
 EOF
+
+" Finder/Telescope:
+nnoremap <leader>ff <cmd>Telescope find_files find_command=rg,--glob=!.git,--hidden,--files<cr>
+nnoremap <leader>fF <cmd>Telescope find_files find_command=rg,--no-ignore,--glob=!.git,--hidden,--files<cr>
+nnoremap <leader>fr <cmd>Telescope live_grep<cr>
+nnoremap <leader>fa <cmd>Telescope current_buffer_fuzzy_find<cr>
+nnoremap <leader>fj <cmd>Telescope buffers<cr>
+nnoremap <leader>ft <cmd>Telescope telescope-tabs list_tabs<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>fm <cmd>Telescope man_pages<cr>
+nnoremap <leader>fq <cmd>Telescope quickfix<cr>
+nnoremap <leader>fk <cmd>Telescope keymaps<cr>
+nnoremap <leader>fn <cmd>lua require('telescope.builtin').find_files({cwd = "~/.notes", find_command = { "find", "-name", "*.md" }})<cr>
+nnoremap <leader>fs <cmd>Telescope lsp_document_symbols<cr>
+nnoremap <leader>fl <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+" <C-y> to yank undo lines
+nnoremap <leader>fu <cmd>Telescope undo<cr>
+lua <<EOF
+local actions = require('telescope.actions')
+local action_layout = require('telescope.actions.layout')
+require('telescope').setup{
+	defaults = {
+		mappings = {
+			i = {
+				["<C-j>"] = actions.move_selection_next,
+				["<C-k>"] = actions.move_selection_previous,
+				["<C-l>"] = actions.select_default,
+				["<C-v>"] = { '<c-r>+',type = "command" },
+				["<C-f>"] = actions.results_scrolling_down,
+				["<C-b>"] = actions.results_scrolling_up,
+				["<C-p>"] = action_layout.toggle_preview,
+				["<C-c>"] = actions.close,
+			},
+			n = {
+				["<C-s>"] = actions.select_horizontal,
+				["<C-v>"] = actions.select_vertical,
+				["<C-l>"] = actions.select_default,
+				["<esc>"] = actions.close,
+				["<C-c>"] = actions.close,
+			},
+		},
+		-- Allows livegrep to search in all files starting from current cwd
+		vimgrep_arguments = {
+			'rg',
+			'--color=never',
+			'--no-heading',
+			'--with-filename',
+			'--line-number',
+			'--column',
+			'--smart-case',
+			'--hidden'
+		},
+		-- Theme
+		border = false,
+		layout_strategy = "bottom_pane",
+		layout_config = {
+			bottom_pane = {
+				height = 100,
+				prompt_position = "bottom",
+			},
+		},
+		prompt_prefix = "   ",
+		selection_caret = "",
+		entry_prefix = "",
+		--------
+	},
+
+	pickers = {
+		buffers = {
+			mappings = {
+				i = {
+					["<C-b>"] = actions.delete_buffer,
+				},
+				n = {
+					["<C-b>"] = actions.delete_buffer,
+				},
+			},
+		},
+		man_pages = {
+			sections = { "ALL" },
+		},
+	},
+}
+-- Compiled telescope sorter
+require("telescope").load_extension("fzf")
+-- Search undo tree
+require("telescope").load_extension("undo")
+EOF
+
+" find all lines starting with: '// Problem:...'
+function! s:problemsToQuickfix()
+	silent! vimgrep /\/\/ Problem\:/ %
+    Telescope quickfix
+endfunction
+nnoremap <silent> <leader>fp :call <SID>problemsToQuickfix()<cr>
 
 " }}} Search "
 
@@ -1386,10 +1412,6 @@ nnoremap <leader>n <cmd>lua require("notify").dismiss({pending=true, silent=true
 
 " Improve viewing Markdown files
 lua <<EOF
-function MyDump(...)
-	local objects = vim.tbl_map(vim.inspect, {...})
-	print(unpack(objects))
-end
 -- configure render-markdown for transparent background
 require('render-markdown').setup({
 	code = {
@@ -1402,6 +1424,9 @@ require('render-markdown').setup({
 	sign = {
 		enabled = false,
 	},
+	latex = {
+		enabled = false,
+	}
 })
 EOF
 

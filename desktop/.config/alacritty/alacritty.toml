@@ -20,19 +20,19 @@ opacity = 0.90
 size = 16.0
 
 [font.bold]
-family = "JetBrainsMonoNL NF"
+family = "JetBrainsMono NF"
 style = "Bold"
 
 [font.bold_italic]
-family = "JetBrainsMonoNL NF"
+family = "JetBrainsMono NF"
 style = "Bold Italic"
 
 [font.italic]
-family = "JetBrainsMonoNL NF"
+family = "JetBrainsMono NF"
 style = "Italic"
 
 [font.normal]
-family = "JetBrainsMonoNL NF"
+family = "JetBrainsMono NF"
 style = "Regular"
 
 [[keyboard.bindings]]

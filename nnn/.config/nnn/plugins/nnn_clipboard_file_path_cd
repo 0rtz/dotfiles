@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 . "$(dirname "$0")"/.nnn-plugin-helper
 export CUR_CTX=1
@@ -9,4 +9,4 @@ else
 	DIR=$(xclip -o -selection clipboard)
 fi
 
-nnn_cd "${DIR}"
+nnn_cd "${DIR/#\~/$HOME}"

@@ -1,5 +1,6 @@
 alias q='qalc'
 alias fm='nautilus $PWD >/dev/null 2>&1  &!'
+alias mt='my_time.sh -t 10'
 alias ea='direnv allow . && src'
 alias eb='direnv block .'
 alias vd='nvim -u $HOME/.config/nvim/init.vim-debug/init.vim'
