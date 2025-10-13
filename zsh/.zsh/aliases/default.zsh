@@ -35,7 +35,7 @@ alias kerncfg='zless /proc/config.gz'
 alias kernparam='cat /proc/cmdline'
 alias genstr="LC_ALL=C tr -dc 'A-Za-z0-9_' </dev/urandom | head -c 12"
 alias diffproc='diff <() <()'
-alias follow='tail -n 100 -F'
+alias live_log='tail -n 100 -F'
 alias -g C='| wc -l'
 alias -g G='| grep -i -e ""'
 alias -g X='| xargs --no-run-if-empty --open-tty -I{}'
