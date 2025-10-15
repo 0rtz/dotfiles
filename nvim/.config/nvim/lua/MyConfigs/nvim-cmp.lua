@@ -1,11 +1,9 @@
 local cmp = require('cmp')
 -- Vscode-like icons for completion menu items
 local lspkind = require('lspkind')
--- Insert code annotation
-local neogen = require('neogen')
 -- Snippets engine
 local luasnip = require("luasnip")
--- Load 'rafamadriz/friendly-snippets'
+-- Load 'rafamadriz/friendly-snippets' to luasnip
 require("luasnip.loaders.from_vscode").lazy_load()
 
 cmp.setup({
@@ -20,17 +18,18 @@ cmp.setup({
 			luasnip.lsp_expand(args.body)
 		end,
 	},
-	-- Super-Tab like mapping: https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#luasnip
 	mapping = {
 		["<C-u>"] = cmp.mapping.scroll_docs(-4),
 		["<C-d>"] = cmp.mapping.scroll_docs(4),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<C-e>"] = cmp.mapping.close(),
+		["<C-x>"] = cmp.mapping.abort(),
+		-- Super-Tab like mapping: https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#luasnip
 		["<C-j>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
 			elseif luasnip.locally_jumpable(1) then
 				luasnip.jump(1)
-			elseif neogen.jumpable() then
-				neogen.jump_next()
 			else
 				fallback()
 			end
@@ -40,15 +39,10 @@ cmp.setup({
 				cmp.select_prev_item()
 			elseif luasnip.locally_jumpable(-1) then
 				luasnip.jump(-1)
-			elseif neogen.jumpable() then
-				neogen.jump_prev()
 			else
 				fallback()
 			end
 		end),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<C-e>"] = cmp.mapping.close(),
-		["<C-x>"] = cmp.mapping.abort(),
 		["<C-l>"] = cmp.mapping({
 			i = cmp.mapping.confirm({ select = false }),
 			c = function(fallback)

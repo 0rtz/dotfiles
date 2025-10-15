@@ -24,14 +24,8 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/mason.nvim'
 " Autoinstalls Language Servers setup with nvim-lspconfig
 Plug 'williamboman/mason-lspconfig.nvim',
-" Validate some popular JSON/YAML document types
-Plug 'b0o/schemastore.nvim'
 " Preview of diagnostics
 Plug 'folke/trouble.nvim'
-" Show function signature during editing
-Plug 'ray-x/lsp_signature.nvim'
-" Show lightbulb when there is a code action available under cursor
-Plug 'kosayoda/nvim-lightbulb'
 " Rename LSP symbol under cursor
 Plug 'smjonas/inc-rename.nvim'
 " Class/symbols tree like viewer
@@ -44,8 +38,6 @@ Plug 'stevearc/aerial.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdateSync'}
 " Show current function/condition/etc (context) under cursor
 Plug 'romgrk/nvim-treesitter-context'
-" Insert code annotation
-Plug 'danymat/neogen'
 " Better folds
 Plug 'kevinhwang91/promise-async'
 Plug 'kevinhwang91/nvim-ufo'
@@ -202,6 +194,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 " Search undo tree
 Plug 'debugloop/telescope-undo.nvim'
+" Search opened tabs
 Plug 'LukasPietzschmann/telescope-tabs'
 
 " }}} Search "
@@ -522,40 +515,10 @@ vim.lsp.enable('bashls')
 
 -- yaml
 vim.lsp.enable('yamlls')
-vim.lsp.config('yamlls', {
-	settings = {
-		yaml = {
-			-- Validate some popular JSON/YAML document types
-			-- https://github.com/b0o/SchemaStore.nvim
-			schemaStore = {
-				-- You must disable built-in schemaStore support if you want to use
-				-- SchemaStore.nvim plugin and its advanced options like `ignore`.
-				enable = false,
-				-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-				url = "",
-			},
-			schemas = require('schemastore').yaml.schemas(),
-		},
-	},
-})
 
 -- yaml.ansible
 -- includes ansiblelint support
 vim.lsp.enable('ansiblels')
-
--- TODO: remove
--- -- json
--- vim.lsp.enable('jsonls')
--- vim.lsp.config('jsonls', {
--- 	settings = {
--- 		json = {
--- 			-- Validate some popular JSON/YAML document types
--- 			-- https://github.com/b0o/SchemaStore.nvim
--- 			schemas = require('schemastore').json.schemas(),
--- 			validate = { enable = true },
--- 		},
--- 	},
--- })
 
 -- vim
 vim.lsp.enable('vimls')
@@ -601,26 +564,6 @@ lua << EOF
 	}
 EOF
 nnoremap ge <cmd>Trouble diagnostics toggle focus=true<cr>
-
-" Show function signature during editing
-lua << EOF
-	require('lsp_signature').setup({
-		hint_enable = false,
-	})
-EOF
-
-" Show lightbulb when there is a code action available under cursor
-lua << EOF
-require("nvim-lightbulb").setup({
-	autocmd = {
-		enabled = true
-	},
-    ignore = {
-        -- Filetypes to ignore.
-        ft = {"markdown", "json"},
-    },
-})
-EOF
 
 " Rename LSP symbol under cursor
 lua << EOF
@@ -669,7 +612,7 @@ require'nvim-treesitter.configs'.setup {
 		},
 		-- For the following filetypes: disable treesitter highlighting
 		disable = {
-			"vim",
+			-- "vim",
 		},
 	},
 
@@ -683,23 +626,7 @@ EOF
 nnoremap <silent> <expr> <leader>ei 'ggvG='.( line(".") == 1 ? '' : '<C-o>')
 
 " Show current function/condition/etc (context) under cursor
-lua << EOF
-require'treesitter-context'.setup({
-	-- on_attach = function(bufnr)
-	-- 	-- disable context in markdown files
-	-- 	return vim.bo[bufnr].filetype ~= 'markdown'
-	-- end
-})
-EOF
-nnoremap .c :TSContextToggle<CR>
-
-" Insert code annotation
-lua << EOF
-require('neogen').setup {
-	enabled = true,
-}
-EOF
-nnoremap <leader>eA :Neogen<CR>
+nnoremap .c :lua require("treesitter-context").toggle()<CR>
 
 " Better folds
 lua <<EOF
@@ -1273,6 +1200,7 @@ require('telescope').setup{
 			'--smart-case',
 			'--hidden'
 		},
+		--------
 		-- Theme
 		border = false,
 		layout_strategy = "bottom_pane",
