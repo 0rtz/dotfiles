@@ -12,8 +12,6 @@ call plug#begin()
 
 " {{{ Colorschemes "
 
-" Plug 'EdenEast/nightfox.nvim',
-" Plug 'projekt0n/github-nvim-theme',
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
 " }}} Colorschemes "
@@ -469,11 +467,6 @@ function s:hl_groups_info()
 endfunction
 nnoremap <leader>ih :Inspect<CR>
 nnoremap <leader>iH :call <SID>hl_groups_info()<CR>
-
-" NOTE: Uncomment plugin load before adding theme
-
-" projekt0n/github-nvim-theme
-":so $HOME/.config/nvim/themes/github_dark_high_contrast_transparent.vim
 
 lua <<EOF
 require("catppuccin").setup({
