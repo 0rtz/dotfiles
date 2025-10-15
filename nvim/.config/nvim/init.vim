@@ -477,7 +477,7 @@ nnoremap <leader>iH :call <SID>hl_groups_info()<CR>
 
 lua <<EOF
 require("catppuccin").setup({
-    flavour = "auto", -- latte, frappe, macchiato, mocha
+    flavour = "mocha",
     transparent_background = true, -- disables setting the background color
 	float = {
 		transparent = true, -- enable transparent floating windows
