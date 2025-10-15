@@ -3,10 +3,10 @@ local cmp = require('cmp')
 local lspkind = require('lspkind')
 -- Insert code annotation
 local neogen = require('neogen')
-
-local feedkey = function(key, mode)
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-end
+-- Snippets engine
+local luasnip = require("luasnip")
+-- Load 'rafamadriz/friendly-snippets'
+require("luasnip.loaders.from_vscode").lazy_load()
 
 cmp.setup({
 	enabled = function()
@@ -17,17 +17,18 @@ cmp.setup({
 	},
 	snippet = {
 		expand = function(args)
-			vim.fn["vsnip#anonymous"](args.body)
+			luasnip.lsp_expand(args.body)
 		end,
 	},
+	-- Super-Tab like mapping: https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#luasnip
 	mapping = {
 		["<C-u>"] = cmp.mapping.scroll_docs(-4),
 		["<C-d>"] = cmp.mapping.scroll_docs(4),
 		["<C-j>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
-			elseif vim.fn["vsnip#jumpable"](1) == 1 then
-				feedkey("<Plug>(vsnip-jump-next)", "")
+			elseif luasnip.locally_jumpable(1) then
+				luasnip.jump(1)
 			elseif neogen.jumpable() then
 				neogen.jump_next()
 			else
@@ -37,8 +38,8 @@ cmp.setup({
 		["<C-k>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
-			elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-				feedkey("<Plug>(vsnip-jump-prev)", "")
+			elseif luasnip.locally_jumpable(-1) then
+				luasnip.jump(-1)
 			elseif neogen.jumpable() then
 				neogen.jump_prev()
 			else
@@ -52,7 +53,13 @@ cmp.setup({
 			i = cmp.mapping.confirm({ select = false }),
 			c = function(fallback)
 				if cmp.visible() then
-					cmp.confirm({ select = false })
+					if luasnip.expandable() then
+						luasnip.expand()
+					else
+						cmp.confirm({
+							select = true,
+						})
+					end
 				else
 					fallback()
 				end
@@ -61,7 +68,7 @@ cmp.setup({
 	},
 	sources = {
 		{ name = "nvim_lsp" },
-		{ name = "vsnip" },
+		{ name = "luasnip" },
 		{ name = "buffer" },
 		{ name = "path" },
 		{

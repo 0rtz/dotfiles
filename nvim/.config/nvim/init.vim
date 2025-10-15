@@ -72,7 +72,7 @@ Plug 'mfussenegger/nvim-lint'
 
 " {{{ Completion "
 
-" Completion engine
+" Completion engine: shows suggestions
 Plug 'hrsh7th/nvim-cmp'
 " Source for neovim's built-in language server client
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -84,12 +84,15 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 " Source for words in custom dictionary
 Plug 'uga-rosa/cmp-dictionary'
-" Support for LSP/VSCode's snippet format (snippets engine)
-Plug 'hrsh7th/vim-vsnip'
-" Source for vim-vsnip
-Plug 'hrsh7th/cmp-vsnip',
+
+" Snippets engine: expands and manages snippets
+" TODO: Replace <CurrentMajor> by the latest released major (first number of latest release)
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
+" Source for 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
 " Snippets collection
 Plug 'rafamadriz/friendly-snippets'
+
 " Vscode-like icons for completion menu items
 Plug 'onsails/lspkind-nvim'
 
@@ -308,7 +311,6 @@ let mapleader = "\<Space>"
 let maplocalleader = "\<Space>"
 
 " Select (completion) mode
-smap c <BS>
 smap kj <esc>
 
 " Operators (c, d, y, etc...)
@@ -475,8 +477,11 @@ nnoremap <leader>iH :call <SID>hl_groups_info()<CR>
 
 lua <<EOF
 require("catppuccin").setup({
-    flavour = "mocha", -- latte, frappe, macchiato, mocha
+    flavour = "auto", -- latte, frappe, macchiato, mocha
     transparent_background = true, -- disables setting the background color
+	float = {
+		transparent = true, -- enable transparent floating windows
+	},
 })
 EOF
 colorscheme catppuccin
@@ -657,7 +662,7 @@ nnoremap .s :AerialToggle<CR>
 
 lua << EOF
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "markdown", "bash", "lua", "latex" },
+    ensure_installed = { "markdown", "bash", "lua", "latex", "asm" },
 
 	-- Auto install parsers on buffer enter, needs tree-sitter cli
 	auto_install = true,
@@ -801,9 +806,6 @@ EOF
 set updatetime=100
 set completeopt=menu,menuone,noselect
 set shortmess+=c
-" Sync tabstop placeholder (multiple places snippets)
-let g:vsnip_sync_delay = 0
-let g:vsnip_choice_delay = 200
 lua require('MyConfigs/nvim-cmp')
 
 " }}} Completion "
@@ -1416,7 +1418,7 @@ lua <<EOF
 require('render-markdown').setup({
 	code = {
 		disable_background = true,
-		border = 'none',
+		highlight_border = false,
 	},
 	heading = {
 		width = 'block',
