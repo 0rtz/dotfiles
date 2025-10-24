@@ -5,6 +5,7 @@ fi
 alias v='my-editor-open'
 alias c='my-vscode-open'
 alias vv='my-create-edit-tmp'
+alias vt='my-create-edit-tmp'
 alias vx='my-create-script'
 alias cpf='my-yank-to-clipboard'
 alias pss='my-processes-search'
