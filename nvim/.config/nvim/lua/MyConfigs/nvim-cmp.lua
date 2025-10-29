@@ -5,6 +5,8 @@ local lspkind = require('lspkind')
 local luasnip = require("luasnip")
 -- Load 'rafamadriz/friendly-snippets' to luasnip
 require("luasnip.loaders.from_vscode").lazy_load()
+-- Load my custom snippets to luasnip
+require("luasnip.loaders.from_vscode").lazy_load({paths = "~/.config/nvim/luasnippets"})
 
 cmp.setup({
 	enabled = function()

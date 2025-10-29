@@ -1,7 +1,7 @@
 nnoremap <buffer> K <nop>
-" decrease/increase headers in visual selection
-xnoremap <buffer> - :s/^#//g<CR>gv
-xnoremap <buffer> + :s/^\(.*#\)/\1#/g<CR>gv
+" decrease/increase one leading '#', if present in visual selection
+xnoremap <buffer> - :s/^\(#\)\{1,6}\zs#//<CR>gv
+xnoremap <buffer> + :s/^\(#\{1,5}\)/#\1/<CR>gv
 
 " tpope/vim-surround
 " echo char2nr(" ")

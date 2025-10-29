@@ -1,0 +1,10 @@
+{
+	"codeblock_python": {
+		"prefix": "cbpy",
+		"body": [
+			"```python",
+			"$0",
+			"```"
+		]
+	}
+}

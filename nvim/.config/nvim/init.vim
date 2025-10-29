@@ -598,7 +598,7 @@ nnoremap .s :AerialToggle<CR>
 
 lua << EOF
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "markdown", "bash", "lua", "latex", "asm" },
+    ensure_installed = { "markdown", "bash", "lua", "latex", "asm", "dockerfile", "python" },
 
 	-- Auto install parsers on buffer enter, needs tree-sitter cli
 	auto_install = true,
