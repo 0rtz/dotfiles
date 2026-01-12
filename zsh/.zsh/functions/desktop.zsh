@@ -10,9 +10,9 @@ compdef _command_names my-notfiy-wrapper
 function my-vscode-open () {
 	if [ $# -eq 0 ]; then
 		if command -v "windsurf" > /dev/null 2>&1 ; then
-			windsurf . &!
+			windsurf -n . &!
 		elif command -v "code" > /dev/null 2>&1 ; then
-			code .
+			code -n .
 		else
 			my-editor-open
 		fi
@@ -24,9 +24,9 @@ function my-vscode-open () {
 			return
 		fi
 		if command -v "windsurf" > /dev/null 2>&1 ; then
-			windsurf --goto $1 &!
+			windsurf -n --goto $1 &!
 		elif command -v "code" > /dev/null 2>&1 ; then
-			code --goto $1
+			code -n --goto $1
 		else
 			my-editor-open $1
 		fi
