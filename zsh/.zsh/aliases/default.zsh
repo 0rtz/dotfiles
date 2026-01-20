@@ -1,5 +1,5 @@
 alias l='ls -lAFh --color=tty'
-alias h='sha256sum'
+alias h='sha1sum'
 alias u='uptime --pretty'
 alias k='kill'
 alias K='kill -9'
