@@ -49,6 +49,9 @@ path+=($HOME/.local/bin $HOME/.cargo/bin $HOME/go/bin $HOME/npm/bin)
 if command -v ruby > /dev/null; then
 	path+=($(ruby -r rubygems -e 'puts Gem.user_dir')/bin)
 fi
+if command -v luarocks > /dev/null; then
+	path+=($HOME/.luarocks/bin)
+fi
 export PATH
 typeset -U fpath
 fpath=(~/.zsh.d/ $fpath)
