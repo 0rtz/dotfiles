@@ -1,0 +1,5 @@
+vim.keymap.set('n', '<leader>h', ':colder<cr>', { buffer = true, desc="Older quickfix window" })
+vim.keymap.set('n', '<leader>l', ':cnewer<cr>', { buffer = true, desc="Newer quickfix window" })
+vim.keymap.set('n', '<leader>d', ':cclose<cr>', { buffer = true, desc="Close quickfix window" })
+vim.keymap.set('n', 'q', ':cclose<cr>', { buffer = true, desc="Close quickfix window" })
+vim.keymap.set('n', 's', '<cmd>HopLine<CR>', { buffer = true, desc="Jump to line" })

@@ -5,7 +5,7 @@ index = 16
 [[colors.indexed_colors]]
 color = "#d67ad2"
 index = 17
-
+ 
 [colors.bright]
 black = "#575860"
 red = "#d16983"

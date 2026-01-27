@@ -1,5 +1,5 @@
 
-# My linux dotfiles ⌨
+# ✨✨✨ ⌨ Keyboard optimized️ 🧙‍♂ ✨✨✨ Linux  dotfiles
 
 ![Screenshot_20250507171013](img)
 
