@@ -1,5 +1,0 @@
-alias ta='tmux new-session -s'
-alias tA='tmux attach-session -t'
-alias tk='tmux kill-session -t'
-alias tK='tmux kill-server'
-alias tls='tmux list-sessions'

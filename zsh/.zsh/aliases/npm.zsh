@@ -1,7 +1,0 @@
-alias nn='npm run start'
-alias npmin='npm install'
-alias npmrm='npm uninstall'
-alias npmls='npm list'
-alias npming='npm install -g'
-alias npmrmg='npm uninstall -g'
-alias npmlsg='npm list -g'

@@ -1,8 +1,9 @@
-[submodule "tmux/.config/tmux/plugins/tpm"]
+[submodule "tmux plugin manager"]
 	path = tmux/.config/tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
 	branch = master
-[submodule "zsh/.zsh/zinit"]
-	path = zsh/.zsh/zinit
+[submodule "zsh plugin manager"]
+	path = zsh/.config/zsh/zinit
 	url = https://github.com/zdharma-continuum/zinit
 	branch = main
+	ignore = dirty

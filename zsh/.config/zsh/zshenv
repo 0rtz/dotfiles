@@ -1,0 +1,2 @@
+# Custom zsh config location (instead of $HOME)
+export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
