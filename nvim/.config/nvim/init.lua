@@ -1,4 +1,4 @@
-require("plugin-manager") -- used by all modules, keep on top
+require("my-plugin-manager") -- used by all modules, keep on top
 
 -- Leader keys
 vim.g.mapleader = " "

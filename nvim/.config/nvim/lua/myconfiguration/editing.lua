@@ -116,8 +116,8 @@ map("v", "<leader>d", '"_d', {desc = "Delete visual selection without copying"})
 map("v", "<leader>ev", ":s/\\%V//g<left><left><left>", {desc = "Edit inside visual selection"})
 map("v", "<leader>ef", '"zy:%s/<c-r>z//gc<left><left><left>', {desc = "Edit visual selection in file"})
 
-map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selected blocks down" })
-map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected blocks up" })
+map("v", "J", ":m '>+1<CR>gv", { desc = "Move selected blocks down" })
+map("v", "K", ":m '<-2<CR>gv", { desc = "Move selected blocks up" })
 
 local function convert_indentation(line1, line2, to_spaces)
   local original_expandtab = vim.bo.expandtab
