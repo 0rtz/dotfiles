@@ -46,6 +46,11 @@ function my-git-repo-info() {
 		--format='%(committerdate:relative)  %(refname:short)' \
 		refs/heads
 
+	_my-print-heading-blue "\nLatest remote branches:"
+	git for-each-ref --sort=-committerdate \
+		--format='%(committerdate:relative)  %(refname:short)' \
+		refs/remotes
+
 	_my-print-heading-blue "\nMost changed files:"
 	git log --all -M -C --name-only --format='format:' |
 		grep -v '^$' |
