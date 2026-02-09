@@ -1,0 +1,27 @@
+{
+	// Run: waybar --config $HOME/.dotfiles/desktop/.config/waybar/hyprland.jsonc
+	"layer": "top",
+	"position": "bottom",
+
+	"include": [
+		"~/.config/waybar/modules/left.jsonc",
+		"~/.config/waybar/modules/center.jsonc",
+		"~/.config/waybar/modules/right.jsonc"
+	],
+
+	"modules-left": [
+		"tray",
+		"bluetooth",
+		"network",
+		"custom/vpn",
+		"custom/info_tmux",
+		"custom/scratchpad-indicator",
+		"custom/info_acrhlinux",
+		"custom/systemd_failed",
+		"custom/detect_xwayland"
+	],
+
+	"modules-center": ["mpris"],
+
+	"modules-right": ["hyprland/workspaces", "pulseaudio", "custom/keyboard-layout", "clock"]
+}

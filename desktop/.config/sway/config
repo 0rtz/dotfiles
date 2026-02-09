@@ -194,7 +194,7 @@ bindsym $mod+Shift+r reload
 ############
 
 # Include machine specific config
-include ~/.config/sway/config_local
+include ~/.config/sway/config.local
 
 # Imports several environment variables into the systemd user session (line from default config: /etc/sway/config)
 # NOTE: this line must appear before starting my-desktop.target, otherwise systemd user units will not see desktop environment variables

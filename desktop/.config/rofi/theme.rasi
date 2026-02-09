@@ -1,0 +1,186 @@
+/*****----- Configuration -----*****/
+configuration {
+    modi:                       "drun";
+    show-icons:                 true;
+    display-drun:               "";
+    drun-display-format:        "{name}";
+    scroll-method:              0;
+    click-to-exit:              true;
+}
+
+/*****----- Global Properties -----*****/
+* {
+    /* Colors matching waybar/hyprlock theme */
+    bg:             #000000;
+    bg-alt:         #1a1a1a;
+    fg:             #E6E6E6;
+    fg-dim:         #808080;
+    blue:           #5BBEFF;
+    green:          #71FF5B;
+    red:            #FF0000;
+    purple:         #A8B7FF;
+
+    /* Derived colors */
+    selected:       @blue;
+    urgent:         @red;
+    active:         @green;
+
+    font:           "NotoSans Nerd Font 15";
+    border-radius:  8px;
+}
+
+/*****----- Main Window -----*****/
+window {
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  true;
+    width:                       100%;
+    height:                      100%;
+
+    enabled:                     true;
+    background-color:            #000000d9;
+    cursor:                      "default";
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+    enabled:                     true;
+    spacing:                     80px;
+    padding:                     8% 15%;
+    background-color:            transparent;
+    children:                    [ "inputbar", "listview", "message" ];
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+    enabled:                     true;
+    spacing:                     12px;
+    margin:                      0% 25%;
+    padding:                     14px 20px;
+    border:                      2px solid;
+    border-radius:               @border-radius;
+    border-color:                #E6E6E626;
+    background-color:            #00000099;
+    text-color:                  @fg;
+    children:                    [ "prompt", "entry" ];
+}
+
+prompt {
+    enabled:                     true;
+    background-color:            transparent;
+    text-color:                  @selected;
+}
+
+entry {
+    enabled:                     true;
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      text;
+    placeholder:                 "Type to search...";
+    placeholder-color:           @fg-dim;
+}
+
+/*****----- Listview -----*****/
+listview {
+    enabled:                     true;
+    columns:                     6;
+    lines:                       3;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+
+    spacing:                     10px;
+    background-color:            transparent;
+    text-color:                  @fg;
+    cursor:                      "default";
+}
+
+/*****----- Elements -----*****/
+element {
+    enabled:                     true;
+    spacing:                     12px;
+    padding:                     30px 15px;
+    border:                      0px;
+    border-radius:               @border-radius;
+    background-color:            transparent;
+    text-color:                  @fg;
+    orientation:                 vertical;
+    cursor:                      pointer;
+}
+
+element normal.normal {
+    background-color:            transparent;
+    text-color:                  #E6E6E6cc;
+}
+
+element normal.urgent {
+    background-color:            #FF000026;
+    text-color:                  @urgent;
+}
+
+element normal.active {
+    background-color:            #71FF5B26;
+    text-color:                  @active;
+}
+
+element selected.normal {
+    border:                      2px solid;
+    border-color:                #FF000080;
+    background-color:            #FF000026;
+    text-color:                  @fg;
+}
+
+element selected.urgent {
+    background-color:            #FF000040;
+    text-color:                  @fg;
+}
+
+element selected.active {
+    background-color:            #71FF5B40;
+    text-color:                  @fg;
+}
+
+element-icon {
+    background-color:            transparent;
+    text-color:                  inherit;
+    size:                        100px;
+    cursor:                      inherit;
+}
+
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    highlight:                   @selected;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+
+/*****----- Message -----*****/
+message {
+    enabled:                     true;
+    margin:                      0% 25%;
+    background-color:            transparent;
+}
+
+error-message {
+    padding:                     20px;
+    border:                      2px solid;
+    border-radius:               @border-radius;
+    border-color:                #FF000080;
+    background-color:            #FF00001a;
+    text-color:                  @fg;
+}
+
+textbox {
+    background-color:            transparent;
+    text-color:                  @fg;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+    highlight:                   none;
+}

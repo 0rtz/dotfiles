@@ -9,7 +9,7 @@ elif [ -n "$SWAYSOCK" ]; then
 fi
 
 if [[ "$DISPLAY_SERVER_TYPE" == "xwayland" ]]; then
-	echo "X11"
+	printf '{"text": "", "class": "warning"}\n'
 else
-	echo ""
+	printf '{"text": ""}\n'
 fi

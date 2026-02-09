@@ -1,5 +1,14 @@
+@define-color bg #000000;
+@define-color fg #E6E6E6;
+@define-color blue #5BBEFF;
+@define-color green #71FF5B;
+@define-color purple #A8B7FF;
+@define-color red #FF0000;
+@define-color orange #FFB300;
+
+/* default style */
 * {
-	font-family: 'NotoSans Nerd Font';
+	font-family: 'NotoSans Nerd Font', 'Noto Color Emoji', sans-serif;
 	font-size: 17px;
 	font-style: normal;
 	font-variant: normal;
@@ -17,26 +26,48 @@
 	padding-bottom: 0;
 	padding-left: 0;
 }
-/* color for everything except .modules-center group */
+
+/* default color */
 window#waybar {
-	background-color: #000000;
-	color: #E6E6E6;
+	background-color: @bg;
+	color: @fg;
 }
 
-/* .modules-left group */
+/* global hover for all modules */
+#tray:hover,
+#bluetooth:hover,
+#network:hover,
+#custom-vpn:hover,
+#custom-info_tmux:hover,
+#custom-info_ssh:hover,
+#custom-scratchpad-indicator:hover,
+#custom-info_acrhlinux:hover,
+#custom-systemd_failed:hover,
+#custom-detect_xwayland:hover,
+#mpris:hover,
+#pulseaudio:hover,
+#custom-keyboard-layout:hover,
+#clock:hover {
+	color: @blue;
+}
+
+/* left modules */
 #tray {
 	margin-left: 0;
 }
 #bluetooth {
 	margin-left: 5px;
-	color: #5BBEFF;
+	color: @blue;
+	transition: all 0.3s ease;
 }
 #network {
 	margin-left: 5px;
-	color: #71FF5B;
+	color: @green;
+	transition: all 0.3s ease;
 }
 #custom-vpn {
-	color: #71FF5B;
+	color: @green;
+	transition: all 0.3s ease;
 }
 #custom-info_tmux {
 	margin-left: 5px;
@@ -49,40 +80,49 @@ window#waybar {
 }
 #custom-info_acrhlinux {
 	margin-left: 5px;
-	color: #A8B7FF;
+	color: @purple;
+	transition: all 0.3s ease;
 }
 #custom-systemd_failed {
 	margin-left: 5px;
-	color: #FF0000;
+	color: @red;
 }
 #custom-detect_xwayland {
 	margin-left: 5px;
-	color: #FF0000;
-}
-#custom-info-snapshot {
-	margin-left: 5px;
-	color: #FFB300;
+	color: @red;
 }
 
-/* .modules-right group */
+/* right modules */
 #workspaces {
 	margin-right: 10px;
 }
 #workspaces button {
-	color: #E6E6E6;
+	color: @fg;
 	margin-right: 20px;
+	transition: all 0.3s ease;
+	background: @bg;
+	border: none;
+	box-shadow: none;
 }
-#workspaces button.visible {
+#workspaces button.active {
 	color: #d50000;
 }
 #workspaces button.urgent {
 	color: #95EBFF;
 }
+#workspaces button:hover {
+	color: @blue;
+	background: @bg;
+	border: none;
+	box-shadow: none;
+}
 #pulseaudio {
 	margin-right: 10px;
+	transition: all 0.3s ease;
 }
-#language {
+#custom-keyboard-layout {
 	margin-right: 5px;
+
 }
 #clock {
 	margin-right: 5px;

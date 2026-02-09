@@ -11,7 +11,8 @@ if sessionlist=$(tmux ls 2>/dev/null); then
 		fi
 	done < <(echo "$sessionlist")
 
-	printf "(%s/%s)" "$attached_count" "$session_count"
+	tooltip=$(echo "$sessionlist" | sed 's/"/\\"/g' | tr '\n' '\\' | sed 's/\\/\\n/g' | sed 's/\\n$//')
+	printf '{"text": "(%s/%s)", "tooltip": "%s"}\n' "$attached_count" "$session_count" "$tooltip"
 else
-	printf ""
+	printf '{"text": ""}\n'
 fi

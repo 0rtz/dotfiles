@@ -5,5 +5,7 @@ USER_FAILED=$(systemctl --quiet --user --failed | wc -l)
 TOTAL=$((FAILED + USER_FAILED))
 
 if [[ $TOTAL -gt 0 ]]; then
-	echo -e "($TOTAL)\nUser: $USER_FAILED; System: $FAILED"
+	printf '{"text": "(%s)", "tooltip": "User: %s\\nSystem: %s", "class": "failed"}\n' "$TOTAL" "$USER_FAILED" "$FAILED"
+else
+	printf '{"text": ""}\n'
 fi

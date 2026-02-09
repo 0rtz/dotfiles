@@ -1,39 +1,97 @@
-# See dunst(5) for all configuration options
+# dunst(5) for all configuration options
 
 [global]
-    width = 500
-    origin = top-center
-    offset = 10x10
-    padding = 20
+    # Display
+    monitor = 0
+    follow = mouse
+    origin = top-right
+    offset = 20x20
+    width = (300, 450)
+    height = 300
     notification_limit = 5
-    progress_bar_max_width = 500
-    progress_bar_corner_radius = 50
-    horizontal_padding = 30
-    frame_width = 3
-    gap_size = 10
-    frame_color = "#aaaaaa"
-    idle_threshold = 60
-    font = Noto Sans 16
+    indicate_hidden = true
+
+    # Appearance
+    transparency = 10
+    padding = 16
+    horizontal_padding = 20
+    frame_width = 2
+    gap_size = 8
+    corner_radius = 12
+    separator_height = 2
+    separator_color = frame
+
+    # Progress bar
+    progress_bar = true
+    progress_bar_height = 10
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 400
+    progress_bar_corner_radius = 5
+
+    # Text
+    font = NotoSans Nerd Font 13
+    line_height = 0
+    markup = full
     format = "<b>%a</b>\n%s\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    ellipsize = middle
+    ignore_newline = false
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = true
+
+    # Icons
     enable_recursive_icon_lookup = true
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 64
+    icon_theme = "breeze, Adwaita"
+
+    # History
+    sticky_history = true
     history_length = 50
-    corner_radius = 40
-    mouse_left_click = do_action
+
+    # Misc
+    dmenu = /usr/bin/rofi -dmenu -p dunst
+    browser = /usr/bin/firefox --new-tab
+    always_run_script = true
+    title = Dunst
+    class = Dunst
+    ignore_dbusclose = false
+
+    # Mouse
+    mouse_left_click = do_action, close_current
     mouse_middle_click = close_all
     mouse_right_click = close_current
+
+    # Idle
+    idle_threshold = 120
+
 [urgency_low]
-    background = "#222222d9"
-    foreground = "#ffffffd9"
-    timeout = 5
+    background = "#000000e6"
+    foreground = "#E6E6E6"
+    frame_color = "#5BBEFF"
+    highlight = "#5BBEFF"
+    timeout = 4
+    default_icon = dialog-information
+
 [urgency_normal]
-    background = "#222222d9"
-    foreground = "#ffffffd9"
-    frame_color = "#ff0000"
-    timeout = 5
+    background = "#000000e6"
+    foreground = "#E6E6E6"
+    frame_color = "#71FF5B"
+    highlight = "#71FF5B"
+    timeout = 6
+    default_icon = dialog-information
+
 [urgency_critical]
-    background = "#900000"
+    background = "#1a0000e6"
     foreground = "#ffffff"
-    frame_color = "#ff0000"
+    frame_color = "#FF0000"
+    highlight = "#FF0000"
     timeout = 0
+    default_icon = dialog-warning
 
 # vim: ft=cfg

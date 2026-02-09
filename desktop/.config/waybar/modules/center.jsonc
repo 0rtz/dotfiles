@@ -1,0 +1,16 @@
+{
+    "mpris": {
+        "format": "{status_icon}    {player_icon} <i>{title}</i>",
+        "max-length": 50,
+        "player-icons": {
+            "default": "",
+            "mpv": "",
+            "firefox": "󰈹",
+            "brave": "",
+        },
+        "status-icons": {
+            "paused": ""
+        },
+        "on-click": "playerctl play-pause",
+    }
+}
