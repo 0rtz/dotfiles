@@ -1,0 +1,84 @@
+# https://yazi-rs.github.io/docs/configuration/keymap
+# Default keymaps: https://yazi-rs.github.io/docs/quick-start
+
+[mgr]
+prepend_keymap = [
+    # Drop to shell
+    {on = ["s"], for = "unix", run = 'shell "$SHELL" --block', desc = "Open $SHELL here"},
+
+    # Fzf find file (builtin plugin)
+	# https://yazi-rs.github.io/docs/plugins/builtins
+    {on = ["f"], run = 'plugin fzf', desc = "Fuzzy find file"},
+	# Unbind default fzf find file mapping
+	{ on = ["z"], run = "noop", desc = "" },
+
+    # https://github.com/yazi-rs/plugins/tree/main/smart-enter.yazi
+    {on = ["l"], run  = "plugin smart-enter", desc = "Enter the child directory, or open the file"},
+
+    # https://github.com/yazi-rs/plugins/tree/main/smart-paste.yazi
+    {on   = ["p"], run  = "plugin smart-paste", desc = "Paste into the hovered directory or CWD"},
+
+    # Change directory back to the closest project root
+    {on = [ "g", "r" ], run = 'shell -- "$HOME/.config/yazi/scripts/project-root-cd.sh"', desc = "Go to project root"},
+
+    # https://github.com/yazi-rs/plugins/tree/main/toggle-pane.yazi
+    {on   = [".", "p"], run  = "plugin toggle-pane min-preview", desc = "Show or hide the preview pane"},
+	{ on = [".", "f"], run = "plugin toggle-pane max-current", desc = "Maximize current pane" },
+
+	# Open in neovide
+	{ on = ["L"], run = "shell 'neovide \"$@\"' --orphan", desc = "Open in Neovide" },
+
+	# Swap open and open with
+	{ on = ["o"], run = "open --interactive", desc = "Open with..." },
+	{ on = ["O"], run = "open", desc = "Open" },
+
+	# Edit files with sudo permissions
+	{ on = ["S"], run = "shell 'sudoedit \"$@\"' --block", desc = "Sudoedit" },
+
+	# Go to bookmarks
+	{ on = ["g", "d"], run = "cd ~/.dotfiles", desc = "Dotfiles" },
+	{ on = ["g", "c"], run = "cd ~/.config", desc = "Config" },
+	{ on = ["g", "n"], run = "cd ~/.notes", desc = "Notes" },
+	{ on = ["g", "v"], run = "cd ~/.local/share/nvim", desc = "Neovim data" },
+	{ on = ["g", "b"], run = "cd ~/build", desc = "Build" },
+	{ on = ["g", "p"], run = "cd ~/backed", desc = "Backed" },
+	{ on = ["g", "a"], run = "cd ~/.tmp", desc = "Tmp" },
+	{ on = ["g", "t"], run = "cd /tmp", desc = "System tmp" },
+	{ on = ["g", "T"], run = "cd ~/.local/share/Trash", desc = "Trash" },
+
+	# Smart tab: create a tab and enter the hovered directory
+	{ on = ["t"], run = "plugin smart-tab", desc = "Create tab in hovered dir" },
+
+	# Navigate parent directory without leaving CWD
+	{ on = ["<C-k>"], run = "plugin parent-arrow -1", desc = "Navigate parent up" },
+	{ on = ["<C-j>"], run = "plugin parent-arrow 1", desc = "Navigate parent down" },
+
+	# Confirm before quitting if multiple tabs are open
+	{ on = ["q"], run = "plugin confirm-quit", desc = "Confirm quit with multiple tabs" },
+
+	# Copy file name to clipboard
+	{ on = ["c", "n"], run = 'shell -- "$HOME/.config/yazi/scripts/file-name-yank.sh" %s', desc = "Copy file name to clipboard" },
+
+	# Copy file path to clipboard
+	{ on = ["c", "p"], run = 'shell -- "$HOME/.config/yazi/scripts/file-path-yank.sh" %s', desc = "Copy file path to clipboard" },
+
+	# Copy directory path to clipboard
+	{ on = ["c", "d"], run = 'shell -- "$HOME/.config/yazi/scripts/dir-path-yank.sh"', desc = "Copy dir path to clipboard" },
+
+	# Change directory to path from clipboard
+	{ on = ["c", "c"], run = 'shell -- "$HOME/.config/yazi/scripts/clipboard-cd.sh"', desc = "cd to clipboard path" },
+
+	# Compress selected files with ouch
+	{ on = ["C"], run = "plugin ouch", desc = "Compress with ouch" },
+	# Extract selected files with ouch
+	{ on = ["E"], run = "plugin ouch --args=extract", desc = "Extract with ouch" },
+
+	# Drag and drop selected files
+	{ on = ["<C-d>"], run = 'shell -- ripdrag "$@" --and-exit', desc = "Drag and drop" },
+]
+
+[input]
+prepend_keymap = [
+    # Close input prompt with a single escape (instead of exiting vim input mode first)
+    {on = ["<Esc>"], run = "close", desc = "Cancel input"}
+]

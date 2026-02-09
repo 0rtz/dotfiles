@@ -1,0 +1,47 @@
+# yazi file manager configuration
+# https://yazi-rs.github.io/docs/configuration/yazi
+
+[mgr]
+# Layout ratio: parent, current, preview
+ratio = [2, 5, 3]
+
+# Sort by modification time
+sort_by = "mtime"
+sort_sensitive = false
+sort_reverse = true
+sort_dir_first = true
+
+# Show hidden files
+show_hidden = true
+show_symlink = true
+
+# Display file size on the right side of the file list row
+linemode = "size"
+
+# Number of files to keep above and below the cursor when moving through the file list
+scrolloff = 0
+
+[opener]
+edit = [
+	{ run = '$EDITOR "$@"', block = true, for = "unix" },
+]
+open = [
+	{ run = 'xdg-open "$@"', orphan = true, desc = "Open", for = "linux" },
+]
+play = [
+	{ run = 'mpv "$@"', orphan = true, for = "unix" },
+]
+
+[plugin]
+# https://github.com/yazi-rs/plugins/tree/main/mime-ext.yazi
+prepend_fetchers = [
+	{ id = "mime", url = "local://*", run = "mime-ext.local", prio = "high" },
+	{ id = "mime", url = "remote://*", run = "mime-ext.remote", prio = "high" },
+]
+# https://github.com/yazi-rs/plugins/tree/main/piper.yazi
+prepend_previewers = [
+	{ url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
+	{ url = "*.csv", run = 'piper -- column -ts, "$1"' },
+	{ url = "*.tar*", run = 'piper --format=url -- tar tf "$1"' },
+	{ url = "*/", run = 'piper -- eza -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"' },
+]

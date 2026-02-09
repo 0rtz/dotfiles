@@ -54,7 +54,7 @@ function check_prog() {
 	done
 }
 
-term_configs=(zsh nnn nvim tmux)
+term_configs=(zsh yazi nvim tmux)
 desktop_configs=(desktop)
 
 function install_term() {
@@ -71,6 +71,10 @@ function install_term() {
 
 	echo -e "\n\n======================================== Installing zsh plugins ========================================\n"
 	zsh -ic "fast-theme XDG:overlay"
+
+	echo -e "\n\n======================================== Installing yazi plugins ========================================\n"
+	# Pulls plugins from yazi/.config/yazi/package.toml
+	ya pkg install
 }
 
 function install_desktop() {
@@ -105,6 +109,10 @@ function update() {
 			echo -e "\n\nzsh plugins:\n"
 			zsh -i -c "zinit update --parallel | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
 			zsh -i -c "zinit self-update | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
+		fi
+		if command -v ya &> /dev/null; then
+			echo -e "\n\nyazi plugins:\n"
+			ya pkg upgrade
 		fi
 		echo -e "\n\nVim updated. Do not forget:\n1) ':Mason' -> 'Shift+U' to update outdated LSPs\n2) my_vim_check_plugins.sh"
 	else

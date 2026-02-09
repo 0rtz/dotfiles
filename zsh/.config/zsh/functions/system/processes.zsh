@@ -23,6 +23,7 @@ function my-processes-search() {
 	fi
 	[[ -z "$pid" ]] && return
 
+	echo -n "$pid" | my-yank-to-clipboard
 	ps -ww -p "$pid" -o pid,ppid,%cpu,%mem,etime,args
 }
 compdef my-processes-search=pgrep

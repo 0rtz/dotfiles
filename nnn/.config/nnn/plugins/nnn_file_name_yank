@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-	printf "%s" "$1" | setsid -f wl-copy
-else
-	printf "%s" "$1" | setsid -f xclip -i -selection clipboard
-fi

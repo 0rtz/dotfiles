@@ -7,10 +7,6 @@ source "${ZINIT[HOME_DIR]}/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-### Create archives ###
-zinit ice lucid wait'0'
-zinit light 0rtz/mkarch
-
 ### CTRL-R shell history ###
 zinit ice lucid wait'0'
 zinit light joshskidmore/zsh-fzf-history-search

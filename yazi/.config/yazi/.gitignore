@@ -1,0 +1,13 @@
+# ya pkg managed plugins (recreated by `ya pkg install`)
+plugins/full-border.yazi/
+plugins/smart-enter.yazi/
+plugins/smart-paste.yazi/
+plugins/toggle-pane.yazi/
+plugins/no-status.yazi/
+plugins/mime-ext.yazi/
+plugins/ouch.yazi/
+plugins/piper.yazi/
+plugins/types.yazi/
+
+# ya pkg managed flavors
+flavors/
