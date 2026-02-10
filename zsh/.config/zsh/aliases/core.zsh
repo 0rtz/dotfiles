@@ -28,7 +28,7 @@ alias dud='du -d 1 -ch --apparent-size | sort --human-numeric-sort'
 # Disk Usage Files
 alias duf='find . -type f -exec du -csh --apparent-size {} + | sort --human-numeric-sort'
 
-alias treec='find . -path './.git' -prune -o -type f -print | wc -l'
+alias treec="find . -path './.git' -prune -o -type f -print | wc -l"
 alias genstr="LC_ALL=C tr -dc 'A-Za-z0-9_' </dev/urandom | head -c 12"
 alias diffproc='diff <() <()'
 alias follow='tail -n 10k -F'

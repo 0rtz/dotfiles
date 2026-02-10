@@ -192,8 +192,8 @@ map("n", "<leader>n", function()
 end, { desc = "Dismiss notification" })
 
 -- folke/todo-comments.nvim
+require("todo-comments").setup()
 map("n", "<leader>qt", function()
-  require("todo-comments").setup()
   vim.cmd("TodoQuickFix")
 end, { desc = "TODO comments quickfix window" })
 
@@ -225,4 +225,4 @@ require("ibl").setup({
 require("colorizer").setup()
 map("n", ".o", function()
   vim.cmd("ColorizerToggle")
-end, { desc = "Toggle colorizer" } )
+end, { desc = "Toggle colorizer" })

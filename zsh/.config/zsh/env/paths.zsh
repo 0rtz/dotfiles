@@ -9,9 +9,6 @@ path+=($HOME/.local/bin $HOME/.cargo/bin $HOME/go/bin $HOME/npm/bin)
 
 export PATH
 
-# $FPATH (custom completions)
+# $FPATH (custom completions), used by zinit
 typeset -U fpath
-
-fpath=(~/.zsh.d/ $fpath)
-
 export FPATH

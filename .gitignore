@@ -1,4 +1,1 @@
 *.log
-tmux/.config/tmux/plugins/
-en.dict
-vim-plug

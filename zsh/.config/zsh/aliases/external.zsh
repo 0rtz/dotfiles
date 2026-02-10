@@ -1,6 +1,6 @@
 alias q='qalc'
 
-alias fm='nautilus $PWD >/dev/null 2>&1  &!'
+alias fm='nautilus $PWD >/dev/null 2>&1 &!'
 alias mt='my_time.sh -t 10'
 alias ea='direnv allow . && src'
 alias eb='direnv block .'
@@ -31,10 +31,10 @@ alias TL='task project: next'
 alias TE='task <task_number> modify'
 alias TD='task done'
 
-if (( ${+commands[exa]} )); then
-	alias l='exa -aglbh --git --icons --color always'
+if (( ${+commands[eza]} )); then
+	alias l='eza -aglbh --git --icons --color always'
 	alias ll='ls -lAFh --color=tty'
-	alias tree='exa -glbh --git --icons -T -I ".git" --git-ignore -a --color always | less -r'
+	alias tree='eza -glbh --git --icons -T -I ".git" --git-ignore -a --color always | less -r'
 fi
 
 if (( ${+commands[duf]} )); then

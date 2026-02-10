@@ -17,8 +17,8 @@ map("n", "<leader>il", function()
 end, {desc = "Show active language servers (take time to start)"})
 
 map("n", "gr", function()
-  local telescope_ok, _ = pcall(require, "telescope.builtin")
-  if telescope_ok then
+  local has_telescope = pcall(require, "telescope.builtin")
+  if has_telescope then
     vim.cmd("Telescope lsp_references")
   else
     vim.lsp.buf.references()
@@ -48,8 +48,8 @@ require("aerial").setup({
     ["<CR>"] = "actions.jump",
     ["<Tab>"] = "actions.scroll",
     ["s"] = "<cmd>HopLine<CR>",
-    ["h"] = "actions.right",
-    ["l"] = "actions.left",
+    ["l"] = "actions.right",
+    ["h"] = "actions.left",
     ["H"] = "0",
     ["L"] = "$",
   },

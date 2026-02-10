@@ -227,43 +227,59 @@ autocmd("BufEnter", {
   end,
 })
 
--- Ignore trailing whitespace characters in these buffer types
-local ws_blacklist = { "diff", "git", "gitcommit", "qf", "help", "fugitive" }
+-- Ignore trailing whitespace in these filetypes
+local ws_blacklist = {
+  diff = true,
+  git = true,
+  gitcommit = true,
+  qf = true,
+  help = true,
+  fugitive = true,
+}
 
 vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#6F6565" })
 
+local ws_augroup = vim.api.nvim_create_augroup("WhitespaceHighlight", { clear = true })
+
 local function highlight_whitespace()
-  if vim.tbl_contains(ws_blacklist, vim.bo.filetype) then
+  if ws_blacklist[vim.bo.filetype] then
     return
   end
+
+  vim.fn.clearmatches()
   vim.fn.matchadd("TrailingWhitespace", [[\s\+$]])
   vim.fn.matchadd("TrailingWhitespace", [[ \+\ze\t]])
 end
 
-autocmd({ "BufWinEnter", "InsertLeave" }, {
-  group = vim.api.nvim_create_augroup("WhitespaceHighlight", { clear = true }),
+vim.api.nvim_create_autocmd({ "BufWinEnter", "InsertLeave" }, {
+  group = ws_augroup,
   callback = highlight_whitespace,
 })
 
-autocmd("InsertEnter", {
-  group = vim.api.nvim_create_augroup("WhitespaceHighlightClear", { clear = true }),
+vim.api.nvim_create_autocmd("InsertEnter", {
+  group = ws_augroup,
   callback = function()
     vim.fn.clearmatches()
   end,
 })
 
 local function strip_whitespace()
-  if vim.tbl_contains(ws_blacklist, vim.bo.filetype) then
+  if ws_blacklist[vim.bo.filetype] then
     return
   end
+
   local view = vim.fn.winsaveview()
   vim.cmd([[keeppatterns %s/\s\+$//e]])
   vim.cmd([[keeppatterns %s/ \+\ze\t//e]])
   vim.fn.winrestview(view)
 end
 
-map("n", "<leader>et", strip_whitespace, { desc = "Remove trailing whitespace characters" })
-map("v", "<leader>eT", strip_whitespace, { desc = "Remove trailing whitespace characters" })
+map("n", "<leader>eS", strip_whitespace, {
+  desc = "Remove trailing whitespace characters",
+})
+map("v", "<leader>eS", strip_whitespace, {
+  desc = "Remove trailing whitespace characters",
+})
 
 local function next_trailing_whitespace()
   vim.fn.search([[\s\+$\| \+\ze\t]], "w")
@@ -294,7 +310,8 @@ end, { desc = "Toggle language" })
 
 -- stevearc/conform.nvim
 local conform = require("conform")
-vim.keymap.set("", "glf", function()
+
+map("v", "glf", function()
   conform.format({ async = true }, function(err)
     if not err then
       local mode = vim.api.nvim_get_mode().mode
@@ -306,16 +323,16 @@ vim.keymap.set("", "glf", function()
   end)
 end, { desc = "Format code" })
 
+map("n", "glf", function()
+  conform.format()
+end)
+
 -- Enabled formatters
 conform.setup({
   formatters_by_ft = {
     sh = { "shellharden" },
   },
 })
-
-vim.keymap.set("n", "glf", function()
-  conform.format()
-end)
 
 -- okuuva/auto-save.nvim
 require("auto-save").setup({

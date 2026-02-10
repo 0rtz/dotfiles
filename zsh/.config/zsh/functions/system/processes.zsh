@@ -18,7 +18,7 @@ function my-processes-search() {
 		if [[ $1 =~ $regex_number ]] ; then
 			pid=$1
 		else
-			pid=$(pgrep $1)
+			pid=$(pgrep "$1")
 		fi
 	fi
 	[[ -z "$pid" ]] && return

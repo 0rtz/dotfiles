@@ -1,4 +1,4 @@
-function my-powermenu () {
+function my-powermenu() {
 	op=$( echo -e " Hibernate\n Poweroff\n Reboot\n Lock" | fzf | awk '{print tolower($2)}' )
 	case $op in
 		hibernate)

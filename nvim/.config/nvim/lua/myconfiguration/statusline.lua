@@ -15,55 +15,19 @@ local function trailing_whitespace()
   return vim.fn.search([[\s\+$]], "nw") ~= 0 and "TW" or ""
 end
 
+local function transparent_section(fg_override)
+  local base = { bg = "None", gui = "bold" }
+  local a = fg_override and vim.tbl_extend("force", base, { fg = fg_override }) or base
+  return { a = a, b = base, c = base, x = base, y = base, z = base }
+end
+
 local lualine_theme_transparent = {
-  normal = {
-    a = { bg = "None", gui = "bold" },
-    b = { bg = "None", gui = "bold" },
-    c = { bg = "None", gui = "bold" },
-    x = { bg = "None", gui = "bold" },
-    y = { bg = "None", gui = "bold" },
-    z = { bg = "None", gui = "bold" },
-  },
-  insert = {
-    a = { bg = "None", fg = "#00FF11", gui = "bold" },
-    b = { bg = "None", gui = "bold" },
-    c = { bg = "None", gui = "bold" },
-    x = { bg = "None", gui = "bold" },
-    y = { bg = "None", gui = "bold" },
-    z = { bg = "None", gui = "bold" },
-  },
-  visual = {
-    a = { bg = "None", fg = "#71b7ff", gui = "bold" },
-    b = { bg = "None", gui = "bold" },
-    c = { bg = "None", gui = "bold" },
-    x = { bg = "None", gui = "bold" },
-    y = { bg = "None", gui = "bold" },
-    z = { bg = "None", gui = "bold" },
-  },
-  replace = {
-    a = { bg = "None", gui = "bold" },
-    b = { bg = "None", gui = "bold" },
-    c = { bg = "None", gui = "bold" },
-    x = { bg = "None", gui = "bold" },
-    y = { bg = "None", gui = "bold" },
-    z = { bg = "None", gui = "bold" },
-  },
-  command = {
-    a = { bg = "None", gui = "bold" },
-    b = { bg = "None", gui = "bold" },
-    c = { bg = "None", gui = "bold" },
-    x = { bg = "None", gui = "bold" },
-    y = { bg = "None", gui = "bold" },
-    z = { bg = "None", gui = "bold" },
-  },
-  inactive = {
-    a = { bg = "None", gui = "bold" },
-    b = { bg = "None", gui = "bold" },
-    c = { bg = "None", gui = "bold" },
-    x = { bg = "None", gui = "bold" },
-    y = { bg = "None", gui = "bold" },
-    z = { bg = "None", gui = "bold" },
-  },
+  normal   = transparent_section(),
+  insert   = transparent_section("#00FF11"),
+  visual   = transparent_section("#71b7ff"),
+  replace  = transparent_section(),
+  command  = transparent_section(),
+  inactive = transparent_section(),
 }
 
 require("lualine").setup({
@@ -113,5 +77,5 @@ require("lualine").setup({
 
   },
 
-  extensions = { "nvim-tree", "fugitive", "symbols-outline" },
+  extensions = { "nvim-tree", "fugitive" },
 })

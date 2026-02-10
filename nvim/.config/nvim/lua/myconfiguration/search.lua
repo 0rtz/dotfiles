@@ -115,7 +115,7 @@ map("n", "<leader>fS", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", {desc
 
 map("n", "<leader>r", "<cmd>Telescope live_grep<cr>", {desc="Search text global"})
 
-map("v", "<leader>r", function ()
+map("v", "<leader>r", function()
   -- Yank without affecting registers
   vim.cmd([[noau normal! "vy"]])
   local text = vim.fn.getreg("v")
@@ -146,15 +146,15 @@ telescope.load_extension("fzf")
 
 -- debugloop/telescope-undo.nvim
 telescope.load_extension("undo")
-map("n", "<leader>fu", function ()
+map("n", "<leader>fu", function()
   vim.cmd("Telescope undo")
 end, { desc = "Search undo tree" })
 
 -- LukasPietzschmann/telescope-tabs
 telescope.load_extension("telescope-tabs")
-map("n", "<leader>ft", function ()
+map("n", "<leader>ft", function()
   vim.cmd("Telescope telescope-tabs list_tabs")
 end, { desc = "Search tabs" })
 
 -- kevinhwang91/nvim-hlslens
-require('hlslens').setup()
+require("hlslens").setup()

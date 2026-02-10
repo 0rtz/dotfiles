@@ -129,6 +129,6 @@ require("nvim-tree").setup({
     },
   },
 })
-vim.keymap.set("n", ".n", function ()
+map("n", ".n", function()
   vim.cmd("NvimTreeFindFileToggle")
 end, {desc="Toggle file explorer"})

@@ -35,5 +35,5 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' squeeze-slashes true
 
 # Set list-colors to enable filename colorizing during completion
-export LS_COLORS='fi=0:di=34:ln=36:pi=33:so=35:bd=93:'
+# LS_COLORS is provided by trapd00r/LS_COLORS (loaded via zinit)
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}

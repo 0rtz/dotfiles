@@ -10,7 +10,7 @@ MyAddPlugin("hiphish/rainbow-delimiters.nvim")
 local map = vim.keymap.set
 
 -- nvim-treesitter/nvim-treesitter
-local treesitter = require('nvim-treesitter')
+local treesitter = require("nvim-treesitter")
 
 -- NOTE: do not autoinstall treesitter parsers because some of them actually have worse highlighting than default regex
 
@@ -48,18 +48,15 @@ local ensure_installed = {
   "http"
 }
 
-local installed = treesitter.get_installed('parsers')
-local to_install = {}
+local installed = treesitter.get_installed("parsers")
+local installed_set = {}
+for _, lang in ipairs(installed) do
+  installed_set[lang] = true
+end
 
+local to_install = {}
 for _, lang in ipairs(ensure_installed) do
-  local is_installed = false
-  for _, installed_lang in ipairs(installed) do
-    if installed_lang == lang then
-      is_installed = true
-      break
-    end
-  end
-  if not is_installed then
+  if not installed_set[lang] then
     table.insert(to_install, lang)
   end
 end
@@ -69,7 +66,7 @@ if #to_install > 0 then
 end
 
 -- Treesitter functionality must be explicitly enabled for each buffer
-vim.api.nvim_create_autocmd('FileType', {
+vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     -- Only enable if parser is available for current filetype
     local lang = vim.treesitter.language.get_lang(vim.bo.filetype)
@@ -79,8 +76,8 @@ vim.api.nvim_create_autocmd('FileType', {
     -- Syntax highlighting (provided by Neovim)
     vim.treesitter.start()
     -- Folds (provided by Neovim)
-    vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-    vim.wo.foldmethod = 'expr'
+    vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    vim.wo.foldmethod = "expr"
     -- Indentation (provided by nvim-treesitter, experimental)
     vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
   end,

@@ -17,8 +17,6 @@ function zle-widget::my-widget-magic-enter() {
 		BUFFER="git status"
 	elif (( $+commands[eza] )); then
 		BUFFER="eza -aglbh --git --icons -F --color always"
-	elif (( $+commands[exa] )); then
-		BUFFER="exa -aglbh --git --icons -F --color always"
 	else
 		BUFFER="ls -lAFh --color=tty"
 	fi
@@ -72,7 +70,7 @@ function zle-widget::my-widg-list-aliases() {
 	done
 	local sel
 	sel=$(printf '%s\n' "${res[@]}" | fzf --query="$LBUFFER" | awk -F" : " '{print $1}')
-	if [[ ! -z "$sel" ]]; then
+	if [[ -n "$sel" ]]; then
 		LBUFFER="$sel"
 	fi
 }

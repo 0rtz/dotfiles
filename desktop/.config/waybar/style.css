@@ -41,7 +41,7 @@ window#waybar {
 #custom-info_tmux:hover,
 #custom-info_ssh:hover,
 #custom-scratchpad-indicator:hover,
-#custom-info_acrhlinux:hover,
+#custom-info_archlinux:hover,
 #custom-systemd_failed:hover,
 #custom-detect_xwayland:hover,
 #mpris:hover,
@@ -78,7 +78,7 @@ window#waybar {
 #custom-scratchpad-indicator {
 	margin-left: 5px;
 }
-#custom-info_acrhlinux {
+#custom-info_archlinux {
 	margin-left: 5px;
 	color: @purple;
 	transition: all 0.3s ease;

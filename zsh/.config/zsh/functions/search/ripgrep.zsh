@@ -3,7 +3,6 @@ function my-ripgrep-fzf() {
 	local rg_prefix="rg --column --line-number --hidden --no-heading --color=always --smart-case"
 	local initial_query="${*:-}"
 
-
 	if (( ${+commands[bat]} )); then
 		local rg_file fzf_file
 		rg_file=$(mktemp)

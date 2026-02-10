@@ -16,7 +16,7 @@
 		"custom/vpn",
 		"custom/info_tmux",
 		"custom/scratchpad-indicator",
-		"custom/info_acrhlinux",
+		"custom/info_archlinux",
 		"custom/systemd_failed",
 		"custom/detect_xwayland"
 	],

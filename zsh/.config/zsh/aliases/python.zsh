@@ -1,5 +1,5 @@
 alias p='python3'
-alias pv='my-create-pyton-env'
+alias pv='my-create-python-env'
 alias pxa='pipx install'
 alias pxls='pipx list'
 alias pxrm='pipx uninstall'

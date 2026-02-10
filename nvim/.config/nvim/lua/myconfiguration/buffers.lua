@@ -44,7 +44,7 @@ map("n", "<leader>bn", function()
 end, {desc="Close all buffers without names"})
 
 local winmax_state = { active = false, restore_cmd = nil }
-vim.keymap.set("n", ".f", function()
+map("n", ".f", function()
   if winmax_state.active then
     vim.cmd(winmax_state.restore_cmd or "wincmd =")
     winmax_state.active = false

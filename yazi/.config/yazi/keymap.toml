@@ -72,9 +72,6 @@ prepend_keymap = [
 	{ on = ["C"], run = "plugin ouch", desc = "Compress with ouch" },
 	# Extract selected files with ouch
 	{ on = ["E"], run = "plugin ouch --args=extract", desc = "Extract with ouch" },
-
-	# Drag and drop selected files
-	{ on = ["<C-d>"], run = 'shell -- ripdrag "$@" --and-exit', desc = "Drag and drop" },
 ]
 
 [input]

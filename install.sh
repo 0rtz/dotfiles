@@ -1,15 +1,149 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-function show_banner() {
-CYAN='\033[1;36m'
-PURPLE='\033[1;35m'
-RESET='\033[0m'
-BOLD='\033[1m'
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$DOTFILES_DIR"
 
-# 123
-echo ""
-echo -e "${PURPLE}${BOLD}"
-cat << 'EOF'
+TERM_PACKAGES=(zsh nvim tmux yazi)
+DESKTOP_PACKAGES=(desktop)
+ALL_PACKAGES=("${TERM_PACKAGES[@]}" "${DESKTOP_PACKAGES[@]}")
+
+# --- Logging ---
+
+info()    { printf '\033[1;34m::\033[0m %s\n' "$*"; }
+success() { printf '\033[1;32m::\033[0m %s\n' "$*"; }
+error()   { printf '\033[1;31m::\033[0m %s\n' "$*" >&2; }
+header()  { printf '\n\033[1;35m>>> %s\033[0m\n' "$*"; }
+
+require() {
+	for cmd in "$@"; do
+		command -v "$cmd" &>/dev/null || { error "Required command not found: $cmd"; exit 1; }
+	done
+}
+
+# --- Core operations ---
+
+init_submodules() {
+	local needs_init=false
+	while IFS= read -r path; do
+		[[ -e "$path/.git" ]] || needs_init=true
+	done < <(git config --file .gitmodules --get-regexp 'submodule\..*\.path$' | awk '{print $2}')
+
+	if [[ "$needs_init" == true ]]; then
+		header "Initializing git submodules"
+		git submodule update --checkout --init --jobs "$(nproc)" --depth 1
+	fi
+}
+
+link_packages() {
+	header "Linking packages: $*"
+	stow --restow --verbose=1 --target "$HOME" --dir "$DOTFILES_DIR" "$@"
+}
+
+unlink_packages() {
+	header "Unlinking packages: $*"
+	stow -D --verbose=1 --target "$HOME" --dir "$DOTFILES_DIR" "$@"
+}
+
+# --- Bootstrap ---
+
+bootstrap_zdotdir() {
+	local target="$HOME/.zshenv"
+	local content='export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"'
+	if [[ -f "$target" ]] && grep -qF 'ZDOTDIR' "$target"; then
+		return 0
+	fi
+	header "Bootstrapping ZDOTDIR"
+	echo "$content" > "$target"
+	success "Created $target"
+}
+
+# --- Plugin installers ---
+
+install_tmux_plugins() {
+	header "Installing tmux plugins"
+	"$DOTFILES_DIR/tmux/.config/tmux/plugins/tpm/bin/install_plugins"
+}
+
+install_zsh_plugins() {
+	header "Installing zsh plugins"
+	zsh -ic '@zinit-scheduler burst'
+}
+
+install_yazi_plugins() {
+	header "Installing yazi plugins"
+	ya pkg install
+}
+
+# --- Commands ---
+
+cmd_install() {
+	local scope="${1:-all}"
+	init_submodules
+	case "$scope" in
+		term)
+			require stow zsh tmux yazi nvim
+			link_packages "${TERM_PACKAGES[@]}"
+			bootstrap_zdotdir
+			install_tmux_plugins
+			install_zsh_plugins
+			install_yazi_plugins
+			;;
+		desktop)
+			require stow
+			link_packages "${DESKTOP_PACKAGES[@]}"
+			;;
+		all)
+			require stow zsh tmux yazi nvim
+			link_packages "${ALL_PACKAGES[@]}"
+			bootstrap_zdotdir
+			install_tmux_plugins
+			install_zsh_plugins
+			install_yazi_plugins
+			;;
+		*) error "Unknown scope: $scope (use term, desktop, or all)"; exit 1 ;;
+	esac
+	success "Install complete"
+	echo
+	show_banner
+}
+
+cmd_update() {
+	init_submodules
+	if [[ -f "$HOME/.config/tmux/tmux.conf" ]]; then
+		header "Updating tmux plugins"
+		"$DOTFILES_DIR/tmux/.config/tmux/plugins/tpm/bin/update_plugins" all
+	fi
+	if [[ -d "$HOME/.config/zsh/zinit" ]]; then
+		header "Updating zsh plugins"
+		zsh -ic "zinit update --parallel; wait; zinit self-update"
+	fi
+	if [[ -d "$HOME/.config/nvim" ]]; then
+		header "Updating neovim plugins"
+		nvim --headless -c 'lua vim.pack.update()' -c 'sleep 10' -c 'qa!'
+	fi
+	if command -v ya &>/dev/null; then
+		header "Updating yazi plugins"
+		ya pkg upgrade
+	fi
+	success "Update complete"
+}
+
+cmd_unlink() {
+	unlink_packages "${ALL_PACKAGES[@]}"
+	success "All packages unlinked"
+}
+
+cmd_health() {
+	header "Truecolor test (lines should be continuous)"
+	bash "$DOTFILES_DIR/24-bit-color.sh"
+	header "Clipboard test"
+	zsh -ic "echo 123 | my-yank-to-clipboard"
+}
+
+show_banner() {
+	printf '\033[1;35m'
+	cat << 'EOF'
                              😈
   😈                                     😈                            😈
 ██████╗  █████╗ ███████╗███████╗██████╗     ██╗     ██╗███╗   ██╗██╗   ██╗██╗  ██╗
@@ -42,176 +176,36 @@ cat << 'EOF'
  😈                                                        😈
           😈
 EOF
+	printf '\033[0m'
 }
 
-function check_prog() {
-	for prg in "$@"
-	do
-		if ! hash "$prg" > /dev/null 2>&1; then
-			echo "Command not found: $prg. Aborting..."
-			exit 1
-		fi
-	done
+usage() {
+	cat <<-EOF
+	Usage: $(basename "$0") <command>
+
+	Commands:
+	    install [term|desktop|all]  Link dotfiles and install plugins (default: all)
+	    update                      Update all managed plugins
+	    unlink                      Remove all symlinks from \$HOME
+	    health                      Verify setup
+
+	Options:
+	    -h, --help                  Show this help
+	EOF
 }
 
-term_configs=(zsh yazi nvim tmux)
-desktop_configs=(desktop)
+# --- Main ---
 
-function install_term() {
-	echo -e "\n\n======================================== Linking cli programs dotfiles ========================================\n"
-	for e in "${term_configs[@]}"; do
-		stow --verbose=2 --target "$HOME" "$e"|| { echo -e "\n\nError: stow terminal failed" >&2; exit 1; }
-	done
-
-	# echo -e "\n\n======================================== Installing neovim plugins ========================================\n"
-	# nvim --headless -c "PlugInstall --sync" +qall
-
-	echo -e "\n\n======================================== Installing tmux plugins ========================================\n"
-	./tmux/.config/tmux/plugins/tpm/bin/install_plugins
-
-	echo -e "\n\n======================================== Installing zsh plugins ========================================\n"
-	zsh -ic "fast-theme XDG:overlay"
-
-	echo -e "\n\n======================================== Installing yazi plugins ========================================\n"
-	# Pulls plugins from yazi/.config/yazi/package.toml
-	ya pkg install
-}
-
-function install_desktop() {
-	echo -e "\n\n======================================== Linking desktop programs dotfiles ========================================\n"
-	for e in "${desktop_configs[@]}"; do
-		stow --verbose=2 --target "$HOME" "$e" || { echo -e "\n\nError: stow desktop failed" >&2; exit 1; }
-	done
-}
-
-function update() {
-	local -a submodules_paths
-	local is_init=true
-	cd "$(dirname "$0")" || { echo "cd failure" >&2; exit 1; }
-	IFS=$'\n' read -r -d '' -a submodules_paths < <( git config --file .gitmodules --path --get-regexp 'submodule.*.path$' | cut -d " " -f 2 )
-	for i in "${submodules_paths[@]}"
-	do
-		if ! ls "$i"/.git >/dev/null 2>&1 ; then
-			echo >&2 "$i module not initialized."
-			is_init=false
-		fi
-	done
-	if [ "$is_init" = true ]; then
-		if [ -f "$HOME/.config/nvim/init.vim" ]; then
-			echo -e "\n\nvim plugins:\n"
-			nvim --headless -c "PlugUpdate --sync" +qall
-		fi
-		if [ -f "$HOME/.config/tmux/tmux.conf" ]; then
-			echo -e "\n\ntmux plugins:\n"
-			./tmux/.config/tmux/plugins/tpm/bin/update_plugins all
-		fi
-		if [ -f "$HOME/.zshrc" ]; then
-			echo -e "\n\nzsh plugins:\n"
-			zsh -i -c "zinit update --parallel | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
-			zsh -i -c "zinit self-update | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'"
-		fi
-		if command -v ya &> /dev/null; then
-			echo -e "\n\nyazi plugins:\n"
-			ya pkg upgrade
-		fi
-		echo -e "\n\nVim updated. Do not forget:\n1) ':Mason' -> 'Shift+U' to update outdated LSPs\n2) my_vim_check_plugins.sh"
-	else
-		echo "Initializing repo submodules..."
-		git submodule update --checkout --init --jobs "$(nproc)" --depth 1
-	fi
-}
-
-function clear() {
-	for e in "${term_configs[@]}"; do
-		stow --verbose=2 -D --target "$HOME" "$e"
-	done
-	for e in "${desktop_configs[@]}"; do
-		stow --verbose=2 -D --target "$HOME" "$e"
-	done
-}
-
-function check_health() {
-	printf "Lines of colors should be continuous:\n"
-	curl -s https://raw.githubusercontent.com/JohnMorales/dotfiles/master/colors/24-bit-color.sh | bash
-	zsh -i -c "echo 123 | my-yank-to-clipboard "
-}
-
-usage="
-$(basename "$0") [OPTION]
-
-Script to install dotfiles
-
-OPTION:
-	-t | --term
-		link dotfiles only for programs that are available through terminal interface
-		install plugins with (nvim, tmux, zsh) plugin manager
-
-	-d | --desktop
-		link dotfiles only for desktop programs
-
-	-u | --update
-		update:
-			nvim plugins
-			tmux plugins
-			zsh plugins
-		or initialize git submodules if they are not initialized already
-
-	-c | --clear
-		unlink configuration files from \$HOME
-
-	--checkhealth
-		check whether everything set up right
-"
-
-CLI=1
-DESK=1
-while (( $# )); do
-	case "$1" in
-		-t|--term)
-			DESK=0
-			shift
-			;;
-		-d|--desktop)
-			CLI=0
-			shift
-			;;
-		-h|--help)
-			echo "$usage"
-			show_banner
-			exit
-			;;
-		-u|--update)
-			update
-			exit
-			;;
-		--checkhealth)
-			check_health
-			exit
-			;;
-		-c|--clear)
-			clear
-			exit
-			;;
-		-*)
-			echo "Error: Unsupported flag $1" >&2
-			exit 1
-			;;
-	esac
-done
-
-if [[ $CLI -eq 0 && $DESK -eq 0 ]]
-then
-	echo "Error: specify --term or --desktop flags" >&2
-	exit 1
-fi
-
-check_prog stow curl zsh nvim tmux
-
-if [[ $CLI -ne 0 ]]
-then
-	install_term
-fi
-if [[ $DESK -ne 0 ]]
-then
-	install_desktop
-fi
+case "${1:-}" in
+	install)  shift; cmd_install "${1:-all}" ;;
+	update)   cmd_update ;;
+	unlink)   cmd_unlink ;;
+	health)   cmd_health ;;
+	-h|--help)
+		usage
+		;;
+	*)
+		usage
+		exit 1
+		;;
+esac
