@@ -1,16 +1,20 @@
 {
     "mpris": {
-        "format": "{status_icon}    {player_icon} <i>{title}</i>",
-        "max-length": 50,
+        "format": "{player_icon}  {title}  <span foreground='#89b4fa' weight='bold'>{status_icon}</span>",
+        "max-length": 45,
+        "ellipsis": true,
+
         "player-icons": {
-            "default": "",
+            "default": "",
             "mpv": "",
             "firefox": "󰈹",
-            "brave": "",
+            "brave": ""
         },
+
         "status-icons": {
             "paused": ""
         },
-        "on-click": "playerctl play-pause",
+
+        "on-click": "playerctl play-pause"
     }
 }

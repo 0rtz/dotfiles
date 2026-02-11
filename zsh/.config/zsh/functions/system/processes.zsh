@@ -8,7 +8,7 @@ function my-processes-search() {
 
 	if [[ -z $1 ]]; then
 		pid=$(
-			ps -eo user,pid,ppid,%cpu,%mem,etime,cmd --sort=-%cpu |
+			ps -ww -eo user,pid,ppid,%cpu,%mem,etime,cmd --sort=-%mem |
 			fzf --header-lines=1 --reverse
 		) || return
 

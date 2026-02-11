@@ -3,7 +3,7 @@ declare -A ZINIT
 ZINIT[HOME_DIR]="${ZDOTDIR:-$HOME/.config/zsh}/zinit"
 ZINIT[COMPLETIONS_DIR]="${ZINIT[HOME_DIR]}/completions"
 [[ -d "${ZINIT[HOME_DIR]}" ]] || { echo "Error: Zinit directory not found at ${ZINIT[HOME_DIR]}" >&2; return 1; }
-# Add Zinit directory to fpath before sourcing
+# To have zinit command completions add zinit directory to fpath before sourcing
 fpath=("${ZINIT[HOME_DIR]}" "${ZINIT[COMPLETIONS_DIR]}" $fpath)
 source "${ZINIT[HOME_DIR]}/zinit.zsh"
 autoload -Uz _zinit

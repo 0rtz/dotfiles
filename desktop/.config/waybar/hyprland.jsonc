@@ -1,5 +1,5 @@
 {
-	// Run: waybar --config $HOME/.dotfiles/desktop/.config/waybar/hyprland.jsonc
+	// Run: waybar --config $HOME/dotfiles/desktop/.config/waybar/hyprland.jsonc
 	"layer": "top",
 	"position": "bottom",
 

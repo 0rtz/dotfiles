@@ -33,7 +33,3 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 # Treat // as /
 zstyle ':completion:*' squeeze-slashes true
-
-# Set list-colors to enable filename colorizing during completion
-# LS_COLORS is provided by trapd00r/LS_COLORS (loaded via zinit)
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}

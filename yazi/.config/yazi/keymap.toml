@@ -15,30 +15,30 @@ prepend_keymap = [
     # https://github.com/yazi-rs/plugins/tree/main/smart-enter.yazi
     {on = ["l"], run  = "plugin smart-enter", desc = "Enter the child directory, or open the file"},
 
-    # https://github.com/yazi-rs/plugins/tree/main/smart-paste.yazi
-    {on   = ["p"], run  = "plugin smart-paste", desc = "Paste into the hovered directory or CWD"},
-
-    # Change directory back to the closest project root
-    {on = [ "g", "r" ], run = 'shell -- "$HOME/.config/yazi/scripts/project-root-cd.sh"', desc = "Go to project root"},
-
-    # https://github.com/yazi-rs/plugins/tree/main/toggle-pane.yazi
-    {on   = [".", "p"], run  = "plugin toggle-pane min-preview", desc = "Show or hide the preview pane"},
-	{ on = [".", "f"], run = "plugin toggle-pane max-current", desc = "Maximize current pane" },
-
 	# Open in neovide
 	{ on = ["L"], run = "shell 'neovide \"$@\"' --orphan", desc = "Open in Neovide" },
+
+	# Edit files with sudo permissions
+	{ on = ["S"], run = "shell 'sudoedit \"$@\"' --block", desc = "Sudoedit" },
 
 	# Swap open and open with
 	{ on = ["o"], run = "open --interactive", desc = "Open with..." },
 	{ on = ["O"], run = "open", desc = "Open" },
 
-	# Edit files with sudo permissions
-	{ on = ["S"], run = "shell 'sudoedit \"$@\"' --block", desc = "Sudoedit" },
+    # https://github.com/yazi-rs/plugins/tree/main/smart-paste.yazi
+    {on   = ["p"], run  = "plugin smart-paste", desc = "Paste into the hovered directory or CWD"},
+
+    # https://github.com/yazi-rs/plugins/tree/main/toggle-pane.yazi
+    {on   = [".", "p"], run  = "plugin toggle-pane min-preview", desc = "Show or hide the preview pane"},
+	{ on = [".", "f"], run = "plugin toggle-pane max-current", desc = "Maximize current pane" },
+
+    # Change directory back to the closest project root
+    {on = [ "g", "r" ], run = 'shell -- "$HOME/.config/yazi/scripts/project-root-cd.sh"', desc = "Go to project root"},
 
 	# Go to bookmarks
-	{ on = ["g", "d"], run = "cd ~/.dotfiles", desc = "Dotfiles" },
+	{ on = ["g", "d"], run = "cd ~/dotfiles", desc = "Dotfiles" },
 	{ on = ["g", "c"], run = "cd ~/.config", desc = "Config" },
-	{ on = ["g", "n"], run = "cd ~/.notes", desc = "Notes" },
+	{ on = ["g", "n"], run = "cd ~/notes", desc = "Notes" },
 	{ on = ["g", "v"], run = "cd ~/.local/share/nvim", desc = "Neovim data" },
 	{ on = ["g", "b"], run = "cd ~/build", desc = "Build" },
 	{ on = ["g", "p"], run = "cd ~/backed", desc = "Backed" },

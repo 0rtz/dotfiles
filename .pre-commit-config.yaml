@@ -1,9 +1,10 @@
+---
 repos:
   - repo: local
     hooks:
       - id: trufflehog
         name: TruffleHog
-        description: Detect secrets in your data.
+        description: Detect secrets in git repo history
         entry: bash -c 'trufflehog git file://. --no-update --since-commit HEAD --fail'
         language: system
-        stages: ["commit", "push"]
+        stages: ["pre-commit", "pre-push"]

@@ -28,4 +28,4 @@ for file in "$ZSHDIR"/aliases/*.zsh(N); do source "$file"; done
 for file in "$ZSHDIR"/prompt/*.zsh(N); do source "$file"; done
 
 # Machine-specific overrides
-[[ -f "$ZSHDIR/local.zsh" ]] && source "$ZSHDIR/local.zsh" || true
+[[ -f "$ZSHDIR/.zshrc.local" ]] && source "$ZSHDIR/.zshrc.local" || true

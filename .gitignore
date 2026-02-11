@@ -1,1 +1,25 @@
 *.log
+
+# Local configs (hyprland, sway, zsh)
+*.local
+
+# zsh
+.zcompdump*
+
+# waybar
+info-vpn.sh
+
+# tmux
+tmux/.config/tmux/plugins
+
+# ya pkg managed plugins (recreated by `ya pkg install`)
+yazi/.config/yazi/plugins/full-border.yazi/
+yazi/.config/yazi/plugins/smart-enter.yazi/
+yazi/.config/yazi/plugins/smart-paste.yazi/
+yazi/.config/yazi/plugins/toggle-pane.yazi/
+yazi/.config/yazi/plugins/no-status.yazi/
+yazi/.config/yazi/plugins/ouch.yazi/
+yazi/.config/yazi/plugins/piper.yazi/
+yazi/.config/yazi/plugins/types.yazi/
+# ya pkg managed flavors
+yazi/.config/yazi/flavors/

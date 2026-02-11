@@ -25,11 +25,11 @@ alias rga='rga --hidden --no-ignore 2>/dev/null ""'
 alias rgaf='my-ripgrep-all-fzf'
 
 # Taskwarrior
-alias TP='task projects'
-alias TA='task project: add'
-alias TL='task project: next'
-alias TE='task <task_number> modify'
-alias TD='task done'
+alias wa='task add project:'
+alias wls='task next project:'
+alias wrm='task done project:'
+alias we='task $TASK_NUMBER modify project:'
+alias wpls='task projects'
 
 if (( ${+commands[eza]} )); then
 	alias l='eza -aglbh --git --icons --color always'

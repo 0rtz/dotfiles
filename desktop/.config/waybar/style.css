@@ -127,3 +127,18 @@ window#waybar {
 #clock {
 	margin-right: 5px;
 }
+
+/* center modules */
+#mpris {
+    padding: 0 12px;
+    border-radius: 10px;
+
+    background: rgba(137, 180, 250, 0.285);
+    color: rgb(137, 180, 250);
+
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+#mpris:hover {
+    background: @bg;
+}

@@ -49,6 +49,7 @@ unlink_packages() {
 
 bootstrap_zdotdir() {
 	local target="$HOME/.zshenv"
+	# shellcheck disable=SC2016
 	local content='export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"'
 	if [[ -f "$target" ]] && grep -qF 'ZDOTDIR' "$target"; then
 		return 0
@@ -136,10 +137,17 @@ cmd_unlink() {
 
 cmd_health() {
 	local ok="\033[1;32m✓\033[0m" fail="\033[1;31m✗\033[0m" warn="\033[1;33m!\033[0m"
-	check() { command -v "$1" &>/dev/null && printf " $ok %-12s %s\n" "$1" "$($1 --version 2>&1 | head -1)" || printf " $fail %-12s not found\n" "$1"; }
+	check() {
+	  if command -v "$1" >/dev/null 2>&1; then
+		version=$({ "$1" --version 2>/dev/null || "$1" -V 2>/dev/null; } | head -n 1)
+		printf " $ok %-12s %s\n" "$1" "$version"
+	  else
+		printf " $fail %-12s not found\n" "$1"
+	  fi
+	}
 
 	header "Required tools"
-	for cmd in zsh nvim tmux yazi stow git fzf rg fd; do check "$cmd"; done
+	for cmd in zsh nvim tmux yazi stow git fzf rg; do check "$cmd"; done
 
 	header "Environment"
 	[[ "$SHELL" == */zsh ]]                  && printf " $ok login shell is zsh\n"         || printf " $fail login shell is not zsh ($SHELL)\n"

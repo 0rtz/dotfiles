@@ -10,3 +10,4 @@ alias -g NULL='>/dev/null 2>&1'
 alias -g H='--help 2>&1'
 alias -g B=">/dev/null 2>&1 &!"
 alias -g Y='| my-yank-to-clipboard'
+alias -g V='| { f=$(mktemp); cat > $f; nvim $f; }'

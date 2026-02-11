@@ -7,7 +7,9 @@
 
 	"workspace.library": [
 		"/usr/share/nvim/runtime",
-		"~/.local/share/nvim/site/pack/core/opt"
+		"~/.local/share/nvim/site/pack/core/opt",
+
+		"~/.config/yazi/plugins/types.yazi/"
 	],
 
 	"workspace.checkThirdParty": false,

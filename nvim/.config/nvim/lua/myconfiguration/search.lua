@@ -107,7 +107,7 @@ map("n", "<leader>fq", "<cmd>Telescope quickfix<cr>", {desc="Search quickfix win
 map("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", {desc="Search keymaps"})
 
 map("n", "<leader>fn", function()
-  require("telescope.builtin").find_files({ cwd = "~/.notes", find_command = { "find", "-name", "*.md" } })
+  require("telescope.builtin").find_files({ cwd = "~/notes", find_command = { "find", "-name", "*.md" } })
 end, {desc="Search notes"})
 
 map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>", {desc="Search LSP symbols"})

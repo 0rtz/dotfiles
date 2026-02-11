@@ -10,6 +10,8 @@ ctrl-a:toggle-all,\
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git"'
 
+# Delta (child process) requires access to COLUMNS environment variable when running inside forgit (fzf)
+# https://github.com/wfxr/forgit/issues/121#issuecomment-1380022751
+# COLUMNS = number of character columns in the terminal, set by zsh, updated when the terminal resizes, not exported by default
+# Verify visibility to child processes: env | grep -E 'COLUMNS'
 export COLUMNS
-
-export FZF_PREVIEW_COLUMNS

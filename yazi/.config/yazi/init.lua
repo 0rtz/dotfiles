@@ -1,7 +1,6 @@
+-- List yazi plugins: \ya pkg list
 
 require("full-border"):setup()
-
-require("mime-ext.local"):setup()
 
 require("no-status"):setup()
 

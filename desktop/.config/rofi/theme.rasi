@@ -39,7 +39,7 @@ window {
     height:                      100%;
 
     enabled:                     true;
-    background-color:            #000000d9;
+    background-color:            #000000af;
     cursor:                      "default";
 }
 
@@ -61,7 +61,7 @@ inputbar {
     border:                      2px solid;
     border-radius:               @border-radius;
     border-color:                #E6E6E626;
-    background-color:            #00000099;
+    background-color:            #4040401f;
     text-color:                  @fg;
     children:                    [ "prompt", "entry" ];
 }
@@ -119,36 +119,36 @@ element normal.normal {
 }
 
 element normal.urgent {
-    background-color:            #FF000026;
+    background-color:            #FF000015;
     text-color:                  @urgent;
 }
 
 element normal.active {
-    background-color:            #71FF5B26;
+    background-color:            #71FF5B15;
     text-color:                  @active;
 }
 
 element selected.normal {
     border:                      2px solid;
-    border-color:                #FF000080;
-    background-color:            #FF000026;
-    text-color:                  @fg;
+    border-color:                #CD5C5C;
+    background-color:            #8b131356;
+    text-color:                  #FFFFFF;
 }
 
 element selected.urgent {
-    background-color:            #FF000040;
+    background-color:            #FF000020;
     text-color:                  @fg;
 }
 
 element selected.active {
-    background-color:            #71FF5B40;
+    background-color:            #71FF5B20;
     text-color:                  @fg;
 }
 
 element-icon {
     background-color:            transparent;
     text-color:                  inherit;
-    size:                        100px;
+    size:                        85px;
     cursor:                      inherit;
 }
 
@@ -173,7 +173,7 @@ error-message {
     border:                      2px solid;
     border-radius:               @border-radius;
     border-color:                #FF000080;
-    background-color:            #FF00001a;
+    background-color:            #FF000010;
     text-color:                  @fg;
 }
 

@@ -33,11 +33,6 @@ play = [
 ]
 
 [plugin]
-# https://github.com/yazi-rs/plugins/tree/main/mime-ext.yazi
-prepend_fetchers = [
-	{ id = "mime", url = "local://*", run = "mime-ext.local", prio = "high" },
-	{ id = "mime", url = "remote://*", run = "mime-ext.remote", prio = "high" },
-]
 # https://github.com/yazi-rs/plugins/tree/main/piper.yazi
 prepend_previewers = [
 	{ url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
