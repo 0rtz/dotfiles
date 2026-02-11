@@ -135,6 +135,38 @@ cmd_unlink() {
 }
 
 cmd_health() {
+	local ok="\033[1;32m✓\033[0m" fail="\033[1;31m✗\033[0m" warn="\033[1;33m!\033[0m"
+	check() { command -v "$1" &>/dev/null && printf " $ok %-12s %s\n" "$1" "$($1 --version 2>&1 | head -1)" || printf " $fail %-12s not found\n" "$1"; }
+
+	header "Required tools"
+	for cmd in zsh nvim tmux yazi stow git fzf rg fd; do check "$cmd"; done
+
+	header "Environment"
+	[[ "$SHELL" == */zsh ]]                  && printf " $ok login shell is zsh\n"         || printf " $fail login shell is not zsh ($SHELL)\n"
+	[[ -n "${ZDOTDIR:-}" ]]                  && printf " $ok ZDOTDIR=$ZDOTDIR\n"           || printf " $warn ZDOTDIR is not set\n"
+	[[ "$TERM" == *256color* || "$TERM" == *kitty* || "$TERM" == *alacritty* ]] \
+	                                         && printf " $ok TERM=$TERM\n"                 || printf " $warn TERM=$TERM (may lack color support)\n"
+	[[ "$(locale charmap 2>/dev/null)" == UTF-8 ]] \
+	                                         && printf " $ok locale is UTF-8\n"            || printf " $warn locale is not UTF-8\n"
+	[[ -n "$(git config user.name)" && -n "$(git config user.email)" ]] \
+	                                         && printf " $ok git user configured\n"        || printf " $warn git user.name/email not set\n"
+
+	header "Symlinks"
+	local stow_ok=true
+	for pkg in "${ALL_PACKAGES[@]}"; do
+		[[ -d "$DOTFILES_DIR/$pkg" ]] || continue
+		if stow --simulate --verbose "$pkg" 2>&1 | grep -q "LINK"; then
+			printf " $fail %s has missing links\n" "$pkg"
+			stow_ok=false
+		fi
+	done
+	$stow_ok && printf " $ok all stow symlinks intact\n"
+
+	header "Plugin managers"
+	[[ -d "${ZDOTDIR:-$HOME/.config/zsh}/zinit" ]]      && printf " $ok zinit present\n"  || printf " $fail zinit not found\n"
+	[[ -x "$DOTFILES_DIR/tmux/.config/tmux/plugins/tpm/tpm" ]] \
+	                                                     && printf " $ok tpm present\n"    || printf " $fail tpm not found\n"
+
 	header "Truecolor test (lines should be continuous)"
 	bash "$DOTFILES_DIR/24-bit-color.sh"
 	header "Clipboard test"
