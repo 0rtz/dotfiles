@@ -8,7 +8,6 @@ alias qr='qrencode -m 2 -t UTF8 <<<'
 alias hx='hexdump -C'
 
 alias vim='nvim -u /dev/null'
-alias nls="cat $HOME/.config/nnn/.selection | tr \"\0\" \"\n\""
 alias emj="emoji-fzf preview --prepend | fzf | awk '{ print \$1 }' | my-yank-to-clipboard"
 alias curl='curl --tlsv1.3 --location --proto https'
 

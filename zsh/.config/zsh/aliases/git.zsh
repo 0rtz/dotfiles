@@ -5,6 +5,7 @@ alias gcls='git clone --depth 1'
 ### Add/Stage ###
 alias ga='forgit::add'
 alias gaa='git add --all'
+alias gas='git add --all; forgit::diff --staged'
 alias guna='forgit::reset::head'
 # Only add already tracked modified files
 alias gat='git add -u'
@@ -23,7 +24,7 @@ alias gacp='git add --all && git commit -v; git config user.name; git config use
 alias gacm='git add --all && git commit -m ""'
 alias gcca='git commit -v --amend --no-edit --author="$(git config user.name) <$(git config user.email)>"'
 alias gccmsg='git commit -v --amend'
-alias gcrice="git add --all && git commit -m 'ricing...'"
+alias grice="git add --all && git commit -m 'ricing...'"
 alias gsq='my-git-commit-and-squash-into-prev'
 alias gasq='git add --all && my-git-commit-and-squash-into-prev'
 alias gcoc='forgit::checkout::commit'

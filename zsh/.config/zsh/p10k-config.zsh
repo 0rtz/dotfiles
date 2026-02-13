@@ -113,6 +113,7 @@
     # battery               # internal battery
     # wifi                  # wifi speed
     # example               # example user-defined segment (see prompt_example function below)
+    yazi
   )
 
   # Defines character set used by powerlevel10k. It's best to let `p10k configure` set it for you.
